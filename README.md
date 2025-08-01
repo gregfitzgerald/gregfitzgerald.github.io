@@ -1,10 +1,10 @@
-# Greg FitzGerald - Personal Website
+# Greg Fitzgerald - Personal Website
 
 This is my personal website hosted on GitHub Pages.
 
 ## About
 
-Personal website for Greg FitzGerald, featuring research interests, blog posts, and contact information.
+Personal website for Greg Fitzgerald, featuring research interests, blog posts, and contact information.
 
 ## Structure
 
