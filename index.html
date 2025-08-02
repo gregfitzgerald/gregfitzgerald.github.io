@@ -1,126 +1,139 @@
-<!DOCTYPE html>
-<html lang="en">
+<\!DOCTYPE html>
+<html lang="en-us">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <style type="text/css">body{font-family:monospace;}</style>
     <title>Greg Fitzgerald</title>
-    <link href="https://fonts.googleapis.com/css?family=Encode+Sans:400,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Dosis:500" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="Greg Fitzgerald - Research in neuroscience and meta-analysis">
+    <meta name="author" content="Greg Fitzgerald">
+    <style>
+        body {
+            font-family: monospace;
+            max-width: 650px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+        }
+        
+        header {
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+        
+        h2 {
+            font-size: 1.5em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        h3 {
+            font-size: 1.2em;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+        
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        nav {
+            margin-bottom: 30px;
+        }
+        
+        nav a {
+            margin-right: 15px;
+        }
+        
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .meta {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        ul {
+            margin-bottom: 20px;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #1a1a1a;
+                color: #e0e0e0;
+            }
+            
+            a {
+                color: #4d9fff;
+            }
+            
+            footer {
+                border-top-color: #333;
+            }
+            
+            .meta {
+                color: #999;
+            }
+        }
+    </style>
 </head>
 <body>
-    <header class="site-header">
-        <nav class="site-navi">
-            <h1 class="site-title">
-                <a href="/">Greg Fitzgerald</a>
-            </h1>
-            <div style="display: block">
-                <ul class="site-navi-items">
-                    <li class="site-navi-item-about">
-                        <span style="color: #ffd1dc;">&gt;</span>
-                        <a href="/about/" title="About">About</a>
-                    </li>
-                    <li class="site-navi-item-contact">
-                        <span style="color: #ffd1dc;">&gt;</span>
-                        <a href="/contact/" title="Contact">Contact</a>
-                    </li>
-                    <li class="site-navi-item-research">
-                        <span style="color: #ffd1dc;">&gt;</span>
-                        <a href="/research/" title="Research">Research</a>
-                    </li>
-                </ul>
-                <ul class="site-navi-items" style="margin-top: 0;">
-                    <li class="site-navi-item-writing">
-                        <span style="color: #ffd1dc;">&gt;</span>
-                        <a href="/writing/" style="font-size: 0.85em" title="Writing">Writing</a>
-                    </li>
-                    <li class="site-navi-item-methodology">
-                        <span style="color: #ffd1dc;">&gt;</span>
-                        <a href="/methodology/" style="font-size: 0.85em" title="Methodology guides">Methodology guides</a>
-                    </li>
-                    <li class="site-navi-item-links">
-                        <span style="color: #ffd1dc;">&gt;</span>
-                        <a href="/links/" style="font-size: 0.85em" title="Links">Links</a>
-                    </li>
-                    <li class="site-navi-item-notes">
-                        <span style="color: #ffd1dc;">&gt;</span>
-                        <a href="/notes/" style="font-size: 0.85em" title="Notes">Notes</a>
-                    </li>
-                    <li class="site-navi-item-personal">
-                        <span style="color: #ffd1dc;">&gt;</span>
-                        <a href="/personal/" style="font-size: 0.85em" title="Personal">Personal</a>
-                    </li>
-                </ul>
-            </div>
+    <header>
+        <h1>Greg Fitzgerald</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="research.html">Research</a>
+            <a href="writing.html">Writing</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
         </nav>
     </header>
-    <hr class="site-header-bottom">
-    <div class="main" role="main">
-        <p>I want to improve scientific research. I work on meta-analysis and research methodology. I'm most inspired by <a href="#">rigorous methodology</a>, <a href="#">reproducible research</a>, <a href="#">effective communication</a>, and <a href="#">rational thinking</a>.</p>
-        
-        <p>Feel free to email me at <a href="mailto:your-email@example.com">your-email@example.com</a> and to follow me on <a href="https://twitter.com">Twitter</a>. If you'd like to ask for <a href="#">advice</a>, please email <a href="mailto:advice@example.com">advice@example.com</a>.</p>
 
-        <div class="right_float">
-            <p><b>Recent</b></p>
-            <p>January 15, <a href="igf2-alzheimers.html">Insulin-like growth factor-2 is a promising candidate for the treatment and prevention of Alzheimer's disease</a></p>
-            <p>December 22, <a href="#">Thoughts on meta-analysis methodology</a></p>
-            <p>November 11, <a href="#">Notes on reproducibility crisis</a></p>
-            <p>October 23, <a href="#">Publication bias detection methods</a></p>
-            <p>September 30, <a href="#">Statistical approaches to research aggregation</a></p>
-            <p>September 17, <a href="#">On methodology</a></p>
-        </div>
+    <main>
+        <h2>Welcome</h2>
+        <p>I'm a graduate student studying neuroscience and meta-analysis at the University at Albany. My research focuses on the therapeutic potential of neurotrophic factors, particularly IGF2, in treating and preventing Alzheimer's disease.</p>
 
-        <p><strong>personal favorites</strong></p>
+        <h2>Recent Work</h2>
         <ul>
-            <li><a href="igf2-alzheimers.html">Insulin-like growth factor-2 is a promising candidate for the treatment and prevention of Alzheimer's disease</a> (Comprehensive review of IGF2 as a neurotrophic therapeutic agent for Alzheimer's disease)</li>
-            <li><a href="#">Every methodology thought I've ever had, as concisely as possible</a></li>
-            <li><a href="#">Signs of exceptional research talent</a> & <a href="#">Cursed signs of exceptional research talent</a></li>
-            <li><a href="#">People who are going to change the world</a></li>
-            <li><a href="#">Meta-analysis killed reproducibility</a></li>
+            <li><strong>January 2025:</strong> <a href="igf2-alzheimers.html">Insulin-like growth factor-2 is a promising candidate for the treatment and prevention of Alzheimer's disease</a> - A comprehensive review of IGF2's therapeutic potential</li>
         </ul>
 
-        <p><strong>one-pagers</strong></p>
+        <h2>Research Interests</h2>
         <ul>
-            <li><a href="#">On impact</a></li>
-            <li><a href="#">Losing the idea of progress</a></li>
-            <li><a href="#">On science communication</a></li>
-            <li><a href="#">Research productivity</a></li>
+            <li>Neurotrophic factors and brain health</li>
+            <li>Meta-analysis methodology</li>
+            <li>Alzheimer's disease therapeutics</li>
+            <li>Research reproducibility</li>
         </ul>
 
-        <p><strong>Advice</strong></p>
+        <h2>Quick Links</h2>
         <ul>
-            <li><a href="#">What Should You Do with Your Research Career?</a></li>
-            <li><a href="#">Research productivity tips</a></li>
-            <li><a href="#">Advice from experienced researchers</a></li>
-            <li><a href="#">How to read papers effectively</a></li>
-            <li><a href="#">It Is Your Responsibility to Follow Up</a></li>
-            <li><a href="#">How to make colleagues over the internet</a></li>
+            <li><a href="research.html">Current Research Projects</a></li>
+            <li><a href="writing.html">Publications & Writing</a></li>
+            <li><a href="about.html">About Me</a></li>
+            <li><a href="contact.html">Contact Information</a></li>
         </ul>
+    </main>
 
-        <p><strong>Metascience/education</strong></p>
-        <ul>
-            <li><a href="#">Is anything inherently difficult about meta-analysis?</a></li>
-            <li><a href="#">Publication bias and how to detect it</a></li>
-            <li><a href="#">Statistical methods for meta-analysis</a></li>
-            <li><a href="#">Research methodology best practices</a></li>
-            <li><a href="#">Thoughts on science, science literacy, and replication</a></li>
-        </ul>
-
-        <p><strong>Personal</strong></p>
-        <ul>
-            <li><a href="jimmy.html">jimmy the evil turtle</a></li>
-            <li><a href="#">On Research Community and Finding Your People</a></li>
-            <li><a href="#">Five Years in Graduate School: A Retrospective</a></li>
-            <li><a href="#">My Favorite Research Tools and Software</a></li>
-            <li><a href="#">Research Ideas for Graduate Students</a></li>
-        </ul>
-
-        <hr>
-
-        <p><a href="#">Full archive sorted by date</a></p>
-    </div>
-    <footer class="footer">
-        Licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="license">Creative Commons Attribution 4.0 International License</a>.
+    <footer>
+        <p>&copy; 2025 Greg Fitzgerald. All rights reserved.</p>
     </footer>
 </body>
 </html>
