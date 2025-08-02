@@ -3,55 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thoughts on Meta-Analysis Methodology - Greg Fitzgerald</title>
+    <title>Every Methodology Thought I've Ever Had - Greg Fitzgerald</title>
+    <link href="https://fonts.googleapis.com/css?family=Encode+Sans:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Dosis:500" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="main">
-        <p><a href="index.html">Greg Fitzgerald</a> • <a href="about.html">about</a> • <a href="contact.html">contact</a></p>
-        
-        <h1>Thoughts on Meta-Analysis Methodology</h1>
-        
-        <p><em>Created: January 2025</em></p>
-        
-        <p>Meta-analysis is often considered the gold standard of evidence synthesis, but the methodology itself deserves critical examination. This post explores some current challenges and potential improvements in how we conduct meta-analyses.</p>
-        
-        <h2>The Problem with Fixed Effects Models</h2>
-        
-        <p>Many researchers default to fixed effects models without considering whether their assumptions hold. The assumption that all studies are estimating the same underlying effect size is rarely justified in practice.</p>
-        
-        <label for="sn-1" class="margin-toggle sidenote-number"></label>
-        <input type="checkbox" id="sn-1" class="margin-toggle" />
-        <span class="sidenote">This is particularly problematic in neuroscience, where study populations, methods, and contexts vary significantly.</span>
-        
-        <p>Random effects models, while more complex, often provide a more realistic framework for understanding heterogeneity between studies.</p>
-        
-        <h2>Publication Bias Detection</h2>
-        
-        <p>Traditional funnel plots and Egger's test have limited sensitivity for detecting publication bias. Newer methods like:</p>
-        
-        <ul>
-            <li>PET-PEESE regression</li>
-            <li>Selection models</li>
-            <li>P-curve analysis</li>
-        </ul>
-        
-        <p>offer more robust approaches to understanding selective reporting.</p>
-        
-        <h2>The Search Strategy Problem</h2>
-        
-        <p>Systematic searches often miss important studies due to overly restrictive search terms or database limitations. The rise of preprint servers and grey literature complicates traditional search strategies.</p>
-        
-        <p>Moving forward, meta-analysts need to embrace:</p>
-        <ul>
-            <li>More inclusive search strategies</li>
-            <li>Better collaboration with librarians</li>
-            <li>Transparent reporting of search limitations</li>
-        </ul>
-        
-        <hr>
-        
-        <p><a href="index.html">← back to home</a></p>
+    <div class="container">
+        <header>
+            <h1>Greg Fitzgerald</h1>
+            <nav class="main-nav">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a href="test1.html">Research</a>
+                <a href="test4.html">Writing</a>
+                <a href="jimmy.html">Personal</a>
+                <a href="#">Links</a>
+                <a href="#">Notes</a>
+            </nav>
+        </header>
+
+        <article class="article">
+            <h1 class="article-title">Every Methodology Thought I've Ever Had, as Concisely as Possible</h1>
+            
+            <span class="post-date">created: <i><time>2025-01-15</time>;</i> modified: <i><time>2025-01-15</time></i></span>
+
+            <p>Meta-analysis is often considered the gold standard of evidence synthesis, but the methodology itself deserves critical examination. This post explores my accumulated thoughts on research methodology, compiled over years of wrestling with these problems.</p>
+
+            <h2>The Problem with Fixed Effects Models</h2>
+
+            <p>Many researchers default to fixed effects models without considering whether their assumptions hold. The assumption that all studies are estimating the same underlying effect size is rarely justified in practice<label for="sn-1" class="margin-toggle sidenote-number"></label>
+            <input type="checkbox" id="sn-1" class="margin-toggle" />
+            <span class="sidenote">This is particularly problematic in neuroscience, where study populations, methods, and contexts vary significantly across labs and countries.</span>.</p>
+
+            <p>Random effects models, while more complex, often provide a more realistic framework for understanding heterogeneity between studies. The extra complexity is worth it when you consider how misleading fixed effects can be.</p>
+
+            <h3>When to Use Each Model</h3>
+
+            <p>The choice between fixed and random effects should be based on the research question, not computational convenience. If you're asking "what is the effect in these specific studies?" use fixed effects. If you're asking "what is the effect in the population of possible studies?" use random effects<label for="sn-2" class="margin-toggle sidenote-number"></label>
+            <input type="checkbox" id="sn-2" class="margin-toggle" />
+            <span class="sidenote">Most researchers actually want to answer the second question but default to the first model.</span>.</p>
+
+            <h2>Publication Bias Detection</h2>
+
+            <p>Traditional funnel plots and Egger's test have limited sensitivity for detecting publication bias. The statistical power to detect bias is often inadequate, especially with the small number of studies typical in meta-analyses.</p>
+
+            <p>Newer methods offer more robust approaches:</p>
+            <ul>
+                <li>PET-PEESE regression</li>
+                <li>Selection models (like Vevea & Hedges)</li>
+                <li>P-curve analysis</li>
+                <li>P-uniform methods</li>
+            </ul>
+
+            <h3>The Replication Crisis Connection</h3>
+
+            <p>Publication bias isn't just a meta-analysis problem—it's a fundamental issue affecting how we build scientific knowledge. When only significant results get published, our meta-analyses become systematic overestimations of true effects<label for="sn-3" class="margin-toggle sidenote-number"></label>
+            <input type="checkbox" id="sn-3" class="margin-toggle" />
+            <span class="sidenote">John Ioannidis's famous "Why Most Published Research Findings Are False" paper was fundamentally about this issue.</span>.</p>
+
+            <h2>The Search Strategy Problem</h2>
+
+            <p>Systematic searches often miss important studies due to overly restrictive search terms or database limitations. The rise of preprint servers and grey literature has complicated traditional search strategies, but also created new opportunities.</p>
+
+            <p>Moving forward, meta-analysts need to embrace:</p>
+            <ul>
+                <li>More inclusive search strategies</li>
+                <li>Better collaboration with information specialists</li>
+                <li>Transparent reporting of search limitations</li>
+                <li>Forward and backward citation searches</li>
+                <li>Preprint server inclusion</li>
+            </ul>
+
+            <h2>Statistical vs. Practical Significance</h2>
+
+            <p>This distinction is crucial but often ignored. A statistically significant result with a tiny effect size may not justify clinical or policy changes. We need better frameworks for interpreting effect sizes in context<label for="sn-4" class="margin-toggle sidenote-number"></label>
+            <input type="checkbox" id="sn-4" class="margin-toggle" />
+            <span class="sidenote">Cohen's benchmarks (small=0.2, medium=0.5, large=0.8) are arbitrary and context-independent. We need field-specific interpretation guidelines.</span>.</p>
+
+            <h3>The Multiple Comparisons Issue</h3>
+
+            <p>When conducting subgroup analyses or sensitivity analyses, we're making multiple comparisons. This increases the risk of false positives, but traditional corrections may be too conservative for exploratory research.</p>
+
+            <p>The key is being transparent about which analyses were planned versus exploratory, and adjusting our confidence accordingly.</p>
+
+            <h2>Future Directions</h2>
+
+            <p>The field needs to move toward:</p>
+            <ul>
+                <li>Individual participant data meta-analyses when possible</li>
+                <li>Better integration of qualitative and quantitative synthesis</li>
+                <li>Real-time updating of meta-analyses as new studies emerge</li>
+                <li>Machine learning approaches to study identification and quality assessment</li>
+            </ul>
+
+            <p>But most importantly, we need to remember that meta-analysis is a tool for understanding patterns in research, not for producing definitive answers. The quality of our synthesis can never exceed the quality of our primary studies.</p>
+
+            <hr>
+
+            <p><a href="index.html">← back to home</a></p>
+        </article>
     </div>
 </body>
 </html>

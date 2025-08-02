@@ -1,15 +1,26 @@
-/* Guzey-inspired exact structure replication */
+/* Guzey's exact styling - replicated from his CSS files */
 
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    line-height: 1.6;
-    color: #000;
-    background-color: #fff;
-    margin: 0;
-    padding: 0;
-    font-size: 16px;
+html {
+  font-size: 0.95em;
 }
 
+body {
+  color: #121212;
+  overflow-y: scroll;
+  font-weight: 400;
+  line-height: 1.5;
+  font-family: 'Encode Sans', sans-serif;
+  counter-reset: h2counter sidenote-counter;
+  margin: 0;
+  padding: 0;
+}
+
+::selection {
+    background: #ffd1dc;
+    text-shadow: none;
+}
+
+/* Container and layout */
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -22,10 +33,11 @@ header {
 }
 
 h1 {
-    font-size: 32px;
-    font-weight: normal;
-    margin: 0 0 15px 0;
-    color: #000;
+    counter-reset: h2counter;
+    font-family: 'Dosis', sans-serif;
+    font-size: 36px;
+    margin: 0;
+    margin-left: 8px;
 }
 
 /* Main navigation bar */
@@ -37,7 +49,7 @@ h1 {
 }
 
 .main-nav a {
-    color: #000;
+    color: #121212;
     text-decoration: none;
     margin-right: 20px;
     font-size: 16px;
@@ -63,37 +75,58 @@ h1 {
     margin-left: auto;
 }
 
-/* Recent box styling */
-.recent-box {
-    border: 1px solid #ddd;
-    padding: 15px;
-    background-color: #f9f9f9;
+/* Typography - matching Guzey's exact styles */
+h2 {
+    counter-reset: h3counter;
+    font-family: 'Dosis', sans-serif;
+    font-size: 28px;
+    margin-top: 24px;
+    margin: 0;
+    margin-left: 8px;
+    margin-top: 24px;
+    border-left: 8px solid #ffd1dc;
+    padding-left: 12px;
+    margin-left: -12px;
 }
 
-.recent-box h3 {
-    margin: 0 0 10px 0;
-    font-size: 18px;
-    font-weight: normal;
-    color: #000;
+h2:before {
+    content: counter(h2counter) ".\0000a0";
+    counter-increment: h2counter;
 }
 
-.recent-box p {
-    margin: 5px 0;
-    font-size: 14px;
-    line-height: 1.4;
+h2.nocount:before {
+    content: none;
+    counter-increment: none;
 }
 
-/* Main content styling */
+h3 {
+    counter-reset: h4counter;
+    border-left: 4px solid #ffd1dc;
+    padding-left: 12px;
+    margin-left: -8px;
+    margin: 0;
+    margin-left: 8px;
+}
+
+h3:before {
+    content: counter(h2counter) "." counter(h3counter) ".\0000a0";
+    counter-increment: h3counter;
+}
+
+h3.nocount:before {
+    content: none;
+    counter-increment: none;
+}
+
+h4, h5, h6 {
+    margin: 0;
+    margin-left: 8px;
+}
+
+/* Paragraphs and lists */
 p {
     margin: 15px 0;
-    line-height: 1.6;
-}
-
-h2 {
-    font-size: 18px;
-    font-weight: bold;
-    margin: 30px 0 10px 0;
-    color: #000;
+    line-height: 1.5;
 }
 
 ul {
@@ -121,7 +154,130 @@ a:hover {
     text-decoration: underline;
 }
 
-/* Responsive design */
+/* Recent box styling - matching Guzey's sidebar */
+.recent-box {
+    border: 1px solid #ddd;
+    padding: 15px;
+    background-color: #f9f9f9;
+}
+
+.recent-box h3 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    font-weight: normal;
+    color: #121212;
+    border: none;
+    padding: 0;
+    margin-left: 0;
+}
+
+.recent-box h3:before {
+    content: none;
+}
+
+.recent-box p {
+    margin: 5px 0;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+/* Sidenotes system - from Guzey's custom.css */
+.sidenote, .marginnote { 
+    float: right;
+    clear: right;
+    margin-right: -25%;
+    width: 20%;
+    margin-top: 0px;
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+    vertical-align: baseline;
+    position: relative; 
+}
+
+.sidenote-number { 
+    counter-increment: sidenote-counter; 
+}
+
+.sidenote-number:after, .sidenote:before { 
+    font-family: 'Dosis', sans-serif;
+    position: relative;
+    vertical-align: baseline;
+    margin-left: -0.2em;
+    margin-right: 0.3em;
+    font-weight: 700;
+    color: #ffa1ac;
+}
+
+.sidenote-number:after { 
+    content: counter(sidenote-counter);
+    font-size: 1rem;
+    top: -0.5rem;
+    left: 0.1rem;
+}
+
+.sidenote:before { 
+    content: counter(sidenote-counter) " ";
+    top: -0.5rem; 
+}
+
+blockquote .sidenote, blockquote .marginnote { 
+    margin-right: -82%;
+    min-width: 59%;
+    text-align: left; 
+}
+
+label.sidenote-number { 
+    display: inline; 
+}
+
+input.margin-toggle { 
+    display: none; 
+}
+
+label.margin-toggle:not(.sidenote-number) { 
+    display: none; 
+}
+
+/* Responsive utilities from Guzey's custom.css */
+.big70small100 {
+    width: 70%;
+}
+
+.big50small100 {
+    width: 49%;
+}
+
+@media (max-width: 1000px) {
+    .big70small100 {
+        width: 100%;
+    }
+    .big50small100 {
+        width: 100%;
+    }
+}
+
+/* Mobile responsiveness for sidenotes */
+@media (max-width: 1300px) {
+    label.margin-toggle:not(.sidenote-number) { 
+        display: inline; 
+    }
+    .sidenote, .marginnote { 
+        display: none; 
+    }
+    .margin-toggle:checked + .sidenote,
+    .margin-toggle:checked + .marginnote { 
+        display: block;
+        float: left;
+        left: 1rem;
+        clear: both;
+        width: 95%;
+        margin: 1rem 2.5%;
+        vertical-align: baseline;
+        position: relative; 
+    }
+}
+
+/* General responsive design */
 @media (max-width: 900px) {
     .content-wrapper {
         flex-direction: column;
@@ -165,4 +321,20 @@ a:hover {
         margin-right: 0;
         margin-bottom: 5px;
     }
+}
+
+/* Article-specific styles */
+.article-title {
+    font-family: 'Dosis', sans-serif;
+    font-size: 36px;
+    margin: 0;
+    margin-left: 8px;
+    margin-bottom: 10px;
+}
+
+.post-date {
+    display: block;
+    margin-bottom: 1rem;
+    margin-left: 0.5rem;
+    color: #9a9a9a;
 }
