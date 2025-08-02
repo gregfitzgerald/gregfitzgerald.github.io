@@ -9,80 +9,106 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Greg Fitzgerald</h1>
-            <nav class="main-nav">
-                <a href="about.html">About</a>
-                <a href="contact.html">Contact</a>
-                <a href="test1.html">Research</a>
-                <a href="test4.html">Writing</a>
-                <a href="jimmy.html">Personal</a>
-                <a href="#">Links</a>
-                <a href="#">Notes</a>
-            </nav>
-        </header>
-
-        <div class="content-wrapper">
-            <main class="main-content">
-                <p>I want to improve scientific research. I work on meta-analysis and research methodology. I'm most inspired by <a href="#">rigorous methodology</a>, <a href="#">reproducible research</a>, <a href="#">effective communication</a>, and <a href="#">rational thinking</a>.</p>
-                
-                <p>Feel free to email me at <a href="mailto:your-email@example.com">your-email@example.com</a> and to follow me on <a href="https://twitter.com" target="_blank">Twitter</a>. If you'd like to ask for <a href="#">advice</a>, please email <a href="mailto:advice@example.com">advice@example.com</a>.</p>
-
-                <h2 class="nocount">personal favorites</h2>
-                <ul>
-                    <li><a href="test1.html">Every methodology thought I've ever had, as concisely as possible</a></li>
-                    <li><a href="#">Signs of exceptional research talent</a> & <a href="#">Cursed signs of exceptional research talent</a></li>
-                    <li><a href="#">People who are going to change the world</a></li>
-                    <li><a href="#">Meta-analysis killed reproducibility</a></li>
-                    <li><a href="test4.html">Why You Should Start a Research Blog Right Now</a> (I will read the draft and give feedback to anybody who decides to write something as a result of reading this)</li>
+    <header class="site-header">
+        <nav class="site-navi">
+            <h1 class="site-title">
+                <a href="/">Greg Fitzgerald</a>
+            </h1>
+            <div style="display: block">
+                <ul class="site-navi-items">
+                    <li class="site-navi-item-about">
+                        <span style="color: #ffd1dc;">&gt;</span>
+                        <a href="about.html" title="About">About</a>
+                    </li>
+                    <li class="site-navi-item-contact">
+                        <span style="color: #ffd1dc;">&gt;</span>
+                        <a href="contact.html" title="Contact">Contact</a>
+                    </li>
+                    <li class="site-navi-item-research">
+                        <span style="color: #ffd1dc;">&gt;</span>
+                        <a href="test1.html" title="Research">Research</a>
+                    </li>
                 </ul>
-
-                <h2 class="nocount">one-pagers</h2>
-                <ul>
-                    <li><a href="#">On impact</a></li>
-                    <li><a href="#">Losing the idea of progress</a></li>
-                    <li><a href="#">On science communication</a></li>
-                    <li><a href="#">Research productivity</a></li>
+                <ul class="site-navi-items" style="margin-top: 0;">
+                    <li class="site-navi-item-writing">
+                        <span style="color: #ffd1dc;">&gt;</span>
+                        <a href="#" style="font-size: 0.85em" title="Writing">Writing</a>
+                    </li>
+                    <li class="site-navi-item-methodology">
+                        <span style="color: #ffd1dc;">&gt;</span>
+                        <a href="#" style="font-size: 0.85em" title="Methodology guides">Methodology guides</a>
+                    </li>
+                    <li class="site-navi-item-personal">
+                        <span style="color: #ffd1dc;">&gt;</span>
+                        <a href="jimmy.html" style="font-size: 0.85em" title="Personal">Personal</a>
+                    </li>
+                    <li class="site-navi-item-links">
+                        <span style="color: #ffd1dc;">&gt;</span>
+                        <a href="#" style="font-size: 0.85em" title="Links">Links</a>
+                    </li>
+                    <li class="site-navi-item-notes">
+                        <span style="color: #ffd1dc;">&gt;</span>
+                        <a href="#" style="font-size: 0.85em" title="Notes">Notes</a>
+                    </li>
                 </ul>
+            </div>
+        </nav>
+    </header>
+    <hr class="site-header-bottom">
 
-                <h2 class="nocount">advice</h2>
-                <ul>
-                    <li><a href="#">What should you do with your research career?</a></li>
-                    <li><a href="#">Advice for young researchers</a></li>
-                    <li><a href="#">How to read papers effectively</a></li>
-                </ul>
+    <div class="main" role="main">
+        <p>I want to improve scientific research. I work on meta-analysis and research methodology. I'm most inspired by <a href="#">rigorous methodology</a>, <a href="#">reproducible research</a>, <a href="#">effective communication</a>, and <a href="#">rational thinking</a>.</p>
+        
+        <p>Feel free to email me at <a href="mailto:your-email@example.com">your-email@example.com</a> and to follow me on <a href="https://twitter.com" target="_blank">Twitter</a>. If you'd like to ask for <a href="#">advice</a>, please email <a href="mailto:advice@example.com">advice@example.com</a>.</p>
 
-                <h2 class="nocount">meta-science/education</h2>
-                <ul>
-                    <li><a href="test2.html">Cognitive biases in research synthesis</a></li>
-                    <li><a href="test3.html">Notes on reproducibility crisis</a></li>
-                    <li><a href="#">Publication bias and how to detect it</a></li>
-                    <li><a href="#">Statistical methods for meta-analysis</a></li>
-                    <li><a href="#">Research methodology best practices</a></li>
-                </ul>
-
-                <h2 class="nocount">personal</h2>
-                <ul>
-                    <li><a href="jimmy.html">jimmy the evil turtle</a></li>
-                    <li><a href="#">Research diary entries</a></li>
-                    <li><a href="#">Productivity experiments</a></li>
-                    <li><a href="#">Reading notes and reviews</a></li>
-                </ul>
-            </main>
-
-            <aside class="sidebar">
-                <div class="recent-box">
-                    <h3>Recent</h3>
-                    <p>January 15, <a href="test1.html">Thoughts on meta-analysis methodology</a></p>
-                    <p>December 22, <a href="test2.html">Cognitive biases in research synthesis</a></p>
-                    <p>November 11, <a href="test3.html">Notes on reproducibility crisis</a></p>
-                    <p>October 23, <a href="#">Publication bias detection methods</a></p>
-                    <p>September 30, <a href="#">Statistical approaches to research aggregation</a></p>
-                    <p>September 17, <a href="#">On methodology</a></p>
-                </div>
-            </aside>
+        <div class="right_float">
+            <p><b>Recent</b></p>
+            <p>January 15, <a href="test1.html">Why You Should Start a Research Blog Right Now</a></p>
+            <p>December 22, <a href="#">Thoughts on meta-analysis methodology</a></p>
+            <p>November 11, <a href="#">Notes on reproducibility crisis</a></p>
+            <p>October 23, <a href="#">Publication bias detection methods</a></p>
+            <p>September 30, <a href="#">Statistical approaches to research aggregation</a></p>
+            <p>September 17, <a href="#">On methodology</a></p>
         </div>
+
+        <h2 class="nocount">personal favorites</h2>
+        <ul>
+            <li><a href="test1.html">Why You Should Start a Research Blog Right Now</a> (I will read the draft and give feedback to anybody who decides to write something as a result of reading this)</li>
+            <li><a href="#">Every methodology thought I've ever had, as concisely as possible</a></li>
+            <li><a href="#">Signs of exceptional research talent</a> & <a href="#">Cursed signs of exceptional research talent</a></li>
+            <li><a href="#">Meta-analysis killed reproducibility</a></li>
+        </ul>
+
+        <h2 class="nocount">one-pagers</h2>
+        <ul>
+            <li><a href="#">On impact</a></li>
+            <li><a href="#">Losing the idea of progress</a></li>
+            <li><a href="#">On science communication</a></li>
+            <li><a href="#">Research productivity</a></li>
+        </ul>
+
+        <h2 class="nocount">advice</h2>
+        <ul>
+            <li><a href="#">What should you do with your research career?</a></li>
+            <li><a href="#">Advice for young researchers</a></li>
+            <li><a href="#">How to read papers effectively</a></li>
+        </ul>
+
+        <h2 class="nocount">meta-science/education</h2>
+        <ul>
+            <li><a href="#">Publication bias and how to detect it</a></li>
+            <li><a href="#">Statistical methods for meta-analysis</a></li>
+            <li><a href="#">Research methodology best practices</a></li>
+            <li><a href="#">Reproducibility crisis and solutions</a></li>
+        </ul>
+
+        <h2 class="nocount">personal</h2>
+        <ul>
+            <li><a href="jimmy.html">jimmy the evil turtle</a></li>
+            <li><a href="#">Research diary entries</a></li>
+            <li><a href="#">Productivity experiments</a></li>
+            <li><a href="#">Reading notes and reviews</a></li>
+        </ul>
     </div>
 </body>
 </html>

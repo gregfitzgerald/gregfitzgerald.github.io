@@ -27,36 +27,86 @@ body {
     padding: 20px;
 }
 
-/* Header */
-header {
-    margin-bottom: 30px;
+/* Site Header - Guzey's banner navigation style */
+.site-header {
+    margin-bottom: 20px;
 }
 
+.site-title {
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.site-title a {
+    color: #121212;
+    text-decoration: none;
+    font-family: 'Dosis', sans-serif;
+    font-size: 36px;
+}
+
+.site-navi-items {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.site-navi-items li {
+    margin: 0;
+}
+
+.site-navi-items a {
+    color: #121212;
+    text-decoration: none;
+    font-size: 16px;
+    margin-left: 5px;
+}
+
+.site-navi-items a:hover {
+    text-decoration: underline;
+}
+
+.site-header-bottom {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 20px 0;
+}
+
+/* Main content area */
+.main {
+    position: relative;
+}
+
+/* Right floating sidebar */
+.right_float {
+    float: right;
+    width: 200px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    background-color: #f9f9f9;
+    font-size: 14px;
+}
+
+.right_float p {
+    margin: 5px 0;
+    line-height: 1.4;
+}
+
+.right_float b {
+    font-size: 16px;
+}
+
+/* Updated main headings */
 h1 {
     counter-reset: h2counter;
     font-family: 'Dosis', sans-serif;
     font-size: 36px;
     margin: 0;
     margin-left: 8px;
-}
-
-/* Main navigation bar */
-.main-nav {
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-    padding: 10px 0;
-    margin-bottom: 30px;
-}
-
-.main-nav a {
-    color: #121212;
-    text-decoration: none;
-    margin-right: 20px;
-    font-size: 16px;
-}
-
-.main-nav a:hover {
-    text-decoration: underline;
 }
 
 /* Content wrapper with sidebar */
@@ -337,4 +387,79 @@ label.margin-toggle:not(.sidenote-number) {
     margin-bottom: 1rem;
     margin-left: 0.5rem;
     color: #9a9a9a;
+}
+
+/* Table of Contents */
+.toc_outside {
+    float: left;
+    width: 300px;
+    margin-right: 30px;
+    margin-bottom: 20px;
+}
+
+.toc {
+    border: 1px solid #ddd;
+    padding: 15px;
+    background-color: #f9f9f9;
+    font-size: 14px;
+}
+
+.toc ul {
+    list-style: none;
+    padding-left: 15px;
+    margin: 0;
+}
+
+.toc li {
+    margin: 5px 0;
+    line-height: 1.3;
+}
+
+.toc a {
+    color: #0000EE;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.toc a:hover {
+    text-decoration: underline;
+}
+
+/* Notable posts sidebar */
+.notable {
+    float: right;
+    width: 250px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    background-color: #f9f9f9;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.notable a {
+    color: #0000EE;
+    text-decoration: none;
+}
+
+.notable a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive adjustments for TOC and Notable */
+@media (max-width: 1200px) {
+    .toc_outside {
+        float: none;
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+    
+    .notable {
+        float: none;
+        width: 100%;
+        margin-left: 0;
+        margin-bottom: 20px;
+    }
 }
