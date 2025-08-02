@@ -1,77 +1,164 @@
-/* no style, please! theme - minimal CSS */
-
-html { 
-    height: 100%; 
-}
+/* Guzey-inspired design - minimal and content-focused */
 
 body {
-    font-family: monospace;
-    font-size: 16px;
-    line-height: 1.4;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    color: #000;
+    background-color: #fff;
     margin: 0;
-    min-height: 100%;
-    overflow-wrap: break-word;
-    background-color: #ffffff;
-    color: #212121;
+    padding: 20px;
+    font-size: 16px;
 }
 
-.w {
-    max-width: 640px;
+.main {
+    max-width: 650px;
     margin: 0 auto;
-    padding: 4rem 2rem;
-}
-
-h1, h2, h3, h4, h5, h6 { 
-    margin-top: 3rem; 
+    padding: 0;
 }
 
 h1 {
-    margin-top: 0;
+    font-size: 28px;
+    font-weight: normal;
+    margin: 0 0 10px 0;
+    color: #000;
 }
 
-hr { 
-    margin: 2rem 0;
-    text-align: center;
-    border: 0;
+h2 {
+    font-size: 18px;
+    font-weight: normal;
+    margin: 30px 0 10px 0;
+    color: #000;
 }
 
-hr:before { 
-    content: '/////'; 
+p {
+    margin: 10px 0;
+    line-height: 1.6;
 }
 
-p { 
-    margin: 1rem 0; 
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
 }
 
-li { 
-    margin: 0.4rem 0; 
+li {
+    margin: 4px 0;
+    line-height: 1.5;
 }
 
 a {
-    color: #1e70bf;
-    text-decoration: none;
+    color: #0000EE;
+    text-decoration: underline;
 }
 
-a:visited { 
-    color: #921292; 
+a:visited {
+    color: #551A8B;
 }
 
-a:hover { 
-    text-decoration: underline; 
+a:hover {
+    text-decoration: underline;
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
+hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 30px 0;
+}
+
+/* Responsive utilities from Guzey's custom.css */
+.big70small100 {
+    width: 70%;
+}
+
+.big50small100 {
+    width: 49%;
+}
+
+@media (max-width: 1000px) {
+    .big70small100 {
+        width: 100%;
+    }
+    .big50small100 {
+        width: 100%;
+    }
+}
+
+/* Sidenotes system from Guzey's custom.css */
+body { counter-reset: sidenote-counter; }
+
+.sidenote, .marginnote { 
+    float: right;
+    clear: right;
+    margin-right: -25%;
+    width: 20%;
+    margin-top: 0px;
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+    vertical-align: baseline;
+    position: relative; 
+}
+
+.sidenote-number { counter-increment: sidenote-counter; }
+
+.sidenote-number:after, .sidenote:before { 
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    position: relative;
+    vertical-align: baseline;
+    margin-left: -0.2em;
+    margin-right: 0.3em;
+    font-weight: 700;
+    color: #0000EE;
+}
+
+.sidenote-number:after { 
+    content: counter(sidenote-counter);
+    font-size: 1rem;
+    top: -0.5rem;
+    left: 0.1rem;
+}
+
+.sidenote:before { 
+    content: counter(sidenote-counter) " ";
+    top: -0.5rem; 
+}
+
+label.sidenote-number { display: inline; }
+
+input.margin-toggle { display: none; }
+
+label.margin-toggle:not(.sidenote-number) { display: none; }
+
+/* Mobile responsiveness for sidenotes */
+@media (max-width: 1300px) {
+    label.margin-toggle:not(.sidenote-number) { display: inline; }
+    .sidenote, .marginnote { display: none; }
+    .margin-toggle:checked + .sidenote,
+    .margin-toggle:checked + .marginnote { 
+        display: block;
+        float: left;
+        left: 1rem;
+        clear: both;
+        width: 95%;
+        margin: 1rem 2.5%;
+        vertical-align: baseline;
+        position: relative; 
+    }
+}
+
+@media (max-width: 700px) {
     body {
-        background-color: #212121;
-        color: #fafafa;
+        padding: 15px;
     }
     
-    a {
-        color: #0071bc;
+    .main {
+        overflow: hidden;
     }
     
-    a:visited {
-        color: #a359e9;
+    h1 {
+        font-size: 24px;
+    }
+    
+    h2 {
+        font-size: 16px;
     }
 }
