@@ -1,4 +1,4 @@
-/* Guzey-inspired design - minimal and content-focused */
+/* Guzey-inspired exact structure replication */
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -6,46 +6,108 @@ body {
     color: #000;
     background-color: #fff;
     margin: 0;
-    padding: 20px;
+    padding: 0;
     font-size: 16px;
 }
 
-.main {
-    max-width: 650px;
+.container {
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 0;
+    padding: 20px;
+}
+
+/* Header */
+header {
+    margin-bottom: 30px;
 }
 
 h1 {
-    font-size: 28px;
+    font-size: 32px;
     font-weight: normal;
-    margin: 0 0 10px 0;
+    margin: 0 0 15px 0;
     color: #000;
+}
+
+/* Main navigation bar */
+.main-nav {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+    margin-bottom: 30px;
+}
+
+.main-nav a {
+    color: #000;
+    text-decoration: none;
+    margin-right: 20px;
+    font-size: 16px;
+}
+
+.main-nav a:hover {
+    text-decoration: underline;
+}
+
+/* Content wrapper with sidebar */
+.content-wrapper {
+    display: flex;
+    gap: 40px;
+}
+
+.main-content {
+    flex: 1;
+    max-width: 70%;
+}
+
+.sidebar {
+    flex: 0 0 300px;
+    margin-left: auto;
+}
+
+/* Recent box styling */
+.recent-box {
+    border: 1px solid #ddd;
+    padding: 15px;
+    background-color: #f9f9f9;
+}
+
+.recent-box h3 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    font-weight: normal;
+    color: #000;
+}
+
+.recent-box p {
+    margin: 5px 0;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+/* Main content styling */
+p {
+    margin: 15px 0;
+    line-height: 1.6;
 }
 
 h2 {
     font-size: 18px;
-    font-weight: normal;
+    font-weight: bold;
     margin: 30px 0 10px 0;
     color: #000;
 }
 
-p {
-    margin: 10px 0;
-    line-height: 1.6;
-}
-
 ul {
-    list-style: none;
-    padding: 0;
+    list-style: disc;
+    padding-left: 20px;
     margin: 0 0 20px 0;
 }
 
 li {
-    margin: 4px 0;
+    margin: 6px 0;
     line-height: 1.5;
 }
 
+/* Links */
 a {
     color: #0000EE;
     text-decoration: underline;
@@ -59,106 +121,48 @@ a:hover {
     text-decoration: underline;
 }
 
-hr {
-    border: none;
-    border-top: 1px solid #ddd;
-    margin: 30px 0;
-}
-
-/* Responsive utilities from Guzey's custom.css */
-.big70small100 {
-    width: 70%;
-}
-
-.big50small100 {
-    width: 49%;
-}
-
-@media (max-width: 1000px) {
-    .big70small100 {
-        width: 100%;
+/* Responsive design */
+@media (max-width: 900px) {
+    .content-wrapper {
+        flex-direction: column;
     }
-    .big50small100 {
-        width: 100%;
+    
+    .main-content {
+        max-width: 100%;
     }
-}
-
-/* Sidenotes system from Guzey's custom.css */
-body { counter-reset: sidenote-counter; }
-
-.sidenote, .marginnote { 
-    float: right;
-    clear: right;
-    margin-right: -25%;
-    width: 20%;
-    margin-top: 0px;
-    margin-bottom: 16px;
-    font-size: 0.9rem;
-    vertical-align: baseline;
-    position: relative; 
-}
-
-.sidenote-number { counter-increment: sidenote-counter; }
-
-.sidenote-number:after, .sidenote:before { 
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    position: relative;
-    vertical-align: baseline;
-    margin-left: -0.2em;
-    margin-right: 0.3em;
-    font-weight: 700;
-    color: #0000EE;
-}
-
-.sidenote-number:after { 
-    content: counter(sidenote-counter);
-    font-size: 1rem;
-    top: -0.5rem;
-    left: 0.1rem;
-}
-
-.sidenote:before { 
-    content: counter(sidenote-counter) " ";
-    top: -0.5rem; 
-}
-
-label.sidenote-number { display: inline; }
-
-input.margin-toggle { display: none; }
-
-label.margin-toggle:not(.sidenote-number) { display: none; }
-
-/* Mobile responsiveness for sidenotes */
-@media (max-width: 1300px) {
-    label.margin-toggle:not(.sidenote-number) { display: inline; }
-    .sidenote, .marginnote { display: none; }
-    .margin-toggle:checked + .sidenote,
-    .margin-toggle:checked + .marginnote { 
-        display: block;
-        float: left;
-        left: 1rem;
-        clear: both;
-        width: 95%;
-        margin: 1rem 2.5%;
-        vertical-align: baseline;
-        position: relative; 
+    
+    .sidebar {
+        flex: none;
+        margin-left: 0;
+    }
+    
+    .main-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .main-nav a {
+        margin-right: 10px;
     }
 }
 
-@media (max-width: 700px) {
-    body {
+@media (max-width: 600px) {
+    .container {
         padding: 15px;
     }
     
-    .main {
-        overflow: hidden;
-    }
-    
     h1 {
-        font-size: 24px;
+        font-size: 28px;
     }
     
-    h2 {
-        font-size: 16px;
+    .main-nav {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .main-nav a {
+        margin-right: 0;
+        margin-bottom: 5px;
     }
 }
