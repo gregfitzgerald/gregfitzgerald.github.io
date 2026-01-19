@@ -1,98 +1,112 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <style type="text/css">body{font-family:monospace;}</style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About - Greg Fitzgerald</title>
-    <meta name="description" content="About Greg Fitzgerald">
-    <style>
-        body {
-            font-family: monospace;
-            max-width: 650px;
-            margin: 40px auto;
-            padding: 0 20px;
-            line-height: 1.6;
-            color: #333;
-            background: #fff;
-        }
-        
-        header {
-            margin-bottom: 40px;
-        }
-        
-        h1 {
-            font-size: 2em;
-            margin-bottom: 5px;
-        }
-        
-        h2 {
-            font-size: 1.5em;
-            margin-top: 30px;
-            margin-bottom: 15px;
-        }
-        
-        a {
-            color: #0066cc;
-            text-decoration: none;
-        }
-        
-        a:hover {
-            text-decoration: underline;
-        }
-        
-        nav {
-            margin-bottom: 30px;
-        }
-        
-        nav a {
-            margin-right: 15px;
-        }
-        
-        footer {
-            margin-top: 50px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-            font-size: 0.9em;
-            color: #666;
-        }
-        
-        @media (prefers-color-scheme: dark) {
-            body {
-                background: #1a1a1a;
-                color: #e0e0e0;
-            }
-            
-            a {
-                color: #4d9fff;
-            }
-            
-            footer {
-                border-top-color: #333;
-            }
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css?family=Encode+Sans:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Dosis:500" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Greg Fitzgerald</h1>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="research.html">Research</a>
-            <a href="writing.html">Writing</a>
-            <a href="gallery.html">Gallery</a>
-            <a href="about.html">About</a>
-            <a href="contact.html">Contact</a>
-        </nav>
-    </header>
+    <div class="container">
+        <header class="site-header">
+            <nav class="site-navi">
+                <h1 class="site-title">
+                    <a href="index.html">Greg Fitzgerald</a>
+                </h1>
+                <div style="display: block">
+                    <ul class="site-navi-items">
+                        <li class="site-navi-item-home">
+                            <span style="color: #ffd1dc;">&gt;</span>
+                            <a href="index.html" title="Home">Home</a>
+                        </li>
+                        <li class="site-navi-item-blog">
+                            <span style="color: #ffd1dc;">&gt;</span>
+                            <a href="writing.html" title="Blog">Blog</a>
+                        </li>
+                        <li class="site-navi-item-projects">
+                            <span style="color: #ffd1dc;">&gt;</span>
+                            <a href="projects.html" title="Projects">Projects</a>
+                        </li>
+                        <li class="site-navi-item-tutoring">
+                            <span style="color: #ffd1dc;">&gt;</span>
+                            <a href="tutoring.html" title="Tutoring">Research Tutoring</a>
+                        </li>
+                        <li class="site-navi-item-about">
+                            <span style="color: #ffd1dc;">&gt;</span>
+                            <a href="about.html" title="About">About</a>
+                        </li>
+                    </ul>
+                    <!-- Secondary navigation items (smaller font, second row) -->
+                    <ul class="site-navi-items" style="margin-top: 0;">
+                        <li class="site-navi-item-research">
+                            <span style="color: #ffd1dc;">&gt;</span>
+                            <a href="research.html" style="font-size: 0.85em" title="Research">Research</a>
+                        </li>
+                        <li class="site-navi-item-contact">
+                            <span style="color: #ffd1dc;">&gt;</span>
+                            <a href="contact.html" style="font-size: 0.85em" title="Contact">Contact</a>
+                        </li>
+                        <li class="site-navi-item-gallery">
+                            <span style="color: #ffd1dc;">&gt;</span>
+                            <a href="gallery.html" style="font-size: 0.85em" title="Gallery">Gallery</a>
+                        </li>
+                        <li class="site-navi-item-cv">
+                            <span style="color: #ffd1dc;">&gt;</span>
+                            <a href="cv.html" style="font-size: 0.85em" title="CV">CV</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <hr class="site-header-bottom">
 
-    <main>
+        <div class="main">
+            <h1>About</h1>
+
+            <p>I'm a graduate student in the <a href="https://www.albany.edu/psychology/faculty/ewan-mcnay">Behavioral Neuroscience Lab</a> at the University at Albany, where I study the intersection of metabolism, memory, and aging. My research focuses on understanding how metabolic factors influence cognitive function and neurodegenerative diseases, particularly Alzheimer's disease.</p>
+
+            <p>I'm passionate about improving scientific research through better methodology, reproducible practices, and effective communication. I believe that rigorous research methods and open science practices are essential for advancing our understanding of complex biological systems.</p>
+
+            <h2 class="nocount">Research Interests</h2>
+
+            <ul>
+                <li><strong>Neurotrophic factors and aging:</strong> Investigating how growth factors like IGF2 influence brain health and cognitive function across the lifespan</li>
+                <li><strong>Meta-analysis methodology:</strong> Developing and applying systematic review techniques to synthesize research findings in neuroscience and psychology</li>
+                <li><strong>Alzheimer's disease therapeutics:</strong> Exploring preventative and therapeutic interventions for neurodegenerative diseases</li>
+                <li><strong>Research methodology:</strong> Improving statistical practices, study design, and reproducibility in behavioral and cognitive research</li>
+            </ul>
+
+            <h2 class="nocount">Background</h2>
+
+            <p>I completed my undergraduate degree in psychology with a focus on research methods and statistics. During my undergraduate years, I became interested in the challenges facing psychological and neuroscience research, particularly issues of reproducibility and statistical rigor. This led me to pursue graduate studies where I could contribute to both advancing our understanding of brain health and improving research practices.</p>
+
+            <p>My current work involves both experimental research on neurotrophic factors in aging and cognitive function, as well as meta-analytic research synthesizing findings across studies in neuroscience and aging research.</p>
+
+            <h2 class="nocount">Philosophy</h2>
+
+            <p>I believe that science progresses through careful, methodical work combined with clear communication and open collaboration. Too much research is conducted in isolation or with insufficient attention to methodological rigor. I'm committed to:</p>
+
+            <ul>
+                <li>Conducting research with the highest standards of methodological rigor</li>
+                <li>Sharing knowledge openly and accessibly</li>
+                <li>Improving research practices through teaching and collaboration</li>
+                <li>Focusing on research questions that have the potential to improve human health and wellbeing</li>
+            </ul>
+
+            <h2 class="nocount">Outside Research</h2>
+
+            <p>When I'm not in the lab or writing, I enjoy hiking, reading about science and philosophy, and spending time with my turtle, <a href="jimmy.html">Jimmy</a>. I'm also interested in the intersection of technology and research, particularly how digital tools can improve scientific collaboration and knowledge sharing.</p>
+
+            <hr>
+
+            <p><a href="index.html">← back to home</a></p>
+        </div>
         
-    </main>
-
-    <footer>
-        <p>&copy; 2025 Greg Fitzgerald. All rights reserved.</p>
-    </footer>
+        <footer class="footer">
+            Licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="license">Creative Commons Attribution 4.0 International License</a>.
+        </footer>
+    </div>
 </body>
 </html>

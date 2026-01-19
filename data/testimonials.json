@@ -1,0 +1,28 @@
+{
+  "testimonials": [
+    {
+      "id": 1,
+      "name": "Alex M.",
+      "course": "Psychology Statistics",
+      "semester": "Fall 2024",
+      "text": "Greg helped me finally understand hypothesis testing and confidence intervals. His explanations are clear and he's incredibly patient. I went from a C to an A- in my stats course.",
+      "rating": 5
+    },
+    {
+      "id": 2,
+      "name": "Sarah L.",
+      "course": "Graduate Research Methods",
+      "semester": "Spring 2024",
+      "text": "Best tutor I've ever had. Greg doesn't just help with homework -- he teaches you to think like a researcher. His background in meta-analysis gives him unique insights into study design.",
+      "rating": 5
+    },
+    {
+      "id": 3,
+      "name": "Jordan K.",
+      "course": "Neuroscience Capstone",
+      "semester": "Fall 2023",
+      "text": "Greg helped me design and analyze my senior thesis project. His guidance on power analysis and effect sizes was invaluable. I got my thesis published partly thanks to his methodological insights.",
+      "rating": 5
+    }
+  ]
+}

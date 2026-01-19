@@ -1,0 +1,834 @@
+/* GUZEY'S EXACT CSS - EXTRACTED FROM HIS SITE */
+
+/* FROM: https://guzey.com/css/style.css */
+html {
+  font-size: 0.95em;
+}
+body {
+  color: #121212;
+  overflow-y: scroll;
+  font-weight: 400;
+  line-height: 1.5;
+    font-family: 'Encode Sans', sans-serif;
+/* Heading numbering from http://2ality.com/2012/01/numbering-headingshtml.html*/
+/*    counter-reset: h2counter;*/
+    counter-reset: h2counter sidenote-counter;
+}
+/* THIS IS MY STUFF */
+::selection {
+    /* background: #fff999; */
+    background: #ffd1dc;
+    text-shadow: none;
+}
+.post-date {
+  display: block;
+  margin-bottom: 1rem;
+  margin-left: 0.5rem;
+  color: #9a9a9a;
+}
+/* explains heading*/
+.hexplain {
+    font-size: 0.65em;
+}
+.social-links {
+    padding: 0;
+    text-align: center;
+}
+.social-links li {
+    display: inline-block;
+}
+.social-links li .icon {
+    width: 50px;
+    height: 50px;
+    fill: #4C4C4C;
+}
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    margin-left: 8px;
+}
+
+h1 {
+    counter-reset: h2counter;
+    font-family: 'Dosis';
+    font-size: 36px;
+    /* margin-left: 0.5rem; */
+}
+
+h2 {
+    counter-reset: h3counter;
+    font-family: 'Dosis';
+    font-size: 28px;
+    margin-top: 24px;
+    /* color: #bf919c; */
+    /* margin-left: 0.5rem; */
+    border-left: 8px solid #ffd1dc;
+    padding-left: 12px;
+    margin-left: -12px;
+}
+
+h2:before {
+        content: counter(h2counter) ".\0000a0";
+        counter-increment: h2counter;
+}
+
+h2.nocount:before {
+        content: none;
+        counter-increment: none;
+    }
+
+h3 {
+    counter-reset: h4counter;
+    border-left: 4px solid #ffd1dc;
+    padding-left: 12px;
+    margin-left: -8px;
+}
+
+h3:before {
+        content: counter(h2counter) "." counter(h3counter) ".\0000a0";
+        counter-increment: h3counter;
+}
+
+h3.nocount:before {
+        content: none;
+        counter-increment: none;
+    }
+
+h4 {
+    counter-reset: h5counter;
+}
+
+h4:before {
+        content: counter(h2counter) "." counter(h3counter) "." counter(h4counter) ".\0000a0";
+        counter-increment: h4counter;
+}
+
+p {
+    margin: 0.5rem;
+}
+
+ol {
+    margin-top: 0rem;
+    overflow: hidden;
+}
+
+ul {
+    margin-top: 0rem;
+    overflow: hidden;
+}
+
+.right_float {
+    max-width: 400px;
+    float: right;
+    clear: right;
+  padding: 4px;
+  margin-right: 10px;
+    margin-left: 10px;
+  margin-bottom: 10px;
+  border: solid 2px #ffd1dc;
+  line-height: 20px;
+  border-radius: 6px;
+  box-shadow: 1px 2px 2px 0px rgba(0, 0, 255, .2);
+}
+
+figure {
+    display: block;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+
+/* highlight ouside links for debugging; comment out before deploying*/
+/*
+a[href*='//'] {
+    color: #d06920;
+}
+*/
+
+.highlight_pink {
+  text-decoration: underline;
+  text-decoration-color: #ffa4a4;
+}
+
+.highlight_blue {
+    text-decoration: underline;
+    text-decoration-color: #a4a4ff;
+}
+
+.min {
+    color: #0000ff;
+    font-weight: 700;   
+}
+
+.med {
+    color: #00cc00;
+    font-weight: 700;   
+}
+
+.max {
+    color: #ff0000;
+    font-weight: 700;   
+}
+/* MY STUFF ENDS*/
+/* ------------------------------------------------------------- */
+a {
+  color: #121212;
+  text-decoration: underline;
+}
+a:hover, a:active {
+  /* color: #5090ff; */
+  text-decoration: underline;
+}
+hr {
+  height: 9px;
+	background: url(../files/hrcross.png) repeat-x 0 0;
+    border: 0;
+}
+hr.cross {
+	height: 9px;
+	background: url(../files/hrcross.png) repeat-x 0 0;
+    border: 0;
+}
+pre, code {
+  font-family: monospace, serif;
+  background-color: lightgray;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+pre {
+  margin-left: 8px;
+  margin-right: 8px;
+  padding: 12px;
+  overflow: auto;
+}
+blockquote {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  margin-left: 32px;
+  margin-right: 32px;
+  padding-left: 8px;
+  border-left: 3px solid gray;
+}
+dl dt {
+  font-weight: bold;
+}
+dl dd {
+  margin-left: 16px;
+}
+img {
+  height: auto;
+  width: auto;
+  max-width: 100%;
+}
+.main {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.breadcrumb {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.site-header {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.site-navi {
+  font-family: 'Dosis';
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-top: 16px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.site-navi a {
+  /* color: rgb(186, 153, 167); */
+  text-decoration: none;
+  font-weight: 500;
+}
+.site-navi a:hover, .site-navi a:active {
+  text-decoration: underline;
+}
+.site-title {
+  -webkit-flex-grow: 1;
+  flex-grow: 1;
+  font-size: 1.7rem;
+  margin: 0;
+}
+.site-title a {
+  color: inherit;
+}
+.site-navi-items {
+  -webkit-flex-grow: 0;
+  flex-grow: 0;
+  display: -webkit-flex;
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.site-navi-items li {
+  font-size: 1.2rem;
+  padding-left: 20px;
+  white-space: nowrap;
+}
+.site-header-bottom {
+  margin-top: 0;
+  margin-bottom: 8px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 800px;
+  /* background: #e5e5e5; */
+  border-top: 3px solid #ffd1dc;
+  height: 3px;
+}
+.site-footer {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 24px;
+  padding-left: 8px;
+  padding-right: 8px;
+  text-align: center;
+}
+.list .list-title {
+  font-size: 32px;
+  color: gray;
+}
+.list .list-item {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 32px;
+}
+.article-title {
+  margin-left: 0.5rem;
+    margin-top: 10px;
+  padding: 0;
+}
+.article-subtitle {
+  margin-left: 0.5rem;
+  margin-top: 5px;
+  color: gray;
+}
+.article-title-series {
+  margin: 0;
+  padding: 0;
+}
+.article-title-series a {
+  color: inherit;
+}
+.article-title-series a:hover, .article-title-series a:active {
+  color: gray;
+}
+.article-title-bottom {
+  margin-top: 5px;
+}
+.about .article-title-bottom {
+  margin-bottom: 40px;
+}
+.article .article-meta {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  margin-top: 12px;
+  margin-bottom: 32px;
+}
+.article .article-meta li {
+  display: inline-block;
+  margin-right: 16px;
+  color: gray;
+}
+.article .article-meta a {
+  color: gray;
+}
+.article .article-meta a:hover, .article .article-meta a:active {
+  color: inherit;
+}
+.list .article-titles {
+  color: inherit;
+}
+.list .article-titles:hover, .list .article-titles:active {
+  color: gray;
+}
+.list .article-meta {
+  margin-top: 6px;
+  margin-bottom: 15px;
+  color: gray;
+  font-size: 14px;
+}
+.footer .poweredby {
+  margin-top: 12px;
+  font-size: 0.8rem;
+  color: gray;
+}
+.pagination {
+  list-style-type: none;
+  text-align: center;
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+.pagination li {
+  margin: 0;
+  display: inline-block;
+  margin-right: 8px;
+}
+.pagination a {
+  display: block;
+  padding: 4px 8px;
+  text-decoration: none;
+  border: 1px solid gray;
+  color: gray;
+}
+.pagination a:hover, .pagination a:active {
+  color: white;
+  background-color: gray;
+}
+.pagination .current {
+  color: white;
+  background-color: gray;
+}
+.toc_outside {
+  
+  position: absolute;
+  overflow: visible;
+  left: -420px;
+
+}
+
+.toc {
+  float: left;
+  clear: left;
+  z-index: 10;
+  padding: 4px;
+  /* margin-left: calc(100%); */
+  border: solid 2px #ffd1dc;
+  border-radius: 6px;
+  box-shadow: 1px 2px 2px 0px rgba(0, 0, 255, .2);
+  background-color: white;
+  max-width: 350px;
+  overflow: visible;
+}
+.toc a {
+  text-decoration: none;  
+}
+.toc a:hover {
+  text-decoration: underline;
+  
+}
+.toc ul {
+  list-style-type: none;
+  padding: 0;
+  padding-left: 12px;
+  margin: 0;
+    counter-reset: toccounter;
+}
+
+.toc ul li {
+  list-style-type: none;
+  font-weight: 700;
+  padding: 0;
+  padding-left: 12px;
+  margin: 0;
+    margin-bottom: 4px;
+}
+
+.toc ul li:before {
+  content: counter(toccounter) ".\0000a0";
+  counter-increment: toccounter;
+}
+
+.toc ul li ul li:before {
+        content: counter(toccounter) ".\0000a0";
+        counter-increment: toccounter;
+}
+
+.toc ul li ul li {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.toc ul li ul li ul li {
+    display: none;
+}
+
+.toc nav > ul {
+  padding-left: 0;
+}
+
+
+.notable {
+  float: left;
+  clear: left;
+  padding: 4px;
+  margin-left: -290px;
+  position: absolute;
+  border: solid 2px #ffd1dc;
+  border-radius: 6px;
+  box-shadow: 1px 2px 2px 0px rgba(0, 0, 255, .2);
+  background-color: white;
+  max-width: 250px;
+  overflow: visible;
+  z-index: 10;
+}
+.notable a {
+  text-decoration: none;
+  
+}
+.notable a:hover {
+  text-decoration: underline;
+  
+}
+.notable ul {
+  list-style-type: none;
+  padding: 0;
+  padding-left: 12px;
+  margin: 0;
+    counter-reset: toccounter;
+}
+
+/* Sidenotes system - from Guzey's custom.css */
+.sidenote, .marginnote { 
+    float: right;
+    clear: right;
+    margin-right: -25%;
+    width: 20%;
+    margin-top: 0px;
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+    vertical-align: baseline;
+    position: relative; 
+}
+
+.sidenote-number { 
+    counter-increment: sidenote-counter; 
+}
+
+.sidenote-number:after, .sidenote:before { 
+    font-family: 'Dosis', sans-serif;
+    position: relative;
+    vertical-align: baseline;
+    margin-left: -0.2em;
+    margin-right: 0.3em;
+    font-weight: 700;
+    color: #ffa1ac;
+}
+
+.sidenote-number:after { 
+    content: counter(sidenote-counter);
+    font-size: 1rem;
+    top: -0.5rem;
+    left: 0.1rem;
+}
+
+.sidenote:before { 
+    content: counter(sidenote-counter) " ";
+    top: -0.5rem; 
+}
+
+blockquote .sidenote, blockquote .marginnote { 
+    margin-right: -82%;
+    min-width: 59%;
+    text-align: left; 
+}
+
+label.sidenote-number { 
+    display: inline; 
+}
+
+input.margin-toggle { 
+    display: none; 
+}
+
+label.margin-toggle:not(.sidenote-number) { 
+    display: none; 
+}
+
+/* Responsive design */
+@media (max-width: 1600px) {
+  .toc_outside {
+  
+    position: relative;
+    left: 0px;
+    min-width: 97%;
+  }
+
+    .toc {
+ min-width: 96%;
+    float: left;
+    clear: right;
+  padding: 4px;
+  border: solid 2px #ffd1dc;
+  border-radius: 6px;
+  box-shadow: 1px 2px 2px 0px rgba(0, 0, 255, .2);
+  background-color: white;
+  max-width: none;
+  overflow: visible;
+    }
+
+  .notable {
+    display: none;
+  }
+}
+
+@media (max-width: 1300px) {
+  .toc_outside {
+  
+    position: relative;
+    min-width: 97%;
+    /* margin-left: calc(470px); */
+  }
+    .toc {
+ min-width: 97%;
+    float: left;
+    clear: right;
+/*        position: relative;*/
+  padding: 0px;
+  border: solid 2px #ffd1dc;
+  border-radius: 6px;
+  box-shadow: 1px 2px 2px 0px rgba(0, 0, 255, .2);
+  background-color: white;
+  max-width: none;
+  overflow: visible;
+    }
+
+  .notable {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .site-header, .site-header-bottom, .main, .breadcrumb, .site-footer {
+    width: 98%;
+    box-sizing: border-box;
+  }
+  .site-navi {
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
+  .site-title {
+    width: 100%;
+  }
+  .site-navi-items {
+    width: 100%;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+  }
+}
+
+/* Mobile responsiveness for sidenotes */
+@media (max-width: 1300px) {
+    label.margin-toggle:not(.sidenote-number) { 
+        display: inline; 
+    }
+    .sidenote, .marginnote { 
+        display: none; 
+    }
+    .margin-toggle:checked + .sidenote,
+    .margin-toggle:checked + .marginnote { 
+        display: block;
+        float: left;
+        left: 1rem;
+        clear: both;
+        width: 95%;
+        margin: 1rem 2.5%;
+        vertical-align: baseline;
+        position: relative; 
+    }
+}
+/* ============================================
+   NEW COMPONENT STYLES FOR BLOG/PROJECTS
+   ============================================ */
+
+/* Post previews for blog index */
+.post-preview {
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.post-preview:last-child {
+  border-bottom: none;
+}
+
+.post-preview h2,
+.post-preview h3 {
+  margin-bottom: 0.3rem;
+  border: none;
+  margin-left: 0;
+  padding-left: 0;
+  font-family: 'Dosis';
+  font-size: 24px;
+}
+
+/* Disable numbering on post preview headings */
+.post-preview h2:before,
+.post-preview h3:before {
+  content: none;
+  counter-increment: none;
+}
+
+.post-meta {
+  color: #9a9a9a;
+  font-size: 0.9em;
+  margin: 0.3rem 0.5rem;
+  display: block;
+}
+
+.post-excerpt {
+  margin-top: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.tag {
+  background: #f4f4f4;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.85em;
+  margin-right: 0.3rem;
+}
+
+/* Project cards */
+.project {
+  margin-bottom: 3.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid #ffd1dc;
+}
+
+.project:last-child {
+  border-bottom: none;
+}
+
+.project-meta {
+  color: #9a9a9a;
+  font-size: 0.9em;
+  margin: 0.5rem 0.5rem 1rem 0.5rem;
+}
+
+.project-meta span {
+  margin-right: 1rem;
+}
+
+.project-type {
+  background: #ffd1dc;
+  color: #333;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+
+.project-status {
+  background: #e8f4e8;
+  color: #2d5016;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+
+.project-description {
+  margin: 1rem 0.5rem;
+  font-size: 1.05em;
+}
+
+.project-links {
+  margin: 1rem 0.5rem;
+}
+
+.project-links a {
+  margin-right: 1.5rem;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.project-features {
+  background: #f9f9f9;
+  padding: 1rem 1.5rem;
+  border-left: 4px solid #ffd1dc;
+  margin: 1.5rem 0.5rem;
+}
+
+.project-features h3 {
+  margin-top: 0;
+  border: none;
+  padding-left: 0;
+  margin-left: 0;
+}
+
+/* Testimonials */
+.testimonial {
+  margin-bottom: 2rem;
+  border-left: 4px solid #ffd1dc;
+  padding-left: 1.5rem;
+}
+
+.testimonial blockquote {
+  border: none;
+  margin: 0;
+  padding: 0;
+  font-style: italic;
+}
+
+.testimonial blockquote p {
+  margin-top: 0;
+}
+
+.testimonial-meta {
+  margin-top: 0.5rem;
+  margin-left: 0.5rem;
+  color: #666;
+  font-size: 0.9em;
+}
+
+.rating {
+  color: #ffa1ac;
+  margin-left: 0.5rem;
+  font-size: 1.1em;
+}
+
+/* Calendly integration */
+.calendly-inline-widget {
+  margin: 2rem 0.5rem;
+  min-height: 630px;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+}
+
+/* Featured project cards on homepage */
+.project-card {
+  background: #f9f9f9;
+  border-left: 4px solid #ffd1dc;
+  padding: 1.5rem;
+  margin: 1rem 0.5rem;
+}
+
+.project-card h3 {
+  margin-top: 0;
+  border: none;
+  padding-left: 0;
+  margin-left: 0;
+}
+
+.project-card a {
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 760px) {
+  .post-preview h2,
+  .post-preview h3 {
+    font-size: 20px;
+  }
+
+  .project-meta span {
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+}
