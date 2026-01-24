@@ -751,6 +751,180 @@
             }
         }
 
+        /* Seasonal Mode Styles */
+        .seasonal-container {
+            margin: 1rem 0.5rem;
+        }
+        .seasonal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .seasonal-selector {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .seasonal-btn {
+            padding: 0.75rem 1.25rem;
+            border: 2px solid #e5e5e5;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 90px;
+        }
+        .seasonal-btn:hover {
+            border-color: #ffd1dc;
+        }
+        .seasonal-btn.active {
+            border-color: var(--season-color, #ffd1dc);
+            background: var(--season-bg, #fff5f7);
+        }
+        .seasonal-btn .season-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+        .seasonal-btn .season-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .seasonal-btn .season-months {
+            font-size: 0.7rem;
+            color: #666;
+        }
+        .seasonal-btn[data-season="spring"] { --season-color: #4caf50; --season-bg: #e8f5e9; }
+        .seasonal-btn[data-season="summer"] { --season-color: #ff9800; --season-bg: #fff3e0; }
+        .seasonal-btn[data-season="fall"] { --season-color: #f44336; --season-bg: #ffebee; }
+        .seasonal-btn[data-season="winter"] { --season-color: #2196f3; --season-bg: #e3f2fd; }
+        .seasonal-info {
+            background: #f9f9f9;
+            border-left: 4px solid var(--season-color, #ffd1dc);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+        .seasonal-info h3 {
+            margin: 0 0 0.5rem 0;
+            padding: 0;
+            border: none;
+            color: var(--season-color, #333);
+        }
+        .seasonal-info h3:before { content: none; }
+        .seasonal-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .seasonal-feature {
+            background: white;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        .seasonal-feature.primary {
+            border-color: var(--season-color, #ffd1dc);
+            border-width: 2px;
+        }
+        .seasonal-feature h4 {
+            margin: 0 0 0.5rem 0;
+            padding: 0;
+            border: none;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .seasonal-feature h4:before { content: none; }
+        .seasonal-feature.primary h4 {
+            color: var(--season-color, #333);
+        }
+        .seasonal-feature p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .seasonal-tree-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+        .seasonal-tree-card {
+            background: white;
+            border: 2px solid #e5e5e5;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .seasonal-tree-card:hover {
+            border-color: #ffd1dc;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .seasonal-tree-header {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            align-items: center;
+        }
+        .seasonal-tree-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        .seasonal-tree-info h4 {
+            margin: 0;
+            padding: 0;
+            border: none;
+            font-size: 1.1rem;
+        }
+        .seasonal-tree-info h4:before { content: none; }
+        .seasonal-tree-info .latin {
+            font-style: italic;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .seasonal-tip {
+            background: var(--season-bg, #f9f9f9);
+            padding: 1rem;
+            border-top: 1px solid #e5e5e5;
+        }
+        .seasonal-tip-label {
+            font-weight: 600;
+            color: var(--season-color, #333);
+            font-size: 0.85rem;
+            margin-bottom: 0.25rem;
+        }
+        .seasonal-tip-text {
+            font-size: 0.95rem;
+        }
+        body.dark-mode .seasonal-btn {
+            background: #2d2d2d;
+            border-color: #444;
+        }
+        body.dark-mode .seasonal-info {
+            background: #2d2d2d;
+        }
+        body.dark-mode .seasonal-feature {
+            background: #333;
+            border-color: #444;
+        }
+        body.dark-mode .seasonal-tree-card {
+            background: #2d2d2d;
+            border-color: #444;
+        }
+        body.dark-mode .seasonal-tip {
+            border-color: #444;
+        }
+
         /* Tree Images */
         .tree-card-image {
             width: 100%;
@@ -1084,6 +1258,7 @@
         <div class="tree-controls">
             <div class="view-toggle">
                 <button id="btn-browse" class="active" onclick="setView('browse')">Browse</button>
+                <button id="btn-seasonal" onclick="setView('seasonal')">Seasonal</button>
                 <button id="btn-phylogeny" onclick="setView('phylogeny')">Phylogeny</button>
                 <button id="btn-compare" onclick="setView('compare')">Compare</button>
                 <button id="btn-identify" onclick="setView('identify')">Identify</button>
@@ -1125,6 +1300,21 @@
         <!-- Browse View -->
         <div id="view-browse">
             <div class="tree-grid" id="tree-grid"></div>
+        </div>
+
+        <!-- Seasonal View -->
+        <div id="view-seasonal" style="display: none;">
+            <div class="seasonal-container">
+                <div class="seasonal-header">
+                    <div>
+                        <h2 class="nocount" style="margin: 0;">Seasonal Identification</h2>
+                        <p style="margin: 0.5rem 0 0 0; color: #666;">Focus on features visible right now</p>
+                    </div>
+                    <div class="seasonal-selector" id="seasonal-selector"></div>
+                </div>
+                <div class="seasonal-info" id="seasonal-info"></div>
+                <div class="seasonal-tree-grid" id="seasonal-tree-grid"></div>
+            </div>
         </div>
 
         <!-- Phylogeny View -->
@@ -2214,6 +2404,7 @@
         document.getElementById('btn-' + view).classList.add('active');
 
         document.getElementById('view-browse').style.display = view === 'browse' ? 'block' : 'none';
+        document.getElementById('view-seasonal').style.display = view === 'seasonal' ? 'block' : 'none';
         document.getElementById('view-phylogeny').style.display = view === 'phylogeny' ? 'block' : 'none';
         document.getElementById('view-compare').style.display = view === 'compare' ? 'block' : 'none';
         document.getElementById('view-identify').style.display = view === 'identify' ? 'block' : 'none';
@@ -2228,6 +2419,9 @@
         }
         if (view === 'compare') {
             renderCompare();
+        }
+        if (view === 'seasonal') {
+            renderSeasonal();
         }
     }
 
@@ -3654,6 +3848,175 @@
     // Get commonality rating for a tree
     function getCommonality(treeId) {
         return treeCommonality[treeId]?.rating || 3;
+    }
+
+    // Seasonal Mode Data
+    const seasonalData = {
+        spring: {
+            name: "Spring",
+            months: "Mar-May",
+            icon: "🌸",
+            color: "#4caf50",
+            description: "Spring is prime time for flower identification. Many trees bloom before leaves emerge, making flowers highly visible.",
+            primaryFeatures: [
+                { name: "Flowers", icon: "🌺", desc: "Many trees flower in spring - look for catkins, showy blooms, or subtle clusters" },
+                { name: "Emerging Leaves", icon: "🌱", desc: "Watch leaf buds break and unfurl - color and timing are diagnostic" }
+            ],
+            secondaryFeatures: [
+                { name: "Bark", icon: "🪵", desc: "Still visible before full leaf-out" },
+                { name: "Early Fruit", icon: "🍂", desc: "Maple samaras develop in spring" }
+            ],
+            tipField: "spring_tip",
+            imageType: "tree" // Best image type for this season
+        },
+        summer: {
+            name: "Summer",
+            months: "Jun-Aug",
+            icon: "☀️",
+            color: "#ff9800",
+            description: "Full foliage makes leaf identification ideal. Focus on leaf shape, arrangement, and texture. Bark is partially obscured.",
+            primaryFeatures: [
+                { name: "Leaf Shape", icon: "🍃", desc: "Full-sized leaves - examine lobes, margins, and venation patterns" },
+                { name: "Leaf Arrangement", icon: "🌿", desc: "Opposite vs alternate branching is clearly visible" }
+            ],
+            secondaryFeatures: [
+                { name: "Developing Fruit", icon: "🫐", desc: "Acorns, nuts, and berries forming" },
+                { name: "Overall Form", icon: "🌳", desc: "Crown shape and branching pattern" }
+            ],
+            tipField: "summer_tip",
+            imageType: "leaf"
+        },
+        fall: {
+            name: "Fall",
+            months: "Sep-Nov",
+            icon: "🍂",
+            color: "#f44336",
+            description: "Fall color is highly diagnostic, especially for maples and oaks. Mature fruits and seeds are ready for identification.",
+            primaryFeatures: [
+                { name: "Fall Color", icon: "🍁", desc: "Brilliant colors are species-specific - reds, oranges, yellows, or browns" },
+                { name: "Mature Fruit", icon: "🌰", desc: "Acorns, nuts, samaras, and berries are fully developed" }
+            ],
+            secondaryFeatures: [
+                { name: "Leaf Shape", icon: "🍃", desc: "Still visible until leaf drop" },
+                { name: "Seed Dispersal", icon: "💨", desc: "Watch for wind-dispersed seeds" }
+            ],
+            tipField: "fall_tip",
+            imageType: "fruit"
+        },
+        winter: {
+            name: "Winter",
+            months: "Dec-Feb",
+            icon: "❄️",
+            color: "#2196f3",
+            description: "With leaves gone, focus on bark patterns, bud shapes, and overall silhouette. This is the true test of tree ID skills!",
+            primaryFeatures: [
+                { name: "Bark", icon: "🪵", desc: "Texture, color, and pattern are fully visible - furrows, plates, peeling, smooth" },
+                { name: "Buds", icon: "🌱", desc: "Terminal and lateral bud shape, color, and arrangement" }
+            ],
+            secondaryFeatures: [
+                { name: "Silhouette", icon: "🌲", desc: "Branching pattern and overall form without leaves" },
+                { name: "Persistent Features", icon: "🍂", desc: "Some trees hold leaves or fruits into winter" }
+            ],
+            tipField: "winter_tip",
+            imageType: "bark"
+        }
+    };
+
+    let currentSeason = getCurrentSeason();
+
+    function getCurrentSeason() {
+        const month = new Date().getMonth(); // 0-11
+        if (month >= 2 && month <= 4) return 'spring';
+        if (month >= 5 && month <= 7) return 'summer';
+        if (month >= 8 && month <= 10) return 'fall';
+        return 'winter';
+    }
+
+    function renderSeasonal(season = currentSeason) {
+        currentSeason = season;
+        const data = seasonalData[season];
+
+        // Render season selector
+        const selector = document.getElementById('seasonal-selector');
+        selector.innerHTML = Object.entries(seasonalData).map(([key, s]) => `
+            <button class="seasonal-btn ${key === season ? 'active' : ''}"
+                    data-season="${key}"
+                    onclick="renderSeasonal('${key}')"
+                    style="${key === season ? `--season-color: ${s.color}; --season-bg: ${s.color}15;` : ''}">
+                <span class="season-icon">${s.icon}</span>
+                <span class="season-name">${s.name}</span>
+                <span class="season-months">${s.months}</span>
+            </button>
+        `).join('');
+
+        // Render season info
+        const info = document.getElementById('seasonal-info');
+        info.style.setProperty('--season-color', data.color);
+        info.innerHTML = `
+            <h3>${data.icon} ${data.name} Identification Guide</h3>
+            <p>${data.description}</p>
+            <div class="seasonal-features">
+                ${data.primaryFeatures.map(f => `
+                    <div class="seasonal-feature primary" style="--season-color: ${data.color};">
+                        <h4>${f.icon} ${f.name} <span style="background: ${data.color}; color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem;">PRIMARY</span></h4>
+                        <p>${f.desc}</p>
+                    </div>
+                `).join('')}
+                ${data.secondaryFeatures.map(f => `
+                    <div class="seasonal-feature">
+                        <h4>${f.icon} ${f.name}</h4>
+                        <p>${f.desc}</p>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+
+        // Render trees with seasonal tips
+        const grid = document.getElementById('seasonal-tree-grid');
+
+        // Sort by commonality and filter to prioritize trees with good seasonal features
+        const sortedTrees = [...trees].sort((a, b) => {
+            // Prioritize common trees
+            const commonDiff = getCommonality(b.id) - getCommonality(a.id);
+            if (commonDiff !== 0) return commonDiff;
+            return a.name.localeCompare(b.name);
+        });
+
+        grid.innerHTML = sortedTrees.map(tree => {
+            const tip = tree[data.tipField] || "Observe carefully using the features above.";
+            const img = getTreeImage(tree.id, data.imageType);
+            const commonality = treeCommonality[tree.id];
+
+            return `
+                <div class="seasonal-tree-card" onclick="goToTreeFromSeasonal(${tree.id})"
+                     style="--season-color: ${data.color}; --season-bg: ${data.color}15;">
+                    <div class="seasonal-tree-header">
+                        <img class="seasonal-tree-img" src="${img}" alt="${tree.name}" onerror="this.src='${getTreeImage(tree.id, 'leaf')}'">
+                        <div class="seasonal-tree-info">
+                            <h4>${tree.name}</h4>
+                            <div class="latin">${tree.scientific}</div>
+                            ${renderCommonalityBadge(tree.id)}
+                        </div>
+                    </div>
+                    <div class="seasonal-tip">
+                        <div class="seasonal-tip-label">${data.icon} ${data.name} ID Tip:</div>
+                        <div class="seasonal-tip-text">${tip}</div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function goToTreeFromSeasonal(treeId) {
+        setView('browse');
+        setTimeout(() => {
+            expandedCard = treeId;
+            renderTreeGrid();
+            const card = document.querySelector(`[data-tree-id="${treeId}"]`);
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }, 100);
     }
 
     // Quiz Persistence
