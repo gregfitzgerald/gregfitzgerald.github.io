@@ -9,6 +9,15 @@
     <link href="https://fonts.googleapis.com/css?family=Dosis:500" rel="stylesheet">
     <link rel="stylesheet" href="../style.css">
     <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+
+    <!-- PWA Configuration -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2d5016">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Troy Trees">
+
     <style>
         /* Tree Guide Specific Styles */
         .tree-controls {
@@ -509,6 +518,40 @@
             }
             .image-gallery {
                 grid-template-columns: repeat(2, 1fr);
+            }
+
+            /* PWA Mobile Touch Improvements */
+            .view-toggle button {
+                min-height: 44px;
+                min-width: 44px;
+                padding: 0.75rem 1rem;
+            }
+            .quiz-btn {
+                min-height: 48px;
+                padding: 0.75rem 1.5rem;
+                font-size: 1.1rem;
+            }
+            .quiz-option {
+                min-height: 48px;
+                padding: 1rem;
+            }
+            .tree-controls select,
+            .tree-controls input {
+                min-height: 44px;
+                font-size: 16px; /* Prevents iOS zoom on focus */
+            }
+            .practice-option {
+                min-height: 48px;
+                padding: 1rem;
+            }
+            .filter-tag {
+                min-height: 36px;
+                padding: 0.5rem 0.75rem;
+            }
+            .lightbox-close,
+            .lightbox-nav {
+                min-width: 48px;
+                min-height: 48px;
             }
         }
     </style>
@@ -2384,6 +2427,21 @@
         if (e.key === 'ArrowLeft') navLightbox(-1);
         if (e.key === 'ArrowRight') navLightbox(1);
     });
+    </script>
+
+    <!-- Service Worker Registration -->
+    <script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw.js')
+                .then(registration => {
+                    console.log('SW registered:', registration.scope);
+                })
+                .catch(error => {
+                    console.log('SW registration failed:', error);
+                });
+        });
+    }
     </script>
 </body>
 </html>
