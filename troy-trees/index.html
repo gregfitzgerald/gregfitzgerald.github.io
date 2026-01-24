@@ -396,11 +396,38 @@
             background: #f0f0f0;
             position: relative;
         }
+        /* Loading spinner for images */
+        .tree-card-image::before,
+        .image-gallery-item::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 24px;
+            height: 24px;
+            margin: -12px 0 0 -12px;
+            border: 3px solid #e0e0e0;
+            border-top-color: #ffd1dc;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            z-index: 1;
+        }
+        .tree-card-image.loaded::before,
+        .image-gallery-item.loaded::before {
+            display: none;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
         .tree-card-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.3s;
+            transition: transform 0.3s, opacity 0.3s;
+            opacity: 0;
+        }
+        .tree-card-image img.loaded {
+            opacity: 1;
         }
         .tree-card:hover .tree-card-image img {
             transform: scale(1.05);
@@ -554,6 +581,104 @@
                 min-height: 48px;
             }
         }
+
+        /* Dark Mode */
+        body.dark-mode {
+            background: #1a1a1a;
+            color: #e0e0e0;
+        }
+        body.dark-mode .tree-card {
+            background: #2d2d2d;
+            border-color: #444;
+        }
+        body.dark-mode .tree-card:hover {
+            border-color: #ffd1dc;
+        }
+        body.dark-mode .tree-card-header {
+            background: linear-gradient(135deg, #333 0%, #2d2d2d 100%);
+            border-color: #444;
+        }
+        body.dark-mode .tree-card-body,
+        body.dark-mode .tree-details {
+            background: #2d2d2d;
+        }
+        body.dark-mode .tree-controls {
+            background: #2d2d2d;
+        }
+        body.dark-mode .tree-controls select,
+        body.dark-mode .tree-controls input {
+            background: #1a1a1a;
+            color: #e0e0e0;
+            border-color: #444;
+        }
+        body.dark-mode .view-toggle button {
+            background: #2d2d2d;
+            color: #e0e0e0;
+            border-color: #444;
+        }
+        body.dark-mode .view-toggle button.active,
+        body.dark-mode .view-toggle button:hover {
+            background: #ffd1dc;
+            color: #1a1a1a;
+        }
+        body.dark-mode .quiz-option,
+        body.dark-mode .id-choice {
+            background: #2d2d2d;
+            border-color: #444;
+        }
+        body.dark-mode .quiz-option:hover,
+        body.dark-mode .id-choice:hover {
+            border-color: #ffd1dc;
+        }
+        body.dark-mode .detail-section h4 {
+            color: #e0e0e0;
+        }
+        body.dark-mode .progress-section {
+            background: #2d2d2d;
+        }
+        body.dark-mode .id-step {
+            background: #2d2d2d;
+        }
+        .dark-toggle {
+            background: none;
+            border: 2px solid #ffd1dc;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Dosis', sans-serif;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .dark-toggle:hover {
+            background: #ffd1dc;
+        }
+        body.dark-mode .dark-toggle {
+            color: #e0e0e0;
+        }
+
+        /* Print Stylesheet */
+        @media print {
+            .tree-controls, .progress-section, .view-toggle, .dark-toggle,
+            .lightbox, .site-header, .site-header-bottom, #quiz-section,
+            #practice-section, #id-key-section {
+                display: none !important;
+            }
+            .tree-card {
+                break-inside: avoid;
+                page-break-inside: avoid;
+                border: 1px solid #ccc;
+                margin: 0.5rem 0;
+            }
+            .tree-card.expanded .tree-details {
+                display: block;
+            }
+            .tree-grid {
+                display: block;
+            }
+            body {
+                font-size: 10pt;
+            }
+        }
     </style>
 </head>
 <body>
@@ -620,6 +745,7 @@
                 <label for="search">Search:</label>
                 <input type="text" id="search" placeholder="Name or family..." oninput="filterTrees()">
             </div>
+            <button class="dark-toggle" onclick="toggleDarkMode()" title="Toggle dark mode">Dark Mode</button>
         </div>
 
         <!-- Browse View -->
@@ -629,8 +755,16 @@
 
         <!-- Identification Key View -->
         <div id="view-identify" style="display: none;">
-            <h2 class="nocount">Dichotomous Key</h2>
-            <p>Answer questions about the tree you're trying to identify. Start with the most obvious features first.</p>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <h2 class="nocount" style="margin-bottom: 0;">Dichotomous Key</h2>
+                    <p style="margin: 0.5rem 0;">Answer questions about the tree you're trying to identify.</p>
+                </div>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <span id="id-match-count" style="background: #d4edda; padding: 0.5rem 1rem; border-radius: 4px; font-weight: bold;"></span>
+                    <button class="quiz-btn" style="padding: 8px 16px; font-size: 14px;" onclick="initIdentificationKey()">Start Over</button>
+                </div>
+            </div>
             <div class="id-key" id="id-key"></div>
             <div id="id-results" style="display: none;">
                 <h3 class="nocount">Possible Matches</h3>
@@ -1701,9 +1835,9 @@
         const isExpanded = expandedCard === tree.id;
 
         return `
-            <div class="tree-card ${isExpanded ? 'expanded' : ''}" onclick="toggleCard(${tree.id})">
+            <div class="tree-card ${isExpanded ? 'expanded' : ''}" data-tree-id="${tree.id}" onclick="toggleCard(${tree.id})">
                 <div class="tree-card-image">
-                    <img src="${getTreeImage(tree.id, 'leaf')}" alt="${tree.name}" loading="lazy" onerror="this.parentElement.style.display='none'">
+                    <img src="${getTreeImage(tree.id, 'leaf')}" alt="${tree.name}" loading="lazy" onload="handleImageLoad(this)" onerror="handleImageError(this)">
                     <span class="img-credit">VT Dendrology</span>
                 </div>
                 <div class="tree-card-header">
@@ -1723,19 +1857,19 @@
                         <h4>Photo Gallery</h4>
                         <div class="image-gallery">
                             <div class="image-gallery-item" onclick="event.stopPropagation(); openLightbox(${tree.id}, 'leaf')">
-                                <img src="${getTreeImage(tree.id, 'leaf')}" alt="${tree.name} leaf" loading="lazy" onerror="this.parentElement.style.display='none'">
+                                <img src="${getTreeImage(tree.id, 'leaf')}" alt="${tree.name} leaf" loading="lazy" onload="handleImageLoad(this)" onerror="handleImageError(this)">
                                 <span class="img-label">Leaf</span>
                             </div>
                             <div class="image-gallery-item" onclick="event.stopPropagation(); openLightbox(${tree.id}, 'bark')">
-                                <img src="${getTreeImage(tree.id, 'bark')}" alt="${tree.name} bark" loading="lazy" onerror="this.parentElement.style.display='none'">
+                                <img src="${getTreeImage(tree.id, 'bark')}" alt="${tree.name} bark" loading="lazy" onload="handleImageLoad(this)" onerror="handleImageError(this)">
                                 <span class="img-label">Bark</span>
                             </div>
                             <div class="image-gallery-item" onclick="event.stopPropagation(); openLightbox(${tree.id}, 'tree')">
-                                <img src="${getTreeImage(tree.id, 'tree')}" alt="${tree.name} full tree" loading="lazy" onerror="this.parentElement.style.display='none'">
+                                <img src="${getTreeImage(tree.id, 'tree')}" alt="${tree.name} full tree" loading="lazy" onload="handleImageLoad(this)" onerror="handleImageError(this)">
                                 <span class="img-label">Tree</span>
                             </div>
                             <div class="image-gallery-item" onclick="event.stopPropagation(); openLightbox(${tree.id}, 'fruit')">
-                                <img src="${getTreeImage(tree.id, 'fruit')}" alt="${tree.name} fruit/cone" loading="lazy" onerror="this.parentElement.style.display='none'">
+                                <img src="${getTreeImage(tree.id, 'fruit')}" alt="${tree.name} fruit/cone" loading="lazy" onload="handleImageLoad(this)" onerror="handleImageError(this)">
                                 <span class="img-label">Fruit/Cone</span>
                             </div>
                         </div>
@@ -1771,9 +1905,12 @@
                             <div class="id-feature"><strong>Ecological Role</strong>${tree.ecology}</div>
                         </div>
                     </div>
-                    <div style="margin-top: 1rem; text-align: center;">
+                    <div style="margin-top: 1rem; text-align: center; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
                         <button class="quiz-btn" onclick="event.stopPropagation(); toggleLearned(${tree.id})">
                             ${isLearned ? 'Mark as Not Learned' : 'Mark as Learned'}
+                        </button>
+                        <button class="quiz-btn" style="background: #e9ecef; color: #333;" onclick="event.stopPropagation(); shareTree(${tree.id})">
+                            Share Link
                         </button>
                     </div>
                 </div>
@@ -1982,6 +2119,16 @@
             );
         }
 
+        // Update match count display
+        const countEl = document.getElementById('id-match-count');
+        if (Object.keys(answers).length > 0) {
+            countEl.textContent = `${matches.length} possible match${matches.length !== 1 ? 'es' : ''}`;
+            countEl.style.background = matches.length <= 5 ? '#d4edda' : matches.length <= 10 ? '#fff3cd' : '#f8d7da';
+        } else {
+            countEl.textContent = `${trees.length} trees`;
+            countEl.style.background = '#e9ecef';
+        }
+
         if (Object.keys(answers).length > 0 && matches.length > 0 && matches.length <= 15) {
             resultsDiv.style.display = 'block';
             matchesDiv.innerHTML = matches.map(tree => createTreeCard(tree)).join('');
@@ -1991,9 +2138,14 @@
     }
 
     // Quiz Functions
-    function startQuiz() {
+    function startQuiz(forceNew = false) {
+        if (!forceNew && loadQuizProgress()) {
+            renderQuizQuestion();
+            return;
+        }
         const quizQuestions = generateQuizQuestions(10);
         quizState = { questions: quizQuestions, current: 0, score: 0 };
+        localStorage.removeItem('quizState');
         renderQuizQuestion();
     }
 
@@ -2008,6 +2160,12 @@
             const correctTree = trees[Math.floor(Math.random() * trees.length)];
 
             let question, correctAnswer, options;
+
+            // For fall_color questions, only use deciduous trees
+            if (type === 'fall_color' && correctTree.type === 'evergreen') {
+                const deciduousTrees = trees.filter(t => t.type === 'deciduous');
+                correctTree = deciduousTrees[Math.floor(Math.random() * deciduousTrees.length)];
+            }
 
             switch(type) {
                 case 'leaf':
@@ -2046,6 +2204,14 @@
                 }
             } else if (type === 'origin') {
                 options = ['Native', 'Introduced'];
+            } else if (type === 'fall_color') {
+                // Only use deciduous trees as wrong answers for fall color
+                const deciduousTrees = trees.filter(t => t.type === 'deciduous');
+                options = [correctAnswer];
+                while (options.length < 4) {
+                    const tree = deciduousTrees[Math.floor(Math.random() * deciduousTrees.length)];
+                    if (!options.includes(tree.name)) options.push(tree.name);
+                }
             } else {
                 options = [correctAnswer];
                 while (options.length < 4) {
@@ -2070,23 +2236,30 @@
         if (!q) {
             // Quiz complete
             const percent = Math.round((quizState.score / quizState.questions.length) * 100);
+            localStorage.removeItem('quizState');
             container.innerHTML = `
                 <h2 class="nocount">Quiz Complete!</h2>
                 <p class="quiz-score">You scored ${quizState.score} out of ${quizState.questions.length} (${percent}%)</p>
-                <button class="quiz-btn" onclick="startQuiz()">Try Again</button>
+                <button class="quiz-btn" onclick="startQuiz(true)">Try Again</button>
             `;
             return;
         }
 
         container.innerHTML = `
-            <p style="color: #666;">Question ${quizState.current + 1} of ${quizState.questions.length}</p>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                <p style="color: #666; margin: 0;">Question ${quizState.current + 1} of ${quizState.questions.length}</p>
+                <button class="quiz-btn" style="padding: 6px 12px; font-size: 12px;" onclick="startQuiz(true)">New Quiz</button>
+            </div>
             <p class="quiz-question">${q.question}</p>
             <div class="quiz-options">
-                ${q.options.map(opt => `
-                    <div class="quiz-option" onclick="answerQuiz('${opt.replace(/'/g, "\\'")}')">${opt}</div>
+                ${q.options.map((opt, i) => `
+                    <div class="quiz-option" onclick="answerQuiz('${opt.replace(/'/g, "\\'")}')">
+                        <span style="opacity: 0.5; margin-right: 8px;">${i + 1}.</span>${opt}
+                    </div>
                 `).join('')}
             </div>
             <p class="quiz-score">Score: ${quizState.score}</p>
+            <p style="color: #999; font-size: 0.85rem; text-align: center;">Tip: Press 1-4 on keyboard to answer</p>
         `;
     }
 
@@ -2109,6 +2282,7 @@
 
         setTimeout(() => {
             quizState.current++;
+            saveQuizProgress();
             renderQuizQuestion();
         }, 1500);
     }
@@ -2419,13 +2593,102 @@
         openLightbox(lightboxState.treeId, imageTypes[newIndex]);
     }
 
-    // Keyboard navigation for lightbox
-    document.addEventListener('keydown', (e) => {
-        if (!document.getElementById('lightbox').classList.contains('active')) return;
+    // Dark Mode Toggle
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        document.querySelector('.dark-toggle').textContent = isDark ? 'Light Mode' : 'Dark Mode';
+    }
 
-        if (e.key === 'Escape') closeLightbox();
-        if (e.key === 'ArrowLeft') navLightbox(-1);
-        if (e.key === 'ArrowRight') navLightbox(1);
+    // Initialize dark mode from localStorage
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+        document.querySelector('.dark-toggle').textContent = 'Light Mode';
+    }
+
+    // Share Tree Functionality
+    function shareTree(treeId) {
+        const tree = trees.find(t => t.id === treeId);
+        if (!tree) return;
+        const url = `${location.origin}${location.pathname}?tree=${treeId}`;
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(url).then(() => {
+                alert(`Link to ${tree.name} copied to clipboard!`);
+            });
+        } else {
+            prompt('Copy this link:', url);
+        }
+    }
+
+    // Check for shared tree on load
+    const urlParams = new URLSearchParams(window.location.search);
+    const sharedTreeId = urlParams.get('tree');
+    if (sharedTreeId) {
+        setTimeout(() => {
+            const card = document.querySelector(`[data-tree-id="${sharedTreeId}"]`);
+            if (card) {
+                card.click();
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }, 100);
+    }
+
+    // Quiz Persistence
+    function saveQuizProgress() {
+        if (quizState.questions && quizState.questions.length > 0) {
+            localStorage.setItem('quizState', JSON.stringify(quizState));
+        }
+    }
+
+    function loadQuizProgress() {
+        const saved = localStorage.getItem('quizState');
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                if (parsed.questions && parsed.current < parsed.questions.length) {
+                    quizState = parsed;
+                    return true;
+                }
+            } catch (e) {}
+        }
+        return false;
+    }
+
+    // Image Loading Handlers
+    function handleImageLoad(img) {
+        img.classList.add('loaded');
+        if (img.parentElement) {
+            img.parentElement.classList.add('loaded');
+        }
+    }
+
+    function handleImageError(img) {
+        img.style.display = 'none';
+        if (img.parentElement) {
+            img.parentElement.classList.add('loaded');
+        }
+    }
+
+    // Keyboard navigation for quiz (1-4 keys)
+    document.addEventListener('keydown', (e) => {
+        // Quiz keyboard navigation
+        if (document.getElementById('view-quiz').style.display !== 'none' && quizState.questions) {
+            const key = parseInt(e.key);
+            if (key >= 1 && key <= 4) {
+                const q = quizState.questions[quizState.current];
+                if (q && q.options[key - 1]) {
+                    answerQuiz(q.options[key - 1]);
+                }
+            }
+        }
+
+        // Lightbox navigation
+        if (document.getElementById('lightbox').classList.contains('active')) {
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') navLightbox(-1);
+            if (e.key === 'ArrowRight') navLightbox(1);
+        }
     });
     </script>
 
