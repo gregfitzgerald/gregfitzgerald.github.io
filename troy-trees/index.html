@@ -388,6 +388,192 @@
             background: #ffd1dc;
         }
 
+        /* Phylogeny Tree Styles */
+        .phylo-container {
+            margin: 1rem 0.5rem;
+        }
+        .phylo-intro {
+            background: #f9f9f9;
+            border-left: 4px solid #ffd1dc;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .phylo-intro p {
+            margin: 0.5rem 0;
+        }
+        .phylo-mnemonic {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 4px;
+            padding: 0.75rem;
+            margin-top: 0.75rem;
+        }
+        .phylo-mnemonic strong {
+            color: #856404;
+        }
+        .phylo-tree {
+            font-size: 0.95rem;
+        }
+        .phylo-clade {
+            margin-left: 0;
+            border-left: 3px solid #ccc;
+            padding-left: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .phylo-clade.major {
+            border-left-color: #2d5016;
+            border-left-width: 4px;
+        }
+        .phylo-clade.family {
+            border-left-color: #ffd1dc;
+        }
+        .phylo-node {
+            background: #f4f4f4;
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .phylo-node:hover {
+            background: #e8e8e8;
+        }
+        .phylo-node.expanded {
+            background: #fff;
+            border: 2px solid #ffd1dc;
+        }
+        .phylo-node-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .phylo-toggle {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #666;
+        }
+        .phylo-node-name {
+            font-weight: bold;
+            color: #2d5016;
+        }
+        .phylo-node-latin {
+            font-style: italic;
+            color: #666;
+            font-size: 0.9em;
+        }
+        .phylo-count {
+            background: #e9ecef;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8em;
+            color: #666;
+        }
+        .phylo-traits {
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background: #e8f5e9;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        .phylo-traits strong {
+            color: #2d5016;
+        }
+        .phylo-children {
+            display: none;
+            margin-top: 0.5rem;
+        }
+        .phylo-node.expanded > .phylo-children {
+            display: block;
+        }
+        .phylo-species {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            margin: 0.25rem 0;
+            background: white;
+            border: 1px solid #e5e5e5;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .phylo-species:hover {
+            border-color: #ffd1dc;
+            background: #fff5f7;
+        }
+        .phylo-species .species-name {
+            font-weight: 500;
+        }
+        .phylo-species .species-latin {
+            font-style: italic;
+            color: #666;
+            font-size: 0.9em;
+        }
+        .phylo-species .species-tag {
+            margin-left: auto;
+            font-size: 0.75em;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        .phylo-species .species-tag.native {
+            background: #d4edda;
+            color: #155724;
+        }
+        .phylo-species .species-tag.introduced {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .phylo-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background: #f9f9f9;
+            border-radius: 4px;
+        }
+        .phylo-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85em;
+        }
+        .phylo-legend-line {
+            width: 20px;
+            height: 4px;
+            border-radius: 2px;
+        }
+        .phylo-legend-line.major { background: #2d5016; }
+        .phylo-legend-line.order { background: #ccc; }
+        .phylo-legend-line.family { background: #ffd1dc; }
+        body.dark-mode .phylo-node {
+            background: #333;
+        }
+        body.dark-mode .phylo-node:hover {
+            background: #444;
+        }
+        body.dark-mode .phylo-node.expanded {
+            background: #2d2d2d;
+        }
+        body.dark-mode .phylo-traits {
+            background: #1a3d1a;
+        }
+        body.dark-mode .phylo-species {
+            background: #2d2d2d;
+            border-color: #444;
+        }
+        body.dark-mode .phylo-species:hover {
+            background: #3d2d2d;
+        }
+        body.dark-mode .phylo-intro,
+        body.dark-mode .phylo-legend {
+            background: #2d2d2d;
+        }
+
         /* Tree Images */
         .tree-card-image {
             width: 100%;
@@ -721,6 +907,7 @@
         <div class="tree-controls">
             <div class="view-toggle">
                 <button id="btn-browse" class="active" onclick="setView('browse')">Browse</button>
+                <button id="btn-phylogeny" onclick="setView('phylogeny')">Phylogeny</button>
                 <button id="btn-identify" onclick="setView('identify')">Identify</button>
                 <button id="btn-practice" onclick="setView('practice')">Practice</button>
                 <button id="btn-quiz" onclick="setView('quiz')">Quiz</button>
@@ -751,6 +938,36 @@
         <!-- Browse View -->
         <div id="view-browse">
             <div class="tree-grid" id="tree-grid"></div>
+        </div>
+
+        <!-- Phylogeny View -->
+        <div id="view-phylogeny" style="display: none;">
+            <div class="phylo-container">
+                <div class="phylo-intro">
+                    <h2 class="nocount" style="margin-top: 0;">Evolutionary Relationships</h2>
+                    <p>Understanding how trees are related helps explain <strong>why</strong> they share characteristics. Trees in the same family share a common ancestor and inherited similar traits.</p>
+                    <div class="phylo-mnemonic">
+                        <strong>Memory Aid - "MAD Cap Horse":</strong> Families with <strong>OPPOSITE</strong> branching: <strong>M</strong>aple (Sapindaceae), <strong>A</strong>sh (Oleaceae), <strong>D</strong>ogwood (Cornaceae). Most other trees have alternate branching!
+                    </div>
+                </div>
+
+                <div class="phylo-legend">
+                    <div class="phylo-legend-item">
+                        <div class="phylo-legend-line major"></div>
+                        <span>Major Division</span>
+                    </div>
+                    <div class="phylo-legend-item">
+                        <div class="phylo-legend-line order"></div>
+                        <span>Order</span>
+                    </div>
+                    <div class="phylo-legend-item">
+                        <div class="phylo-legend-line family"></div>
+                        <span>Family</span>
+                    </div>
+                </div>
+
+                <div class="phylo-tree" id="phylo-tree"></div>
+            </div>
         </div>
 
         <!-- Identification Key View -->
@@ -1799,12 +2016,16 @@
         document.getElementById('btn-' + view).classList.add('active');
 
         document.getElementById('view-browse').style.display = view === 'browse' ? 'block' : 'none';
+        document.getElementById('view-phylogeny').style.display = view === 'phylogeny' ? 'block' : 'none';
         document.getElementById('view-identify').style.display = view === 'identify' ? 'block' : 'none';
         document.getElementById('view-practice').style.display = view === 'practice' ? 'block' : 'none';
         document.getElementById('view-quiz').style.display = view === 'quiz' ? 'block' : 'none';
 
         if (view === 'identify') {
             initIdentificationKey();
+        }
+        if (view === 'phylogeny') {
+            renderPhylogeny();
         }
     }
 
@@ -2629,6 +2850,342 @@
             const card = document.querySelector(`[data-tree-id="${sharedTreeId}"]`);
             if (card) {
                 card.click();
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }, 100);
+    }
+
+    // Phylogeny Data - Evolutionary relationships
+    const phylogenyData = {
+        name: "Seed Plants",
+        latin: "Spermatophyta",
+        traits: "Plants that reproduce via seeds",
+        children: [
+            {
+                name: "Gymnosperms",
+                latin: "Gymnospermae",
+                traits: "Naked seeds (not enclosed in fruit), needle or scale leaves, produce cones. Ancient lineage predating flowering plants.",
+                type: "major",
+                children: [
+                    {
+                        name: "Ginkgo",
+                        latin: "Ginkgoaceae",
+                        traits: "Living fossil - only surviving member of its division. Fan-shaped leaves, foul-smelling fruit.",
+                        type: "family",
+                        species: ["ginkgo_biloba"]
+                    },
+                    {
+                        name: "Pine Family",
+                        latin: "Pinaceae",
+                        traits: "Needles in bundles or single, woody cones, resinous sap. Includes pines, spruces, hemlocks, firs.",
+                        type: "family",
+                        children: [
+                            {
+                                name: "Pines",
+                                latin: "Pinus",
+                                traits: "Needles in bundles of 2-5, persistent woody cones.",
+                                type: "genus",
+                                species: ["pinus_strobus"]
+                            },
+                            {
+                                name: "Spruces",
+                                latin: "Picea",
+                                traits: "Single needles on peg-like projections, pendulous cones that fall whole.",
+                                type: "genus",
+                                species: ["picea_abies", "picea_pungens", "picea_glauca"]
+                            },
+                            {
+                                name: "Hemlocks",
+                                latin: "Tsuga",
+                                traits: "Short flat needles with white stripes beneath, small cones.",
+                                type: "genus",
+                                species: ["tsuga_canadensis"]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: "Angiosperms",
+                latin: "Angiospermae",
+                traits: "Flowering plants with seeds enclosed in fruit. Broad leaves (mostly). The dominant plant group today.",
+                type: "major",
+                children: [
+                    {
+                        name: "Magnoliids",
+                        latin: "Magnoliidae",
+                        traits: "Basal flowering plants - ancient lineage. Often aromatic, simple leaves.",
+                        type: "order",
+                        children: [
+                            {
+                                name: "Magnolia Family",
+                                latin: "Magnoliaceae",
+                                traits: "Large showy flowers, cone-like fruit aggregates, alternate simple leaves.",
+                                type: "family",
+                                species: ["liriodendron_tulipifera"]
+                            },
+                            {
+                                name: "Laurel Family",
+                                latin: "Lauraceae",
+                                traits: "Aromatic leaves and bark, often lobed leaves, small flowers.",
+                                type: "family",
+                                species: ["sassafras_albidum"]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Rosids",
+                        latin: "Rosidae",
+                        traits: "Large eudicot clade. Includes many familiar trees. Mostly alternate leaves.",
+                        type: "order",
+                        children: [
+                            {
+                                name: "Fagales",
+                                latin: "Fagales",
+                                traits: "The 'nut trees' - produce acorns, nuts, or nutlets. Wind-pollinated with catkins.",
+                                type: "order",
+                                children: [
+                                    {
+                                        name: "Beech & Oak Family",
+                                        latin: "Fagaceae",
+                                        traits: "Alternate simple leaves (often lobed in oaks), produce acorns or beechnuts in cups.",
+                                        type: "family",
+                                        species: ["quercus_rubra", "quercus_alba", "quercus_palustris", "fagus_grandifolia"]
+                                    },
+                                    {
+                                        name: "Birch Family",
+                                        latin: "Betulaceae",
+                                        traits: "Alternate simple leaves with doubly-serrate margins, often distinctive peeling bark, catkins.",
+                                        type: "family",
+                                        species: ["betula_papyrifera", "betula_nigra"]
+                                    },
+                                    {
+                                        name: "Walnut Family",
+                                        latin: "Juglandaceae",
+                                        traits: "Alternate COMPOUND leaves (pinnate), aromatic, large edible nuts.",
+                                        type: "family",
+                                        species: ["juglans_nigra", "carya_ovata"]
+                                    }
+                                ]
+                            },
+                            {
+                                name: "Rosales",
+                                latin: "Rosales",
+                                traits: "Diverse order including roses, elms, mulberries.",
+                                type: "order",
+                                children: [
+                                    {
+                                        name: "Rose Family",
+                                        latin: "Rosaceae",
+                                        traits: "Alternate simple leaves, often showy 5-petaled flowers, fleshy or stone fruits.",
+                                        type: "family",
+                                        species: ["prunus_serotina"]
+                                    },
+                                    {
+                                        name: "Elm Family",
+                                        latin: "Ulmaceae",
+                                        traits: "Alternate simple leaves with ASYMMETRIC base, doubly-serrate margins, winged seeds.",
+                                        type: "family",
+                                        species: ["ulmus_americana"]
+                                    }
+                                ]
+                            },
+                            {
+                                name: "Fabales",
+                                latin: "Fabales",
+                                traits: "The legumes - nitrogen-fixing root nodules, compound leaves, bean pods.",
+                                type: "order",
+                                children: [
+                                    {
+                                        name: "Legume Family",
+                                        latin: "Fabaceae",
+                                        traits: "Alternate COMPOUND leaves, nitrogen fixation, distinctive seed pods (legumes).",
+                                        type: "family",
+                                        species: ["gleditsia_triacanthos", "robinia_pseudoacacia"]
+                                    }
+                                ]
+                            },
+                            {
+                                name: "Malpighiales",
+                                latin: "Malpighiales",
+                                traits: "Large diverse order including willows, poplars.",
+                                type: "order",
+                                children: [
+                                    {
+                                        name: "Willow Family",
+                                        latin: "Salicaceae",
+                                        traits: "Alternate simple leaves, catkins, cottony seeds for wind dispersal.",
+                                        type: "family",
+                                        species: ["populus_deltoides"]
+                                    }
+                                ]
+                            },
+                            {
+                                name: "Sapindales",
+                                latin: "Sapindales",
+                                traits: "Includes maples, citrus, sumacs. Often opposite leaves or compound leaves.",
+                                type: "order",
+                                children: [
+                                    {
+                                        name: "Maple Family",
+                                        latin: "Sapindaceae",
+                                        traits: "OPPOSITE simple leaves (usually palmately lobed), winged seeds (samaras in pairs). Key ID: opposite branching!",
+                                        type: "family",
+                                        species: ["acer_saccharum", "acer_rubrum", "acer_platanoides", "acer_saccharinum"]
+                                    }
+                                ]
+                            },
+                            {
+                                name: "Proteales",
+                                latin: "Proteales",
+                                traits: "Small order including sycamores and proteas.",
+                                type: "order",
+                                children: [
+                                    {
+                                        name: "Sycamore Family",
+                                        latin: "Platanaceae",
+                                        traits: "Alternate palmately lobed leaves, distinctive mottled bark (exfoliating), ball-shaped fruit clusters.",
+                                        type: "family",
+                                        species: ["platanus_occidentalis"]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Asterids",
+                        latin: "Asteridae",
+                        traits: "Second major eudicot clade. Includes ashes, dogwoods. Note: both have OPPOSITE leaves!",
+                        type: "order",
+                        children: [
+                            {
+                                name: "Lamiales",
+                                latin: "Lamiales",
+                                traits: "Includes mints, olives, ashes. Often opposite leaves.",
+                                type: "order",
+                                children: [
+                                    {
+                                        name: "Olive Family",
+                                        latin: "Oleaceae",
+                                        traits: "OPPOSITE COMPOUND leaves (in ashes), includes olives, lilacs, ashes. Key ID: opposite branching with compound leaves!",
+                                        type: "family",
+                                        species: ["fraxinus_americana"]
+                                    }
+                                ]
+                            },
+                            {
+                                name: "Cornales",
+                                latin: "Cornales",
+                                traits: "Includes dogwoods.",
+                                type: "order",
+                                children: [
+                                    {
+                                        name: "Dogwood Family",
+                                        latin: "Cornaceae",
+                                        traits: "OPPOSITE simple leaves with arcuate venation (veins curve toward tip), showy bracts. Key ID: opposite branching!",
+                                        type: "family",
+                                        species: ["cornus_florida"]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+
+    // Get tree by scientific name (lowercase with underscore)
+    function getTreeByScientific(scientificId) {
+        return trees.find(t => t.scientific.toLowerCase().replace(' ', '_') === scientificId);
+    }
+
+    // Render phylogeny tree
+    function renderPhylogeny() {
+        const container = document.getElementById('phylo-tree');
+        container.innerHTML = renderPhyloNode(phylogenyData, 0);
+    }
+
+    function renderPhyloNode(node, depth) {
+        const hasChildren = node.children && node.children.length > 0;
+        const hasSpecies = node.species && node.species.length > 0;
+        const speciesCount = countSpecies(node);
+        const typeClass = node.type || 'clade';
+
+        let speciesHtml = '';
+        if (hasSpecies) {
+            speciesHtml = '<div class="phylo-species-list">' +
+                node.species.map(sid => {
+                    const tree = getTreeByScientific(sid);
+                    if (!tree) return '';
+                    return `
+                        <div class="phylo-species" onclick="goToTree(${tree.id})">
+                            <span class="species-name">${tree.name}</span>
+                            <span class="species-latin">${tree.scientific}</span>
+                            <span class="species-tag ${tree.origin}">${tree.origin}</span>
+                        </div>
+                    `;
+                }).join('') +
+            '</div>';
+        }
+
+        let childrenHtml = '';
+        if (hasChildren) {
+            childrenHtml = '<div class="phylo-children">' +
+                `<div class="phylo-clade ${typeClass}">` +
+                node.children.map(child => renderPhyloNode(child, depth + 1)).join('') +
+                '</div></div>';
+        }
+
+        const isExpandable = hasChildren || hasSpecies;
+        const toggle = isExpandable ? '<span class="phylo-toggle">+</span>' : '<span class="phylo-toggle"></span>';
+
+        return `
+            <div class="phylo-node ${depth === 0 ? 'expanded' : ''}" onclick="togglePhyloNode(event, this)">
+                <div class="phylo-node-header">
+                    ${toggle}
+                    <span class="phylo-node-name">${node.name}</span>
+                    <span class="phylo-node-latin">(${node.latin})</span>
+                    <span class="phylo-count">${speciesCount} species</span>
+                </div>
+                <div class="phylo-traits"><strong>Shared traits:</strong> ${node.traits}</div>
+                ${speciesHtml}
+                ${childrenHtml}
+            </div>
+        `;
+    }
+
+    function countSpecies(node) {
+        let count = 0;
+        if (node.species) count += node.species.length;
+        if (node.children) {
+            node.children.forEach(child => {
+                count += countSpecies(child);
+            });
+        }
+        return count;
+    }
+
+    function togglePhyloNode(event, element) {
+        event.stopPropagation();
+        const toggle = element.querySelector('.phylo-toggle');
+        if (element.classList.contains('expanded')) {
+            element.classList.remove('expanded');
+            if (toggle) toggle.textContent = '+';
+        } else {
+            element.classList.add('expanded');
+            if (toggle) toggle.textContent = '-';
+        }
+    }
+
+    function goToTree(treeId) {
+        event.stopPropagation();
+        setView('browse');
+        setTimeout(() => {
+            expandedCard = treeId;
+            renderTreeGrid();
+            const card = document.querySelector(`[data-tree-id="${treeId}"]`);
+            if (card) {
                 card.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         }, 100);
