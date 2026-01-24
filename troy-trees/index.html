@@ -265,6 +265,53 @@
             background: #ffb8c8;
         }
 
+        /* Practice mode */
+        .practice-session {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .practice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .practice-image {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #fafafa;
+            border-radius: 8px;
+        }
+        .practice-matches {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: #f0f8ff;
+            border-radius: 8px;
+            border-left: 4px solid #4a90d9;
+        }
+        .practice-matches .quiz-options {
+            gap: 8px;
+        }
+        .practice-matches .quiz-option {
+            flex: 0 0 auto;
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+        .practice-result {
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+        .practice-result.correct {
+            background: #d4edda;
+            border: 2px solid #28a745;
+        }
+        .practice-result.incorrect {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+        }
+
         /* Progress tracker */
         .progress-section {
             background: #f9f9f9;
@@ -507,6 +554,7 @@
             <div class="view-toggle">
                 <button id="btn-browse" class="active" onclick="setView('browse')">Browse</button>
                 <button id="btn-identify" onclick="setView('identify')">Identify</button>
+                <button id="btn-practice" onclick="setView('practice')">Practice</button>
                 <button id="btn-quiz" onclick="setView('quiz')">Quiz</button>
             </div>
             <div>
@@ -544,6 +592,17 @@
             <div id="id-results" style="display: none;">
                 <h3 class="nocount">Possible Matches</h3>
                 <div class="tree-grid" id="id-matches"></div>
+            </div>
+        </div>
+
+        <!-- Practice View -->
+        <div id="view-practice" style="display: none;">
+            <div class="quiz-container">
+                <div id="practice-content">
+                    <h2 class="nocount">Identification Practice</h2>
+                    <p>Practice identifying trees like you would in the wild. You'll see a leaf image and work through the dichotomous key to identify it.</p>
+                    <button class="quiz-btn" onclick="startPractice()">Start Practice</button>
+                </div>
             </div>
         </div>
 
@@ -1564,6 +1623,7 @@
 
         document.getElementById('view-browse').style.display = view === 'browse' ? 'block' : 'none';
         document.getElementById('view-identify').style.display = view === 'identify' ? 'block' : 'none';
+        document.getElementById('view-practice').style.display = view === 'practice' ? 'block' : 'none';
         document.getElementById('view-quiz').style.display = view === 'quiz' ? 'block' : 'none';
 
         if (view === 'identify') {
@@ -2008,6 +2068,202 @@
             quizState.current++;
             renderQuizQuestion();
         }, 1500);
+    }
+
+    // Practice Mode - Identify trees from leaf images using the dichotomous key
+    let practiceState = {
+        targetTree: null,
+        answers: {},
+        completed: false,
+        score: 0,
+        total: 0
+    };
+
+    function startPractice() {
+        // Select a random tree
+        practiceState.targetTree = trees[Math.floor(Math.random() * trees.length)];
+        practiceState.answers = {};
+        practiceState.completed = false;
+        renderPractice();
+    }
+
+    function renderPractice() {
+        const container = document.getElementById('practice-content');
+        const tree = practiceState.targetTree;
+
+        if (practiceState.completed) {
+            renderPracticeResult();
+            return;
+        }
+
+        // Get the leaf image
+        const leafImg = getTreeImage(tree.id, 'leaf');
+
+        // Build the dichotomous key HTML
+        let keyHtml = '';
+        idKeySteps.forEach((step, index) => {
+            // Check if this step should be shown based on previous answers
+            if (step.showIf) {
+                const prereq = practiceState.answers[step.showIf.step];
+                if (prereq !== step.showIf.value) return;
+            }
+
+            const isActive = Object.keys(practiceState.answers).length === getPracticeStepIndex(index);
+            const answered = practiceState.answers[index] !== undefined;
+
+            keyHtml += `
+                <div class="id-step ${isActive ? 'active' : ''}">
+                    <h4>Step ${getPracticeStepIndex(index) + 1}: ${step.question}</h4>
+                    <div class="id-choices">
+                        ${step.choices.map(choice => `
+                            <div class="id-choice ${practiceState.answers[index] === choice.value ? 'selected' : ''}"
+                                 onclick="selectPracticeChoice(${index}, '${choice.value}')">
+                                ${choice.label}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        });
+
+        // Get matching trees based on current answers
+        const matches = getPracticeMatches();
+        let matchesHtml = '';
+        if (Object.keys(practiceState.answers).length >= 2) {
+            matchesHtml = `
+                <div class="practice-matches">
+                    <h3 class="nocount">Possible Matches (${matches.length})</h3>
+                    <p>Based on your answers, select the tree you think this is:</p>
+                    <div class="quiz-options" style="flex-wrap: wrap;">
+                        ${matches.map(t => `
+                            <div class="quiz-option" onclick="submitPracticeAnswer(${t.id})">${t.name}</div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        container.innerHTML = `
+            <div class="practice-session">
+                <div class="practice-header">
+                    <span style="color: #666;">Identify this tree using the dichotomous key</span>
+                    <button class="quiz-btn" style="padding: 8px 16px; font-size: 14px;" onclick="startPractice()">New Tree</button>
+                </div>
+                <div class="practice-image">
+                    <img src="${leafImg}" alt="Mystery tree leaf" style="max-width: 100%; max-height: 300px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+                    <p style="color: #666; margin-top: 8px;">Examine the leaf and answer the questions below</p>
+                </div>
+                <div class="id-key">
+                    ${keyHtml}
+                </div>
+                ${matchesHtml}
+            </div>
+        `;
+    }
+
+    function getPracticeStepIndex(absoluteIndex) {
+        let count = 0;
+        for (let i = 0; i < absoluteIndex; i++) {
+            const step = idKeySteps[i];
+            if (!step.showIf) {
+                count++;
+            } else if (practiceState.answers[step.showIf.step] === step.showIf.value) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    function selectPracticeChoice(stepIndex, value) {
+        practiceState.answers[stepIndex] = value;
+        // Clear subsequent answers
+        Object.keys(practiceState.answers).forEach(key => {
+            if (parseInt(key) > stepIndex) {
+                delete practiceState.answers[key];
+            }
+        });
+        renderPractice();
+    }
+
+    function getPracticeMatches() {
+        const answers = practiceState.answers;
+        let matches = [...trees];
+
+        // Filter based on answers (same logic as identification key)
+        if (answers[0] === 'evergreen') {
+            matches = matches.filter(t => t.type === 'evergreen');
+        } else if (answers[0] === 'broadleaf') {
+            matches = matches.filter(t => t.type === 'deciduous');
+        }
+
+        if (answers[1] === 'opposite') {
+            matches = matches.filter(t =>
+                t.family === 'Sapindaceae' || t.family === 'Oleaceae' || t.family === 'Cornaceae'
+            );
+        } else if (answers[1] === 'alternate') {
+            matches = matches.filter(t =>
+                t.family !== 'Sapindaceae' && t.family !== 'Oleaceae' && t.family !== 'Cornaceae' && t.type === 'deciduous'
+            );
+        }
+
+        if (answers[2] === 'bundled') {
+            matches = matches.filter(t => t.name.includes('Pine'));
+        } else if (answers[2] === 'single') {
+            matches = matches.filter(t => t.type === 'evergreen' && !t.name.includes('Pine'));
+        }
+
+        if (answers[3] === 'simple') {
+            matches = matches.filter(t => t.family === 'Sapindaceae' || t.family === 'Cornaceae');
+        } else if (answers[3] === 'compound') {
+            matches = matches.filter(t => t.family === 'Oleaceae');
+        }
+
+        return matches;
+    }
+
+    function submitPracticeAnswer(treeId) {
+        practiceState.completed = true;
+        practiceState.selectedId = treeId;
+        practiceState.total++;
+        if (treeId === practiceState.targetTree.id) {
+            practiceState.score++;
+        }
+        renderPracticeResult();
+    }
+
+    function renderPracticeResult() {
+        const container = document.getElementById('practice-content');
+        const target = practiceState.targetTree;
+        const correct = practiceState.selectedId === target.id;
+        const selected = trees.find(t => t.id === practiceState.selectedId);
+
+        const leafImg = getTreeImage(target.id, 'leaf');
+        const barkImg = getTreeImage(target.id, 'bark');
+
+        container.innerHTML = `
+            <div class="practice-result ${correct ? 'correct' : 'incorrect'}">
+                <h2 class="nocount">${correct ? 'Correct!' : 'Not quite...'}</h2>
+                ${!correct ? `<p>You selected: <strong>${selected ? selected.name : 'Unknown'}</strong></p>` : ''}
+                <p>This is: <strong>${target.name}</strong> (<em>${target.scientific}</em>)</p>
+                <div style="display: flex; gap: 16px; justify-content: center; margin: 16px 0; flex-wrap: wrap;">
+                    <div>
+                        <img src="${leafImg}" alt="${target.name} leaf" style="max-height: 150px; border-radius: 8px;">
+                        <p style="font-size: 12px; color: #666;">Leaf</p>
+                    </div>
+                    <div>
+                        <img src="${barkImg}" alt="${target.name} bark" style="max-height: 150px; border-radius: 8px;">
+                        <p style="font-size: 12px; color: #666;">Bark</p>
+                    </div>
+                </div>
+                <div style="background: #f5f5f5; padding: 16px; border-radius: 8px; text-align: left; margin: 16px 0;">
+                    <p><strong>Key features:</strong></p>
+                    <p><strong>Leaves:</strong> ${target.leaves}</p>
+                    <p><strong>Bark:</strong> ${target.bark}</p>
+                </div>
+                <p style="color: #666;">Session: ${practiceState.score} / ${practiceState.total} correct</p>
+                <button class="quiz-btn" onclick="startPractice()">Practice Another</button>
+            </div>
+        `;
     }
 
     // Local image database - downloaded from Virginia Tech Dendrology
