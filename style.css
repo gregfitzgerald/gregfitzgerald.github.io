@@ -939,6 +939,13 @@ label.margin-toggle:not(.sidenote-number) {
   border: 2px solid #ffd1dc;
   border-radius: 8px;
   padding: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.widget:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 209, 220, 0.4);
+  border-color: #ffb8c6;
 }
 
 .widget-title {
@@ -981,6 +988,162 @@ label.margin-toggle:not(.sidenote-number) {
   font-style: italic;
   text-align: center;
   padding: 1rem 0;
+}
+
+.widget-link {
+  display: inline-block;
+  color: #666;
+  font-size: 0.85rem;
+  text-decoration: none;
+  margin-top: 0.75rem;
+  transition: color 0.2s ease;
+}
+
+.widget-link:hover {
+  color: #333;
+  text-decoration: underline;
+}
+
+/* Calendly Widget Preview */
+.calendly-preview {
+  background: linear-gradient(135deg, #fff 0%, #fef5f7 100%);
+  border-radius: 6px;
+  padding: 1rem;
+  text-align: center;
+  margin: 0.75rem 0;
+  border: 1px dashed #ffd1dc;
+}
+
+.calendar-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.calendly-preview p {
+  margin: 0.25rem 0;
+  color: #555;
+}
+
+.calendar-times {
+  font-size: 0.8rem;
+  color: #999;
+}
+
+/* Twitter Widget Preview */
+.twitter-preview {
+  background: #fff;
+  border-radius: 6px;
+  border: 1px solid #e1e8ed;
+  overflow: hidden;
+}
+
+.tweet-item {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e1e8ed;
+  transition: background-color 0.2s ease;
+}
+
+.tweet-item:last-child {
+  border-bottom: none;
+}
+
+.tweet-item:hover {
+  background-color: #f7f9fa;
+}
+
+.tweet-handle {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #333;
+}
+
+.tweet-text {
+  margin: 0.4rem 0;
+  font-size: 0.85rem;
+  color: #555;
+  line-height: 1.4;
+}
+
+.tweet-time {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+/* Goodreads Widget Preview */
+.goodreads-preview {
+  background: #fff;
+  border-radius: 6px;
+  padding: 0.75rem;
+  border: 1px solid #e1e8ed;
+}
+
+.book-item {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.book-cover-placeholder {
+  width: 50px;
+  height: 75px;
+  background: linear-gradient(135deg, #ffd1dc 0%, #ffb8c6 100%);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.book-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.book-title {
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin: 0 0 0.25rem 0;
+  color: #333;
+}
+
+.book-author {
+  font-size: 0.8rem;
+  color: #666;
+  margin: 0 0 0.5rem 0;
+}
+
+.book-progress {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 6px;
+  background: #e5e5e5;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ffd1dc 0%, #ffb8c6 100%);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  font-size: 0.75rem;
+  color: #666;
+  min-width: 30px;
 }
 
 /* Responsive: Tablet - stack right sidebar below */

@@ -142,28 +142,90 @@
 
         <!-- RIGHT PANEL: Widgets -->
         <aside class="sidebar-right">
-            <!-- [PLACEHOLDER: Calendly scheduling widget] -->
+            <!-- [PLACEHOLDER: Calendly scheduling widget - Replace YOUR_CALENDLY_URL with actual Calendly link] -->
             <div class="widget widget-calendly">
-                <h3 class="widget-title">Schedule a Meeting</h3>
+                <h3 class="widget-title">📅 Schedule a Meeting</h3>
                 <div class="widget-content">
-                    <p>Book a tutoring session or consultation.</p>
-                    <a href="tutoring.html#book" class="widget-button">View Availability →</a>
+                    <p>Book a tutoring session or research consultation.</p>
+                    <div class="calendly-placeholder">
+                        <!-- 
+                        [PLACEHOLDER: Calendly Embed]
+                        To activate, replace this div with:
+                        <div class="calendly-inline-widget" 
+                             data-url="https://calendly.com/YOUR_CALENDLY_URL"
+                             style="min-width:250px;height:400px;">
+                        </div>
+                        <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+                        -->
+                        <div class="calendly-preview">
+                            <div class="calendar-icon">🗓️</div>
+                            <p>30-min consultation</p>
+                            <p class="calendar-times">Available times shown here</p>
+                        </div>
+                    </div>
+                    <a href="tutoring.html#book" class="widget-button">View Full Calendar →</a>
                 </div>
             </div>
 
-            <!-- [PLACEHOLDER: Twitter/X timeline embed] -->
+            <!-- [PLACEHOLDER: Twitter/X timeline embed - Replace YOUR_TWITTER_HANDLE with actual handle] -->
             <div class="widget widget-twitter">
-                <h3 class="widget-title">Latest Updates</h3>
+                <h3 class="widget-title">🐦 Latest Updates</h3>
                 <div class="widget-content">
-                    <p class="widget-placeholder-text">Twitter feed coming soon</p>
+                    <!--
+                    [PLACEHOLDER: Twitter Timeline Embed]
+                    To activate, replace this div with:
+                    <a class="twitter-timeline" 
+                       data-height="400" 
+                       data-theme="light"
+                       href="https://twitter.com/YOUR_TWITTER_HANDLE">
+                       Tweets by @YOUR_TWITTER_HANDLE
+                    </a>
+                    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                    -->
+                    <div class="twitter-preview">
+                        <div class="tweet-item">
+                            <span class="tweet-handle">@gregfitzgerald</span>
+                            <p class="tweet-text">Placeholder tweet about research methodology...</p>
+                            <span class="tweet-time">2h ago</span>
+                        </div>
+                        <div class="tweet-item">
+                            <span class="tweet-handle">@gregfitzgerald</span>
+                            <p class="tweet-text">Another placeholder about meta-analysis...</p>
+                            <span class="tweet-time">1d ago</span>
+                        </div>
+                    </div>
+                    <a href="#" class="widget-link">Follow on X →</a>
+                    <!-- [PLACEHOLDER: Replace # with actual Twitter profile URL] -->
                 </div>
             </div>
 
-            <!-- [PLACEHOLDER: Goodreads currently reading widget] -->
+            <!-- [PLACEHOLDER: Goodreads currently reading widget - Replace USER_ID with actual Goodreads user ID] -->
             <div class="widget widget-goodreads">
-                <h3 class="widget-title">Currently Reading</h3>
+                <h3 class="widget-title">📚 Currently Reading</h3>
                 <div class="widget-content">
-                    <p class="widget-placeholder-text">Goodreads widget coming soon</p>
+                    <!--
+                    [PLACEHOLDER: Goodreads Widget]
+                    To activate, get widget code from:
+                    https://www.goodreads.com/widgets
+                    Select "Currently Reading" widget and paste here.
+                    -->
+                    <div class="goodreads-preview">
+                        <div class="book-item">
+                            <div class="book-cover-placeholder">📖</div>
+                            <div class="book-info">
+                                <p class="book-title">Book Title Here</p>
+                                <p class="book-author">by Author Name</p>
+                                <div class="book-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 45%;"></div>
+                                    </div>
+                                    <span class="progress-text">45%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="widget-link">View on Goodreads →</a>
+                    <!-- [PLACEHOLDER: Replace # with actual Goodreads profile URL] -->
                 </div>
             </div>
         </aside>
