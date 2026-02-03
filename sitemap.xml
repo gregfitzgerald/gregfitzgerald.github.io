@@ -69,11 +69,37 @@
     <priority>0.7</priority>
   </url>
 
-  <!-- Add blog posts here as they are created -->
-  <!-- Example:
+  <!-- Jimmy the Turtle page -->
   <url>
-    <loc>https://greg-fitzgerald.com/posts/post-title.html</loc>
-    <lastmod>YYYY-MM-DD</lastmod>
+    <loc>https://greg-fitzgerald.com/jimmy.html</loc>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Blog post stubs (unpublished - update when content is added) -->
+  <!--
+  <url>
+    <loc>https://greg-fitzgerald.com/posts/claude-code-researchers.html</loc>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://greg-fitzgerald.com/posts/research-literacy-overview.html</loc>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://greg-fitzgerald.com/posts/meta-analysis-methodology.html</loc>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://greg-fitzgerald.com/posts/ai-resistant-learning.html</loc>
+    <lastmod>2026-02-04</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
   </url>

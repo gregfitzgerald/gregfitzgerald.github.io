@@ -16,6 +16,12 @@
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="CV - Greg Fitzgerald">
     <meta name="twitter:description" content="Curriculum Vitae - Greg Fitzgerald">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Encode+Sans:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Dosis:500" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
     <style>
         body {
             font-family: monospace;
@@ -166,17 +172,57 @@
     </style>
 </head>
 <body>
-    <header>
-        <h1>Greg Fitzgerald</h1>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="research.html">Research</a>
-            <a href="writing.html">Writing</a>
-            <a href="gallery.html">Gallery</a>
-            <a href="about.html">About</a>
-            <a href="contact.html">Contact</a>
+    <header class="site-header">
+        <nav class="site-navi">
+            <h1 class="site-title">
+                <a href="index.html">Greg Fitzgerald</a>
+            </h1>
+            <div style="display: block">
+                <ul class="site-navi-items">
+                    <li class="site-navi-item-home">
+                        <span style="color: #ffd1dc;">&gt;</span>
+                        <a href="index.html" title="Home">Home</a>
+                    </li>
+                    <li class="site-navi-item-blog">
+                        <span style="color: #ffd1dc;">&gt;</span>
+                        <a href="writing.html" title="Blog">Blog</a>
+                    </li>
+                    <li class="site-navi-item-projects">
+                        <span style="color: #ffd1dc;">&gt;</span>
+                        <a href="projects.html" title="Projects">Projects</a>
+                    </li>
+                    <li class="site-navi-item-tutoring">
+                        <span style="color: #ffd1dc;">&gt;</span>
+                        <a href="tutoring.html" title="Tutoring">Research Tutoring</a>
+                    </li>
+                    <li class="site-navi-item-about">
+                        <span style="color: #ffd1dc;">&gt;</span>
+                        <a href="about.html" title="About">About</a>
+                    </li>
+                </ul>
+                <!-- Secondary navigation items (smaller font, second row) -->
+                <ul class="site-navi-items" style="margin-top: 0;">
+                    <li class="site-navi-item-research">
+                        <span style="color: #ffd1dc;">&gt;</span>
+                        <a href="research.html" style="font-size: 0.85em" title="Research">Research</a>
+                    </li>
+                    <li class="site-navi-item-contact">
+                        <span style="color: #ffd1dc;">&gt;</span>
+                        <a href="contact.html" style="font-size: 0.85em" title="Contact">Contact</a>
+                    </li>
+                    <li class="site-navi-item-gallery">
+                        <span style="color: #ffd1dc;">&gt;</span>
+                        <a href="gallery.html" style="font-size: 0.85em" title="Gallery">Gallery</a>
+                    </li>
+                    <li class="site-navi-item-cv">
+                        <span style="color: #ffd1dc;">&gt;</span>
+                        <a href="cv.html" style="font-size: 0.85em" title="CV">CV</a>
+                    </li>
+                </ul>
+            </div>
         </nav>
     </header>
+    <hr class="site-header-bottom">
 
     <main>
         <h1>Curriculum Vitae</h1>

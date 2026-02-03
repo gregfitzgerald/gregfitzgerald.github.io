@@ -1,5 +1,25 @@
 # Website TODOs - greg-fitzgerald.com
 
+## Recent Updates (2026-02-04)
+
+**Completed by Sophie (Subagent - Ralph Wiggum Cycles):**
+- ✅ Created `jimmy.html` stub (was broken link from about.html)
+- ✅ Fixed GitHub placeholder URLs in `projects.html` (now clearly marked)
+- ✅ Fixed academic profile placeholder URLs in `contact.html` (now clearly marked)
+- ✅ Fixed navigation consistency in `cv.html` and `gallery.html` (now match site-wide nav)
+- ✅ Fixed RSS feed URLs (changed from gregfitzgerald.github.io to greg-fitzgerald.com)
+- ✅ Created 4 blog post stubs in `posts/`:
+  - `claude-code-researchers.html`
+  - `research-literacy-overview.html`
+  - `meta-analysis-methodology.html`
+  - `ai-resistant-learning.html`
+- ✅ Created `CONTENT-NEEDED.md` documenting all content Greg needs to supply
+- ✅ Updated `sitemap.xml` with new pages
+
+**See `CONTENT-NEEDED.md` for comprehensive list of content Greg needs to provide.**
+
+---
+
 ## Critical (Blocks Site Launch)
 
 - [ ] **Configure DNS on Cloudflare** - Add CNAME records pointing to gregfitzgerald.github.io
