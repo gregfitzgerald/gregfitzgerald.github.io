@@ -925,6 +925,28 @@ label.margin-toggle:not(.sidenote-number) {
 /* Main Content Area */
 .main-content {
   min-width: 0; /* Prevent grid blowout */
+  padding: 0.5rem 0;
+}
+
+.main-content > p:first-child {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+.main-content h2 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.main-content .post-preview {
+  margin-left: 0;
+  padding-left: 0.5rem;
+}
+
+.main-content .project-card {
+  margin-left: 0;
+  margin-right: 0;
 }
 
 /* Right Sidebar - Widgets */

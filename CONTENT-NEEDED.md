@@ -29,13 +29,33 @@ Required profiles:
 - [ ] **Twitter/X:** Decide if you want to include this (optional)
 
 ### 3. Calendly URL
-**Location:** `tutoring.html` (commented out section)
-**Current:** `YOURLINK` placeholder
+**Location:** `tutoring.html` AND `index.html` (homepage widget)
+**Current:** `YOURLINK` / `YOUR_CALENDLY_URL` placeholders
 **Action:** 
 1. Create Calendly account at https://calendly.com
 2. Set up a "tutoring" event type
 3. Uncomment the Calendly widget in tutoring.html
 4. Replace `YOURLINK` with your Calendly username
+5. **NEW:** Also update homepage widget in `index.html` (sidebar-right section)
+
+### 3b. Twitter/X Profile
+**Location:** `index.html` (homepage widget), `contact.html`
+**Current:** `YOUR_TWITTER_HANDLE` placeholder
+**Action:**
+1. Decide if you want a professional Twitter/X account
+2. If yes, create account and update:
+   - Homepage widget embed code in `index.html`
+   - Profile link in `contact.html`
+3. If no, consider removing the Twitter widget from homepage
+
+### 3c. Goodreads Profile
+**Location:** `index.html` (homepage widget)
+**Current:** Placeholder preview widget
+**Action:**
+1. Get Goodreads widget code from https://www.goodreads.com/widgets
+2. Select "Currently Reading" widget
+3. Replace placeholder in `index.html` with actual widget code
+4. Update profile link
 
 ### 4. CV Content
 **Location:** `cv.html`
