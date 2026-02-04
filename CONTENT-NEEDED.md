@@ -10,7 +10,7 @@ This file tracks remaining content placeholders across the site. Items already p
 
 ## Contact Page (contact.html)
 
-- [ ] **GitHub profile URL**
+- [x] ~~**GitHub profile URL**~~ — Added (github.com/gregfitzgerald)
 - [ ] **ORCID ID** (if you have one)
 - [ ] **Google Scholar profile** (if you have one)
 - [ ] **ResearchGate profile** (if you have one)
@@ -18,7 +18,7 @@ This file tracks remaining content placeholders across the site. Items already p
 
 ## About Page (about.html)
 
-- [ ] **Professional headshot photo** — add to root directory or images/ folder
+- [x] ~~**Professional headshot photo**~~ — Added to images/headshot.jpg
 
 ## Gallery Page (gallery.html)
 
