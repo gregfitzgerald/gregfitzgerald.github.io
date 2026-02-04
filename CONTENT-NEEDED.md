@@ -1,26 +1,15 @@
-# Content Needed from Greg
+# Content Still Needed
 
-This file tracks all the content placeholders (invisible `<!-- [CONTENT-NEEDED: ...] -->` comments) across the site. None of these are visible to visitors — they're HTML comments that serve as reminders.
+This file tracks remaining content placeholders across the site. Items already populated with real data have been removed.
 
-## CV Page (cv.html) — HIGHEST PRIORITY
+## CV Page (cv.html)
 
-These items will make the biggest difference for your job search:
-
-- [ ] **Cell publication full citation** — authors, year, title, journal, volume, pages, DOI. This is your biggest credential (IF 64.5) — it should be listed first and prominently.
-- [ ] **Undergraduate degree details** — institution, degree name, year, major/minor, honors
-- [ ] **PhD start year** — exact year you entered the program
-- [ ] **Cold Spring Harbor Lab details** — exact dates, job title, key responsibilities and achievements
-- [ ] **Additional research positions** — any other lab roles, internships, or positions across your 15 years of experience
-- [ ] **Conference presentations** — full list with dates, titles, conferences, locations, poster vs. talk
-- [ ] **Awards and honors** — fellowships, grants, scholarships, dean's list, etc.
-- [ ] **Professional memberships** — SfN, APS, or other scientific societies
 - [ ] **PDF version of CV** — upload to `files/greg-fitzgerald-cv.pdf`
-- [ ] **Specific teaching details** — course names/numbers, semesters, enrollment sizes
-- [ ] **Additional publications** — any co-authored works, preprints, or other manuscripts
+- [ ] **Professional memberships** — SfN, APS, or other scientific societies (if current)
+- [ ] **Awards and honors** — URME Scholar (2010), URP Fund Scholar at CSHL (2011), Salutatorian (2009), Magna Cum Laude (2013) — verify these are listed
 
 ## Contact Page (contact.html)
 
-- [ ] **LinkedIn profile URL**
 - [ ] **GitHub profile URL**
 - [ ] **ORCID ID** (if you have one)
 - [ ] **Google Scholar profile** (if you have one)
@@ -50,8 +39,8 @@ Four draft stubs exist but have no content (marked noindex):
 
 ## Projects Page (projects.html)
 
-- [ ] **GitHub repository URLs** — for meta-analysis-enrichment and research-literacy-guide projects
+- [ ] **GitHub repository URLs** — for meta-analysis, research literacy guide, and AI-resistant learning platform
 
 ---
 
-*Last updated: July 2026 during website overhaul*
+*Last updated: July 2026 — homepage, projects, and research pages populated with real career data*

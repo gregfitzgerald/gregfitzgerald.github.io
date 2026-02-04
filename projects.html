@@ -42,109 +42,152 @@
 
     <main id="main-content" class="main">
         <h1>Projects</h1>
-        <p>Research projects, educational resources, and software tools for scientists and students.</p>
+        <p>Research projects, educational resources, and software tools — spanning neuroscience, data science, biotech, and education.</p>
+
+        <!-- ═══════════════ RESEARCH PROJECTS ═══════════════ -->
+
+        <h2 class="nocount">Research</h2>
 
         <article class="project" id="meta-analysis-enrichment">
-            <h2 class="nocount">Meta-Analysis of Environmental Enrichment in Alzheimer's Disease Models</h2>
+            <h2 class="nocount">Meta-Analysis of Environmental Enrichment &amp; Cognition</h2>
             <p class="project-meta">
-                <span class="project-type">Research</span>
+                <span class="project-type">Research · Doctoral Thesis</span>
                 <span class="project-status">In Progress</span>
-                <span class="project-timeline">2023-2025</span>
+                <span class="project-timeline">2023–present</span>
             </p>
             <p class="project-description">
-                Systematic review and meta-analysis examining the effectiveness of environmental enrichment interventions in preclinical models of Alzheimer's disease. This work forms the core of my doctoral dissertation and aims to quantify the efficacy of environmental enrichment across multiple cognitive and neurobiological outcome measures.
+                My doctoral thesis under James Stellar at SUNY Albany uses meta-analytic methods to investigate the translational validity of preclinical rodent models of cognition. The central question: do standard laboratory housing conditions systematically bias cognitive research findings?
             </p>
-            <h3 class="nocount">Key Features</h3>
+            <p class="project-description">
+                By comparing enrichment intervention effect sizes in rodents versus analogous interventions in humans, the analysis revealed that rodents show approximately <strong>2.5× larger cognitive enhancement</strong> — suggesting that under-resourced housing inflates preclinical effect sizes. This has significant implications for the pharmaceutical industry: neural drugs acting on the same pathways as enrichment may be systematically overestimated in preclinical trials.
+            </p>
+            <h3 class="nocount">Methods</h3>
             <ul>
-                <li>Comprehensive systematic literature search across multiple databases</li>
-                <li>Meta-analytic statistical techniques using R (metafor package)</li>
+                <li>Multi-database systematic literature search</li>
+                <li>Effect size modeling and heterogeneity analysis (R, metafor package)</li>
                 <li>Publication bias assessment and sensitivity analyses</li>
-                <li>Data visualization for scientific communication</li>
-                <li>Investigation of moderator variables affecting treatment efficacy</li>
+                <li>Cross-species comparison of cognitive outcomes</li>
+                <li>Moderator variable analysis</li>
             </ul>
             <p class="project-links">
-                <!-- [CONTENT-NEEDED: Add GitHub repository URL for meta-analysis-enrichment project] -->
-                <span style="color: #9a9a9a;">Publication (forthcoming)</span>
+                <!-- [CONTENT-NEEDED: GitHub repository URL] -->
+                <span style="color: #9a9a9a;">Publication in preparation</span>
+            </p>
+        </article>
+
+        <article class="project" id="igf2-review">
+            <h2 class="nocount">IGF-2 Review: Therapeutic Candidate for Alzheimer's Disease</h2>
+            <p class="project-meta">
+                <span class="project-type">Research · First-Author Publication</span>
+                <span class="project-status">Published</span>
+                <span class="project-timeline">2023</span>
+            </p>
+            <p class="project-description">
+                First-author review paper published in <em>CNS Neuroscience &amp; Therapeutics</em> providing a comprehensive synthesis of insulin-like growth factor-2 (IGF-2) as a therapeutic and preventive agent for Alzheimer's disease. The review examines IGF-2's neuroprotective mechanisms, effects on cognition and neuroplasticity, blood-brain barrier permeability, and favorable safety profile compared to current AD therapeutics.
+            </p>
+            <p class="project-description">
+                <strong>Citation:</strong> Fitzgerald GS, Chuchta TG, McNay EC. "Insulin-like growth factor-2 is a promising candidate for the treatment and prevention of Alzheimer's disease." <em>CNS Neuroscience &amp; Therapeutics</em>. 2023. doi:10.1111/cns.14160
+            </p>
+            <p class="project-links">
+                <a href="posts/igf2-alzheimers.html">Read the full review →</a>
+            </p>
+        </article>
+
+        <article class="project" id="interneuron-mapping">
+            <h2 class="nocount">Brain-wide GABAergic Interneuron Mapping</h2>
+            <p class="project-meta">
+                <span class="project-type">Research · Cold Spring Harbor Laboratory</span>
+                <span class="project-status">Published in <em>Cell</em></span>
+                <span class="project-timeline">2011–2016</span>
+            </p>
+            <p class="project-description">
+                Contributing author on a landmark publication in <em>Cell</em> (Impact Factor 64.5) from Pavel Osten's lab at Cold Spring Harbor Laboratory. Used serial two-photon tomography — a whole-brain imaging technique with single-cell resolution — to characterize the distribution of three types of GABAergic interneurons (PV, SST, VIP) across the entire mouse brain, both within regions and across development. The study revealed stereotyped cell-type-based cortical architecture and subcortical sexual dimorphism.
+            </p>
+            <p class="project-description">
+                My contributions included whole-brain imaging, stereotaxic surgery, immunohistochemistry, and data collection. I also worked extensively on the CNTNAP2 knockout mouse model of autism and investigated the role of oxytocin and vasopressin in social behavior using interneuron subtype data.
+            </p>
+            <p class="project-description">
+                <strong>Citation:</strong> Kim Y, Yang GR, Pradhan K, Venkataraju KU, Bolta M, Garcia del Molino LC, <strong>Fitzgerald G</strong>, Ram K, He M, Levine JM, Mitra P, Huang JZ, Wang XJ, Osten P. "Brain-wide Maps Reveal Stereotyped Cell-Type-Based Cortical Architecture and Subcortical Sexual Dimorphism." <em>Cell</em>. 2017;171(2):456-469.
+            </p>
+        </article>
+
+        <!-- ═══════════════ EDUCATIONAL PROJECTS ═══════════════ -->
+
+        <h2 class="nocount">Education</h2>
+
+        <article class="project" id="research-literacy-guide">
+            <h2 class="nocount">Scientific Research Literacy Guide</h2>
+            <p class="project-meta">
+                <span class="project-type">Curriculum</span>
+                <span class="project-status">Completed</span>
+                <span class="project-timeline">2024</span>
+            </p>
+            <p class="project-description">
+                A comprehensive 50+ page curriculum developed for my independent research mentoring practice. Designed for undergraduate and post-baccalaureate students preparing for graduate school, the guide covers the full research process from hypothesis development through publication.
+            </p>
+            <h3 class="nocount">Topics Covered</h3>
+            <ul>
+                <li>Study design and hypothesis development</li>
+                <li>Literature review methodology</li>
+                <li>Statistical inference, effect sizes, and data analysis approaches</li>
+                <li>Critical appraisal of research literature</li>
+                <li>Scientific writing and IRB considerations</li>
+                <li>Publication bias and reproducibility</li>
+            </ul>
+            <p class="project-links">
+                <!-- [CONTENT-NEEDED: GitHub repository URL] -->
             </p>
         </article>
 
         <article class="project" id="ai-resistant-learning">
             <h2 class="nocount">AI-Resistant Learning Platform</h2>
             <p class="project-meta">
-                <span class="project-type">Education</span>
-                <span class="project-status">Concept</span>
-                <span class="project-timeline">2024</span>
+                <span class="project-type">Educational Software</span>
+                <span class="project-status">In Development</span>
+                <span class="project-timeline">2025</span>
             </p>
             <p class="project-description">
-                Educational software designed to promote deep learning and critical thinking in an era of AI assistance. The platform uses process-oriented assessment and interactive problem-solving to ensure students develop genuine understanding rather than relying on AI-generated answers.
+                An open-source learning platform designed to address a critical problem in modern education: AI tools enabling students to complete assignments without genuine learning. Developed during my time teaching statistics at Hudson Valley Community College, the platform forces bit-by-bit engagement with reading material through required interactions, preventing students from using AI to bypass the learning process.
             </p>
-            <h3 class="nocount">Core Principles</h3>
+            <h3 class="nocount">Core Features</h3>
             <ul>
-                <li>Process-oriented assessment that values problem-solving steps over final answers</li>
-                <li>Interactive simulations requiring real-time decision-making</li>
-                <li>Randomized problem sets preventing answer key dependence</li>
-                <li>Collaborative learning features encouraging peer discussion</li>
-                <li>Focus on conceptual understanding and methodology</li>
-            </ul>
-        </article>
-
-        <article class="project" id="lab-inventory">
-            <h2 class="nocount">Lab Inventory Management Tool</h2>
-            <p class="project-meta">
-                <span class="project-type">Software</span>
-                <span class="project-status">Completed</span>
-                <span class="project-timeline">2023</span>
-            </p>
-            <p class="project-description">
-                Interactive web-based tool for managing laboratory equipment and supplies with visual spatial mapping. Developed for neuroscience research labs to track equipment locations, maintenance schedules, and inventory levels through an intuitive interface.
-            </p>
-            <h3 class="nocount">Technical Features</h3>
-            <ul>
-                <li>Interactive floor plan with clickable equipment locations</li>
-                <li>Database-backed inventory tracking with search functionality</li>
-                <li>Maintenance scheduling and alert system</li>
-                <li>Responsive design for mobile device access in lab</li>
-                <li>Export capabilities for purchasing and auditing</li>
-            </ul>
-        </article>
-
-        <article class="project" id="research-literacy-guide">
-            <h2 class="nocount">Scientific Research Literacy Guide</h2>
-            <p class="project-meta">
-                <span class="project-type">Education</span>
-                <span class="project-status">Completed</span>
-                <span class="project-timeline">2022-2024</span>
-            </p>
-            <p class="project-description">
-                Comprehensive 50+ page curriculum for teaching research methodology, statistics, and critical evaluation of scientific literature. Designed for undergraduate and graduate students in behavioral sciences, with emphasis on practical skills and conceptual understanding.
-            </p>
-            <h3 class="nocount">Topics Covered</h3>
-            <ul>
-                <li>Research design fundamentals and methodology</li>
-                <li>Statistical inference and effect sizes</li>
-                <li>Meta-analysis concepts and interpretation</li>
-                <li>Critical appraisal of research literature</li>
-                <li>Publication bias and questionable research practices</li>
-                <li>Open science practices and reproducibility</li>
+                <li>Forced incremental engagement with material — no skipping ahead</li>
+                <li>AI-resistant assessment design ensuring genuine comprehension</li>
+                <li>Process-oriented evaluation that values problem-solving steps</li>
+                <li>Built as open-source educational technology</li>
             </ul>
             <p class="project-links">
-                <!-- [CONTENT-NEEDED: Add GitHub repository URL for research-literacy-guide] -->
+                <!-- [CONTENT-NEEDED: GitHub repository URL] -->
             </p>
         </article>
 
-        <article class="project" id="troy-trees">
-            <h2 class="nocount">Troy Tree Identification Guide</h2>
+        <!-- ═══════════════ BIOTECH ═══════════════ -->
+
+        <h2 class="nocount">Biotech</h2>
+
+        <article class="project" id="exerkine-performance">
+            <h2 class="nocount">Exerkine Performance</h2>
             <p class="project-meta">
-                <span class="project-type">Web App (PWA)</span>
-                <span class="project-status">Completed</span>
+                <span class="project-type">Biotech Startup Concept</span>
+                <span class="project-status">Concept Stage</span>
+                <span class="project-timeline">2021</span>
             </p>
             <p class="project-description">
-                Progressive Web App for identifying trees in Troy, NY. Features offline capability, searchable species database, and photo-based identification guides. Built with vanilla JavaScript, JSON data, and service workers.
+                A biotech startup concept focused on exogenous exerkines (exercise mimetics) for patients who cannot exercise due to frailty, injury, or ICU confinement. Developed a full business plan, pitch deck, and executive summary. Conducted market analysis targeting the $5B sports medicine market and ~100K ICU beds, and designed a personalized dosing algorithm concept based on individual "exerkine profiles."
             </p>
-            <p class="project-links">
-                <a href="troy-trees/index.html">Launch App →</a>
-            </p>
+            <h3 class="nocount">Highlights</h3>
+            <ul>
+                <li>Target market: patients unable to exercise — frail, injured, ICU-confined</li>
+                <li>Exercise mimetic candidates: BDNF, IGF-1, irisin, cathepsin B, and other exerkines</li>
+                <li>Personalized dosing algorithm based on individual exerkine profiles</li>
+                <li>Market analysis: $5B sports medicine market, 100K+ ICU beds</li>
+                <li>Pursued early-stage funding opportunities</li>
+            </ul>
         </article>
+
+        <!-- ═══════════════ WEB APPS & TOOLS ═══════════════ -->
+
+        <h2 class="nocount">Web Apps &amp; Tools</h2>
 
         <article class="project" id="museum-trackers">
             <h2 class="nocount">Museum Exhibit Trackers</h2>
@@ -153,7 +196,7 @@
                 <span class="project-status">Completed</span>
             </p>
             <p class="project-description">
-                Interactive web apps for tracking museum exhibits in the Capital Region and New York City. Features dark mode, responsive design, and JSON-powered data management. Demonstrates practical front-end development skills.
+                Interactive web apps for tracking museum exhibits in the Capital Region and New York City. Features dark mode, responsive design, and JSON-powered data management.
             </p>
             <p class="project-links">
                 <a href="albany-museums/index.html">Capital Region Museums →</a>
@@ -161,24 +204,18 @@
             </p>
         </article>
 
-        <article class="project" id="exerkine-performance">
-            <h2 class="nocount">Exerkine Performance</h2>
+        <article class="project" id="troy-trees">
+            <h2 class="nocount">Troy Tree Identification Guide</h2>
             <p class="project-meta">
-                <span class="project-type">Biotech Startup</span>
-                <span class="project-status">Concept</span>
-                <span class="project-timeline">2024</span>
+                <span class="project-type">Progressive Web App</span>
+                <span class="project-status">Completed</span>
             </p>
             <p class="project-description">
-                Biotech startup concept focused on translating exercise-induced signaling molecules (exerkines) into therapeutic interventions. The company aims to develop pharmaceutical approaches to deliver the cognitive and metabolic benefits of exercise to populations unable to engage in traditional physical activity.
+                A PWA for identifying trees in Troy, NY. Features offline capability, searchable species database, and photo-based identification guides. Built with vanilla JavaScript, JSON data, and service workers.
             </p>
-            <h3 class="nocount">Value Proposition</h3>
-            <ul>
-                <li>Target market: aging populations, neurological disease patients, mobility-impaired individuals</li>
-                <li>Scientific foundation: decades of exercise neuroscience research</li>
-                <li>Therapeutic candidates: BDNF, IGF-1, irisin, cathepsin B, and other exerkines</li>
-                <li>Applications: cognitive enhancement, neuroprotection, metabolic health</li>
-                <li>Competitive advantage: focus on combinatorial approaches mimicking exercise physiology</li>
-            </ul>
+            <p class="project-links">
+                <a href="troy-trees/index.html">Launch App →</a>
+            </p>
         </article>
 
     </main>
