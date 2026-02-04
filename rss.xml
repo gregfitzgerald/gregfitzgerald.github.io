@@ -5,27 +5,24 @@
     <link>https://greg-fitzgerald.com/</link>
     <description>Writing on neuroscience research, meta-analysis, and statistics</description>
     <language>en-us</language>
-    <lastBuildDate>Sun, 10 Nov 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 11 Jul 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://greg-fitzgerald.com/rss.xml" rel="self" type="application/rss+xml"/>
+
+    <item>
+      <title>Insulin-like growth factor-2 is a promising candidate for the treatment and prevention of Alzheimer's disease</title>
+      <link>https://greg-fitzgerald.com/posts/igf2-alzheimers.html</link>
+      <description>A comprehensive review of IGF2 as a neurotrophic therapeutic agent for Alzheimer's disease, examining its neuroprotective mechanisms, effects on cognition and neuroplasticity, and potential as a preventive and treatment intervention.</description>
+      <pubDate>Wed, 15 Jan 2025 00:00:00 +0000</pubDate>
+      <guid isPermaLink="true">https://greg-fitzgerald.com/posts/igf2-alzheimers.html</guid>
+    </item>
 
     <item>
       <title>Welcome to My Blog</title>
       <link>https://greg-fitzgerald.com/posts/welcome.html</link>
-      <description>An introduction to my new blog</description>
-      <pubDate>Sun, 10 Nov 2025 00:00:00 +0000</pubDate>
+      <description>An introduction to my new blog — writing on neuroscience, meta-analysis, and statistics.</description>
+      <pubDate>Mon, 10 Nov 2025 00:00:00 +0000</pubDate>
       <guid isPermaLink="true">https://greg-fitzgerald.com/posts/welcome.html</guid>
     </item>
-
-    <!-- Add new posts here in reverse chronological order -->
-    <!-- Template:
-    <item>
-      <title>Post Title</title>
-      <link>https://gregfitzgerald.github.io/posts/post-slug.html</link>
-      <description>Brief description of the post</description>
-      <pubDate>Day, DD Mon YYYY 00:00:00 +0000</pubDate>
-      <guid isPermaLink="true">https://gregfitzgerald.github.io/posts/post-slug.html</guid>
-    </item>
-    -->
 
   </channel>
 </rss>

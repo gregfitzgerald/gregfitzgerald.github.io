@@ -3,106 +3,93 @@
 
   <url>
     <loc>https://greg-fitzgerald.com/</loc>
-    <lastmod>2026-01-19</lastmod>
+    <lastmod>2026-07-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
   <url>
     <loc>https://greg-fitzgerald.com/about.html</loc>
-    <lastmod>2026-01-19</lastmod>
+    <lastmod>2026-07-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://greg-fitzgerald.com/research.html</loc>
-    <lastmod>2026-01-19</lastmod>
+    <loc>https://greg-fitzgerald.com/cv.html</loc>
+    <lastmod>2026-07-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://greg-fitzgerald.com/writing.html</loc>
-    <lastmod>2026-01-19</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://greg-fitzgerald.com/research.html</loc>
+    <lastmod>2026-07-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://greg-fitzgerald.com/projects.html</loc>
-    <lastmod>2026-01-19</lastmod>
+    <lastmod>2026-07-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://greg-fitzgerald.com/writing.html</loc>
+    <lastmod>2026-07-11</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://greg-fitzgerald.com/tutoring.html</loc>
-    <lastmod>2026-01-19</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://greg-fitzgerald.com/gallery.html</loc>
-    <lastmod>2026-01-19</lastmod>
+    <lastmod>2026-07-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://greg-fitzgerald.com/contact.html</loc>
-    <lastmod>2026-01-19</lastmod>
+    <lastmod>2026-07-11</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
-  </url>
-
-  <url>
-    <loc>https://greg-fitzgerald.com/cv.html</loc>
-    <lastmod>2026-01-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://greg-fitzgerald.com/posts/igf2-alzheimers.html</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
 
-  <!-- Jimmy the Turtle page -->
   <url>
-    <loc>https://greg-fitzgerald.com/jimmy.html</loc>
-    <lastmod>2026-02-04</lastmod>
+    <loc>https://greg-fitzgerald.com/posts/welcome.html</loc>
+    <lastmod>2025-11-10</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
 
-  <!-- Blog post stubs (unpublished - update when content is added) -->
-  <!--
   <url>
-    <loc>https://greg-fitzgerald.com/posts/claude-code-researchers.html</loc>
-    <lastmod>2026-02-04</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://greg-fitzgerald.com/troy-trees/index.html</loc>
+    <lastmod>2026-07-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
+
   <url>
-    <loc>https://greg-fitzgerald.com/posts/research-literacy-overview.html</loc>
-    <lastmod>2026-02-04</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://greg-fitzgerald.com/albany-museums/index.html</loc>
+    <lastmod>2026-07-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
+
   <url>
-    <loc>https://greg-fitzgerald.com/posts/meta-analysis-methodology.html</loc>
-    <lastmod>2026-02-04</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://greg-fitzgerald.com/nyc-museums/index.html</loc>
+    <lastmod>2026-07-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
-  <url>
-    <loc>https://greg-fitzgerald.com/posts/ai-resistant-learning.html</loc>
-    <lastmod>2026-02-04</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  -->
 
 </urlset>
