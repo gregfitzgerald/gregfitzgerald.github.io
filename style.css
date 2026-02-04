@@ -353,20 +353,6 @@ figure {
   margin: var(--space-4) var(--space-2);
 }
 
-.right_float {
-  max-width: 400px;
-  float: right;
-  clear: right;
-  padding: 4px;
-  margin-right: 10px;
-  margin-left: 10px;
-  margin-bottom: 10px;
-  border: solid 2px var(--color-accent-light);
-  line-height: 20px;
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
-}
-
 /* ============================================
    DEFINITION LISTS
    ============================================ */
@@ -540,12 +526,6 @@ label.margin-toggle:not(.sidenote-number) {
   margin-left: var(--space-2);
   margin-top: 10px;
   padding: 0;
-}
-
-.article-subtitle {
-  margin-left: var(--space-2);
-  margin-top: 5px;
-  color: var(--color-text-muted);
 }
 
 /* ============================================
@@ -896,19 +876,6 @@ label.margin-toggle:not(.sidenote-number) {
 
 .callout p:last-child {
   margin-bottom: 0;
-}
-
-/* ============================================
-   SOCIAL LINKS
-   ============================================ */
-
-.social-links {
-  padding: 0;
-  text-align: center;
-}
-
-.social-links li {
-  display: inline-block;
 }
 
 /* ============================================
