@@ -35,10 +35,6 @@ These items will make the biggest difference for your job search:
 
 - [ ] **Gallery images** — personal photography, scientific visualizations, landscapes. Currently hidden from nav and marked noindex until populated.
 
-## Jimmy Page (jimmy.html)
-
-- [ ] **Content about Jimmy** — species, age, personality, photos, fun facts/stories
-
 ## Tutoring Page (tutoring.html)
 
 - [ ] **Calendly booking link** — when available, replace the email link with an embedded Calendly widget
