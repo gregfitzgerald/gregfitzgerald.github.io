@@ -1016,3 +1016,147 @@ textarea:focus-visible {
     margin: 0;
   }
 }
+
+/* ============================================
+   HOMEPAGE THREE-COLUMN LAYOUT
+   ============================================ */
+
+.homepage-layout {
+  display: grid;
+  grid-template-columns: 200px 1fr 280px;
+  gap: var(--space-5);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-4);
+}
+
+.homepage-layout .sidebar-left {
+  position: sticky;
+  top: var(--space-5);
+  height: fit-content;
+}
+
+.homepage-layout .sidebar-right {
+  position: sticky;
+  top: var(--space-5);
+  height: fit-content;
+}
+
+.homepage-layout .main-content {
+  min-width: 0;
+}
+
+/* Sidebar Navigation */
+.sidebar-title {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.sidebar-title:first-child {
+  margin-top: 0;
+}
+
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-list li {
+  margin-bottom: var(--space-1);
+}
+
+.nav-list a {
+  display: block;
+  padding: var(--space-1) var(--space-2);
+  border-radius: 4px;
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+  transition: background 0.15s ease;
+}
+
+.nav-list a:hover {
+  background: var(--color-bg-alt);
+  color: var(--color-link);
+}
+
+.nav-list a.nav-current {
+  background: var(--color-accent-lighter);
+  color: var(--color-accent-dark);
+  font-weight: 600;
+}
+
+/* Widget Styling */
+.widget {
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.widget-title {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  margin: 0 0 var(--space-3) 0;
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+  /* Reset counter to prevent 0.1 numbering issue */
+  counter-reset: none !important;
+  counter-increment: none !important;
+}
+
+.widget-title::before {
+  content: none !important;
+}
+
+.widget-content {
+  font-size: var(--font-size-sm);
+}
+
+.widget-link {
+  display: inline-block;
+  margin-top: var(--space-2);
+  font-size: var(--font-size-sm);
+}
+
+/* Goodreads Widget Reset - Prevent counter styles from leaking */
+.goodreads-widget,
+.goodreads-widget * {
+  counter-reset: none !important;
+  counter-increment: none !important;
+}
+
+.goodreads-widget h2::before,
+.goodreads-widget h3::before,
+.goodreads-widget h4::before {
+  content: none !important;
+}
+
+/* Responsive: Tablet */
+@media (max-width: 1100px) {
+  .homepage-layout {
+    grid-template-columns: 1fr 250px;
+  }
+  .homepage-layout .sidebar-left {
+    display: none;
+  }
+}
+
+/* Responsive: Mobile */
+@media (max-width: 760px) {
+  .homepage-layout {
+    grid-template-columns: 1fr;
+    padding: var(--space-3);
+  }
+  .homepage-layout .sidebar-right {
+    position: static;
+    order: -1;
+  }
+}
