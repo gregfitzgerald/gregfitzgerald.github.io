@@ -4,7 +4,7 @@ This file tracks remaining content placeholders across the site. Items already p
 
 ## CV Page (cv.html)
 
-- [ ] **PDF version of CV** — upload to `files/greg-fitzgerald-cv.pdf`
+- [x] ~~**PDF version of CV**~~ — Resume uploaded to `files/greg-fitzgerald-resume.pdf`
 - [ ] **Professional memberships** — SfN, APS, or other scientific societies (if current)
 - [ ] **Awards and honors** — URME Scholar (2010), URP Fund Scholar at CSHL (2011), Salutatorian (2009), Magna Cum Laude (2013) — verify these are listed
 
@@ -31,10 +31,9 @@ This file tracks remaining content placeholders across the site. Items already p
 
 ## Blog Posts (posts/)
 
-Four draft stubs exist but have no content (marked noindex):
+Three draft stubs exist but have no content (marked noindex):
 - [ ] `posts/claude-code-researchers.html`
 - [ ] `posts/ai-resistant-learning.html`
-- [ ] `posts/meta-analysis-methodology.html` — **highest priority blog post for job search**
 - [ ] `posts/research-literacy-overview.html`
 
 ## Projects Page (projects.html)
