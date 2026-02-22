@@ -1171,3 +1171,140 @@ textarea:focus-visible {
     order: -1;
   }
 }
+
+/* ============================================
+   BEATS - Activity Badges
+   ============================================ */
+
+.beats-container {
+  margin: var(--space-5) 0;
+}
+
+.beat {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+}
+
+.beat:last-child {
+  border-bottom: none;
+}
+
+.beat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Beat type colors */
+.beat-paper .beat-badge {
+  background: #e8f4f8;
+  color: #1a5f7a;
+}
+
+.beat-code .beat-badge {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.beat-thought .beat-badge {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.beat-til .beat-badge {
+  background: #fce4ec;
+  color: #c2185b;
+}
+
+.beat-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.beat-content a {
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.beat-content a:hover {
+  color: var(--color-link);
+  text-decoration: underline;
+}
+
+.beat-description {
+  color: var(--color-text-muted);
+}
+
+.beat-meta {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  white-space: nowrap;
+  margin-left: auto;
+}
+
+.beat-source {
+  color: var(--color-text-secondary);
+}
+
+.beats-empty,
+.beats-error {
+  color: var(--color-text-muted);
+  font-style: italic;
+  padding: var(--space-4) 0;
+}
+
+/* Compact variant for sidebars/widgets */
+.beats-compact .beat {
+  padding: var(--space-2) 0;
+  font-size: var(--font-size-xs);
+}
+
+.beats-compact .beat-badge {
+  padding: 2px var(--space-1);
+  font-size: 0.65rem;
+}
+
+.beats-compact .beat-description {
+  display: none;
+}
+
+/* Widget variant */
+.widget .beats-container {
+  margin: 0;
+}
+
+.widget .beat {
+  padding: var(--space-2) 0;
+}
+
+.widget .beat-meta {
+  display: none;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .beat {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-1);
+  }
+  
+  .beat-meta {
+    margin-left: 0;
+  }
+}

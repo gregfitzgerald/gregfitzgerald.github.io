@@ -15,6 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@500&family=Encode+Sans:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/jpeg" href="favicon.jpg">
+    <script src="js/beats.js" defer></script>
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -53,6 +54,7 @@
 
                 <h3 class="sidebar-title">Quick Links</h3>
                 <ul class="nav-list">
+                    <li><a href="activity.html">Activity Feed</a></li>
                     <li><a href="tutoring.html">Research Tutoring</a></li>
                     <li><a href="projects.html#meta-analysis-enrichment">Meta-Analysis Project</a></li>
                     <li><a href="posts/igf2-alzheimers.html">IGF-2 Review Paper</a></li>
@@ -105,6 +107,10 @@
                 <p class="post-excerpt">A comprehensive review of IGF-2 as a neurotrophic therapeutic agent for Alzheimer's disease, examining its neuroprotective mechanisms, effects on cognition and neuroplasticity, and potential as a preventive and treatment intervention.</p>
             </article>
 
+            <h2 class="nocount">Recent Activity</h2>
+            <p>Papers I'm reading, code I'm writing, and things I'm learning. <a href="activity.html">View all →</a></p>
+            <div id="homepage-beats" class="beats-container" data-beats data-beats-limit="5"></div>
+
         </main>
 
         <!-- RIGHT SIDEBAR: Widgets -->
@@ -134,6 +140,15 @@
                 <div class="widget-content" id="gr_custom_widget_1770227782"></div>
                 <script src="https://www.goodreads.com/review/custom_widget/24713264.Currently%20Reading?cover_position=left&cover_size=small&num_books=3&order=a&shelf=currently-reading&show_author=1&show_cover=1&show_rating=0&show_review=0&show_tags=0&show_title=1&sort=date_added&widget_bg_color=FFFFFF&widget_bg_transparent=&widget_border_width=0&widget_id=1770227782&widget_text_color=000000&widget_title_size=medium&widget_width=medium" type="text/javascript" charset="utf-8"></script>
                 <a href="https://www.goodreads.com/review/list/24713264-greg?shelf=currently-reading" class="widget-link" target="_blank" rel="noopener">View on Goodreads →</a>
+            </div>
+
+            <!-- Recent Activity Widget -->
+            <div class="widget">
+                <h3 class="widget-title">Recent Activity</h3>
+                <div class="widget-content beats-compact">
+                    <div id="sidebar-beats" data-beats data-beats-limit="3"></div>
+                </div>
+                <a href="activity.html" class="widget-link">View all activity →</a>
             </div>
 
             <!-- Connect Widget -->

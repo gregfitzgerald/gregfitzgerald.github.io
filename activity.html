@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity | Greg Fitzgerald</title>
+    <meta name="description" content="Recent activity: papers I'm reading, code I'm writing, thoughts I'm sharing, and things I'm learning.">
+
+    <!-- Open Graph meta tags -->
+    <meta property="og:title" content="Activity | Greg Fitzgerald">
+    <meta property="og:description" content="Recent activity: papers I'm reading, code I'm writing, thoughts I'm sharing, and things I'm learning.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://greg-fitzgerald.com/activity.html">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@500&family=Encode+Sans:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="canonical" href="https://greg-fitzgerald.com/activity.html">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/jpeg" href="favicon.jpg">
+    <script src="js/beats.js" defer></script>
+</head>
+<body>
+    <!-- HEADER START -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header class="site-header">
+        <nav class="site-navi">
+            <div class="site-title"><a href="index.html">Greg Fitzgerald</a></div>
+            <ul class="site-navi-items">
+                <li><span class="nav-chevron">&gt;</span> <a href="index.html">Home</a></li>
+                <li><span class="nav-chevron">&gt;</span> <a href="research.html">Research</a></li>
+                <li><span class="nav-chevron">&gt;</span> <a href="projects.html">Projects</a></li>
+                <li><span class="nav-chevron">&gt;</span> <a href="cv.html">CV</a></li>
+                <li><span class="nav-chevron">&gt;</span> <a href="writing.html">Blog</a></li>
+                <li><span class="nav-chevron">&gt;</span> <a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <hr class="site-header-bottom">
+    <!-- HEADER END -->
+
+    <main id="main-content" class="main">
+        <h1>Activity</h1>
+        <p>A stream of what I'm doing: papers I'm reading, code I'm pushing, thoughts I'm sharing, and things I'm learning.</p>
+
+        <!-- Filter buttons -->
+        <div class="beats-filters" style="margin: 1.5em 0;">
+            <button class="beat-filter active" data-filter="all">All</button>
+            <button class="beat-filter" data-filter="paper">📄 Papers</button>
+            <button class="beat-filter" data-filter="code">💻 Code</button>
+            <button class="beat-filter" data-filter="thought">💭 Thoughts</button>
+            <button class="beat-filter" data-filter="til">💡 TILs</button>
+        </div>
+
+        <div id="activity-beats" class="beats-container" data-beats data-beats-limit="50" data-beats-show-empty></div>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 Greg Fitzgerald. All rights reserved.</p>
+    </footer>
+
+    <script>
+    // Filter functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const filters = document.querySelectorAll('.beat-filter');
+        const container = document.getElementById('activity-beats');
+        
+        filters.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Update active state
+                filters.forEach(f => f.classList.remove('active'));
+                this.classList.add('active');
+                
+                const filter = this.dataset.filter;
+                
+                // Re-render with filter
+                if (filter === 'all') {
+                    Beats.render('activity-beats', { limit: 50, showEmpty: true });
+                } else {
+                    Beats.render('activity-beats', { limit: 50, types: [filter], showEmpty: true });
+                }
+            });
+        });
+    });
+    </script>
+
+    <style>
+    .beats-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5em;
+    }
+    
+    .beat-filter {
+        padding: 0.5em 1em;
+        border: 1px solid var(--color-border);
+        background: var(--color-bg);
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        font-size: var(--font-size-sm);
+        transition: all var(--transition-fast);
+    }
+    
+    .beat-filter:hover {
+        border-color: var(--color-accent);
+        background: var(--color-accent-lighter);
+    }
+    
+    .beat-filter.active {
+        background: var(--color-accent);
+        border-color: var(--color-accent);
+        color: white;
+    }
+    </style>
+</body>
+</html>

@@ -1,0 +1,205 @@
+{
+  "beats": [
+    {
+      "id": "paper-ph6kibvx",
+      "type": "paper",
+      "title": "Liberal Law-and-Order",
+      "description": "Spitz (2026)",
+      "url": null,
+      "date": "2026-02-16",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "manuscript",
+        "key": "PH6KIBVX"
+      }
+    },
+    {
+      "id": "paper-z53pgmqq",
+      "type": "paper",
+      "title": "Punishment in Modern Societies: The Prevalence and Causes of Incarceration Around the World",
+      "description": "Clegg et al. (2024)",
+      "url": "https://doi.org/10.1146/annurev-criminol-022422-020311",
+      "date": "2026-02-16",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "Z53PGMQQ"
+      }
+    },
+    {
+      "id": "code-8470431268",
+      "type": "code",
+      "title": "Pushed to gregfitzgerald.github.io",
+      "description": null,
+      "url": "https://github.com/gregfitzgerald/gregfitzgerald.github.io",
+      "date": "2026-02-15",
+      "source": "GitHub",
+      "meta": {
+        "eventType": "PushEvent",
+        "repo": "gregfitzgerald/gregfitzgerald.github.io"
+      }
+    },
+    {
+      "id": "code-8429960075",
+      "type": "code",
+      "title": "Pushed to gregfitzgerald.github.io",
+      "description": null,
+      "url": "https://github.com/gregfitzgerald/gregfitzgerald.github.io",
+      "date": "2026-02-13",
+      "source": "GitHub",
+      "meta": {
+        "eventType": "PushEvent",
+        "repo": "gregfitzgerald/gregfitzgerald.github.io"
+      }
+    },
+    {
+      "id": "code-8315687708",
+      "type": "code",
+      "title": "Created branch main in claude-code-sounds",
+      "description": null,
+      "url": "https://github.com/gregfitzgerald/claude-code-sounds/tree/main",
+      "date": "2026-02-10",
+      "source": "GitHub",
+      "meta": {
+        "eventType": "CreateEvent",
+        "repo": "gregfitzgerald/claude-code-sounds"
+      }
+    },
+    {
+      "id": "code-8313378281",
+      "type": "code",
+      "title": "Pushed to copy-download-path",
+      "description": null,
+      "url": "https://github.com/gregfitzgerald/copy-download-path",
+      "date": "2026-02-10",
+      "source": "GitHub",
+      "meta": {
+        "eventType": "PushEvent",
+        "repo": "gregfitzgerald/copy-download-path"
+      }
+    },
+    {
+      "id": "code-8313291444",
+      "type": "code",
+      "title": "Created branch main in copy-download-path",
+      "description": null,
+      "url": "https://github.com/gregfitzgerald/copy-download-path/tree/main",
+      "date": "2026-02-10",
+      "source": "GitHub",
+      "meta": {
+        "eventType": "CreateEvent",
+        "repo": "gregfitzgerald/copy-download-path"
+      }
+    },
+    {
+      "id": "code-8218270934",
+      "type": "code",
+      "title": "Pushed to clawdbot-starter",
+      "description": null,
+      "url": "https://github.com/gregfitzgerald/clawdbot-starter",
+      "date": "2026-02-07",
+      "source": "GitHub",
+      "meta": {
+        "eventType": "PushEvent",
+        "repo": "gregfitzgerald/clawdbot-starter"
+      }
+    },
+    {
+      "id": "code-8218109374",
+      "type": "code",
+      "title": "Created branch main in clawdbot-starter",
+      "description": null,
+      "url": "https://github.com/gregfitzgerald/clawdbot-starter/tree/main",
+      "date": "2026-02-07",
+      "source": "GitHub",
+      "meta": {
+        "eventType": "CreateEvent",
+        "repo": "gregfitzgerald/clawdbot-starter"
+      }
+    },
+    {
+      "id": "code-8179645570",
+      "type": "code",
+      "title": "Pushed to gregfitzgerald.github.io",
+      "description": null,
+      "url": "https://github.com/gregfitzgerald/gregfitzgerald.github.io",
+      "date": "2026-02-05",
+      "source": "GitHub",
+      "meta": {
+        "eventType": "PushEvent",
+        "repo": "gregfitzgerald/gregfitzgerald.github.io"
+      }
+    },
+    {
+      "id": "code-8136049961",
+      "type": "code",
+      "title": "Pushed to gregfitzgerald.github.io",
+      "description": null,
+      "url": "https://github.com/gregfitzgerald/gregfitzgerald.github.io",
+      "date": "2026-02-04",
+      "source": "GitHub",
+      "meta": {
+        "eventType": "PushEvent",
+        "repo": "gregfitzgerald/gregfitzgerald.github.io"
+      }
+    },
+    {
+      "id": "code-8087184553",
+      "type": "code",
+      "title": "Pushed to gregfitzgerald.github.io",
+      "description": null,
+      "url": "https://github.com/gregfitzgerald/gregfitzgerald.github.io",
+      "date": "2026-02-03",
+      "source": "GitHub",
+      "meta": {
+        "eventType": "PushEvent",
+        "repo": "gregfitzgerald/gregfitzgerald.github.io"
+      }
+    },
+    {
+      "id": "code-7782209030",
+      "type": "code",
+      "title": "Pushed to gregfitzgerald.github.io",
+      "description": null,
+      "url": "https://github.com/gregfitzgerald/gregfitzgerald.github.io",
+      "date": "2026-01-24",
+      "source": "GitHub",
+      "meta": {
+        "eventType": "PushEvent",
+        "repo": "gregfitzgerald/gregfitzgerald.github.io"
+      }
+    },
+    {
+      "id": "code-7767103678",
+      "type": "code",
+      "title": "Pushed to gregfitzgerald.github.io",
+      "description": null,
+      "url": "https://github.com/gregfitzgerald/gregfitzgerald.github.io",
+      "date": "2026-01-23",
+      "source": "GitHub",
+      "meta": {
+        "eventType": "PushEvent",
+        "repo": "gregfitzgerald/gregfitzgerald.github.io"
+      }
+    }
+  ],
+  "lastUpdated": "2026-02-22T03:03:09.142Z",
+  "sources": {
+    "zotero": {
+      "lastSync": "2026-02-22T03:03:09.142Z",
+      "count": 2
+    },
+    "github": {
+      "lastSync": "2026-02-22T03:02:53.420Z",
+      "count": 12
+    },
+    "twitter": {
+      "lastSync": null,
+      "count": 0
+    },
+    "til": {
+      "lastSync": null,
+      "count": 0
+    }
+  }
+}

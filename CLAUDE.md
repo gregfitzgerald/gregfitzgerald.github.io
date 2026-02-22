@@ -1,5 +1,30 @@
 # Website TODOs - greg-fitzgerald.com
 
+## Recent Updates (2026-02-21)
+
+**Beats System Implemented:**
+- ✅ Created `js/beats.js` for rendering activity badges
+- ✅ Added beats CSS to `style.css`
+- ✅ Created import scripts in `scripts/`:
+  - `import-zotero.mjs` - Papers from Zotero
+  - `import-github.mjs` - GitHub activity
+  - `import-twitter.mjs` - Tweets (requires SocialData API)
+  - `import-til.mjs` - TILs from `data/tils.md`
+  - `import-all.mjs` - Master script
+- ✅ Added "Recent Activity" section to homepage
+- ✅ Created `activity.html` for full activity timeline
+- ✅ Added beats widget to right sidebar
+- ✅ Updated sitemap
+
+**To keep beats fresh:**
+```bash
+cd /mnt/c/Users/gregs/gregfitzgerald.github.io
+node scripts/import-all.mjs --quick
+git add . && git commit -m "Update beats" && git push
+```
+
+---
+
 ## Recent Updates (2026-02-04)
 
 **Completed by Sophie (Subagent - Ralph Wiggum Cycles):**
