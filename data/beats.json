@@ -1,6 +1,20 @@
 {
   "beats": [
     {
+      "id": "thought-2024842021815435503",
+      "type": "thought",
+      "title": "Finding opportunities to fit reading into your schedule is a skill that is worth cultivating. The more you try to rea...",
+      "description": null,
+      "url": "https://twitter.com/gregsfitzgerald/status/2024842021815435503",
+      "date": "2026-02-20",
+      "source": "Twitter",
+      "meta": {
+        "tweetId": "2024842021815435503",
+        "likes": 0,
+        "retweets": 0
+      }
+    },
+    {
       "id": "paper-ph6kibvx",
       "type": "paper",
       "title": "Liberal Law-and-Order",
@@ -92,6 +106,20 @@
       }
     },
     {
+      "id": "thought-2020501468332392493",
+      "type": "thought",
+      "title": "I did like this using Claude, when trying to debug a multi-player game. It let me notice problems easily.",
+      "description": null,
+      "url": "https://twitter.com/gregsfitzgerald/status/2020501468332392493",
+      "date": "2026-02-08",
+      "source": "Twitter",
+      "meta": {
+        "tweetId": "2020501468332392493",
+        "likes": 1,
+        "retweets": 0
+      }
+    },
+    {
       "id": "code-8218270934",
       "type": "code",
       "title": "Pushed to clawdbot-starter",
@@ -118,6 +146,20 @@
       }
     },
     {
+      "id": "thought-2019940822217609700",
+      "type": "thought",
+      "title": "Finally, everyone was working together.",
+      "description": null,
+      "url": "https://twitter.com/gregsfitzgerald/status/2019940822217609700",
+      "date": "2026-02-07",
+      "source": "Twitter",
+      "meta": {
+        "tweetId": "2019940822217609700",
+        "likes": 0,
+        "retweets": 0
+      }
+    },
+    {
       "id": "code-8179645570",
       "type": "code",
       "title": "Pushed to gregfitzgerald.github.io",
@@ -128,6 +170,20 @@
       "meta": {
         "eventType": "PushEvent",
         "repo": "gregfitzgerald/gregfitzgerald.github.io"
+      }
+    },
+    {
+      "id": "thought-2019496253948666088",
+      "type": "thought",
+      "title": "@moreisdifferent We were early on this!",
+      "description": null,
+      "url": "https://twitter.com/gregsfitzgerald/status/2019496253948666088",
+      "date": "2026-02-05",
+      "source": "Twitter",
+      "meta": {
+        "tweetId": "2019496253948666088",
+        "likes": 1,
+        "retweets": 0
       }
     },
     {
@@ -157,6 +213,20 @@
       }
     },
     {
+      "id": "thought-2017404990227153020",
+      "type": "thought",
+      "title": "the metaphor of clawd and molt is an example of \"reality being stranger than fiction\":\n\nclawd is like the meme of eve...",
+      "description": null,
+      "url": "https://twitter.com/gregsfitzgerald/status/2017404990227153020",
+      "date": "2026-01-31",
+      "source": "Twitter",
+      "meta": {
+        "tweetId": "2017404990227153020",
+        "likes": 0,
+        "retweets": 0
+      }
+    },
+    {
       "id": "code-7782209030",
       "type": "code",
       "title": "Pushed to gregfitzgerald.github.io",
@@ -183,7 +253,7 @@
       }
     }
   ],
-  "lastUpdated": "2026-02-22T03:03:09.142Z",
+  "lastUpdated": "2026-02-22T03:35:19.375Z",
   "sources": {
     "zotero": {
       "lastSync": "2026-02-22T03:03:09.142Z",
@@ -194,8 +264,8 @@
       "count": 12
     },
     "twitter": {
-      "lastSync": null,
-      "count": 0
+      "lastSync": "2026-02-22T03:35:19.375Z",
+      "count": 5
     },
     "til": {
       "lastSync": null,

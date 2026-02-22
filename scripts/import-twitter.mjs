@@ -7,7 +7,7 @@
  */
 
 import { loadBeats, saveBeats, mergeBeats, generateBeatId, formatDate } from './beats-utils.mjs';
-import { execSync } from 'child_process';
+import fs from 'fs';
 
 // Configuration
 const TWITTER_USERNAME = 'gregsfitzgerald';
@@ -17,8 +17,8 @@ const DAYS_BACK = 30;
 function getApiKey() {
   try {
     const envPath = '/home/gsfitzgerald/clawd-assistant/apify-skills/.env';
-    const envContent = require('fs').readFileSync(envPath, 'utf-8');
-    const match = envContent.match(/SOCIALDATA_API_KEY=(.+)/);
+    const envContent = fs.readFileSync(envPath, 'utf-8');
+    const match = envContent.match(/SOCIALDATA_API_KEY=["']?([^"'\n]+)["']?/);
     return match ? match[1].trim() : null;
   } catch (e) {
     return process.env.SOCIALDATA_API_KEY || null;
