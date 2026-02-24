@@ -1,5 +1,22 @@
 # Website TODOs - greg-fitzgerald.com
 
+## QA: Dogfood After Substantial Changes
+
+After any substantial website change, run a visual QA pass ("dogfood"):
+
+1. Open each page in headless browser (profile: openclaw)
+2. Take full-page screenshots
+3. Check browser console for errors
+4. Look for: broken links, placeholder text, layout issues, CSS leaks
+5. Save screenshots to `dogfood-output/screenshots/`
+6. Update `dogfood-output/report.md` with findings
+
+**dogfood-output/ is gitignored** -- QA artifacts stay local.
+
+Last dogfood: 2026-02-24 (8 issues found, 0 critical)
+
+---
+
 ## Recent Updates (2026-02-21)
 
 **Beats System Implemented:**
