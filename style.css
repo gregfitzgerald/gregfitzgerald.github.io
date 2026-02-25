@@ -654,6 +654,11 @@ label.margin-toggle:not(.sidenote-number) {
   margin-left: 0;
 }
 
+.project-card h3:before {
+  content: none !important;
+  counter-increment: none !important;
+}
+
 .project-card a {
   font-weight: 700;
 }
