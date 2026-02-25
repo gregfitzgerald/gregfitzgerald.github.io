@@ -1126,6 +1126,13 @@ textarea:focus-visible {
   font-size: var(--font-size-sm);
 }
 
+/* Project card headings - no counters */
+.project-card h3::before,
+.post-preview h3::before {
+  content: none !important;
+  counter-increment: none !important;
+}
+
 /* Goodreads Widget Reset - Prevent counter styles from leaking */
 .goodreads-widget,
 .goodreads-widget * {
