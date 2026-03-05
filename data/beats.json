@@ -1,6 +1,32 @@
 {
   "beats": [
     {
+      "id": "code-9046167203",
+      "type": "code",
+      "title": "Created branch main in interactive-documents",
+      "description": null,
+      "url": "https://github.com/gregfitzgerald/interactive-documents/tree/main",
+      "date": "2026-03-04",
+      "source": "GitHub",
+      "meta": {
+        "eventType": "CreateEvent",
+        "repo": "gregfitzgerald/interactive-documents"
+      }
+    },
+    {
+      "id": "code-9026990892",
+      "type": "code",
+      "title": "Pushed to gregfitzgerald.github.io",
+      "description": null,
+      "url": "https://github.com/gregfitzgerald/gregfitzgerald.github.io",
+      "date": "2026-03-04",
+      "source": "GitHub",
+      "meta": {
+        "eventType": "PushEvent",
+        "repo": "gregfitzgerald/gregfitzgerald.github.io"
+      }
+    },
+    {
       "id": "code-8948974434",
       "type": "code",
       "title": "Pushed to gregfitzgerald.github.io",
@@ -50,6 +76,292 @@
       "meta": {
         "eventType": "PushEvent",
         "repo": "gregfitzgerald/gregfitzgerald.github.io"
+      }
+    },
+    {
+      "id": "paper-xrhfwhr4",
+      "type": "paper",
+      "title": "A platelet-derived factor protects the ageing brain",
+      "description": "Views (2023-09)",
+      "url": "https://doi.org/10.1038/s41577-023-00939-w",
+      "date": "2026-02-25",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "XRHFWHR4"
+      }
+    },
+    {
+      "id": "paper-3wfwanww",
+      "type": "paper",
+      "title": "GDF15 increases insulin action in the liver and adipose tissue via a β-adrenergic receptor-mediated mechanism",
+      "description": "Sjøberg (2023)",
+      "url": "https://doi.org/10.1016/j.cmet.2023.06.016",
+      "date": "2026-02-25",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "3WFWANWW"
+      }
+    },
+    {
+      "id": "paper-qg2sxsqn",
+      "type": "paper",
+      "title": "Cardiac adaptation to endurance exercise training requires suppression of GDF15 via PGC-1α",
+      "description": "Khetarpal (2025)",
+      "url": "https://doi.org/10.1038/s44161-025-00712-3",
+      "date": "2026-02-25",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "QG2SXSQN"
+      }
+    },
+    {
+      "id": "paper-6dkb6qmm",
+      "type": "paper",
+      "title": "The role of exercise-related FNDC5/irisin in depression",
+      "description": "Authors (2024)",
+      "url": "https://doi.org/10.3389/fphar.2024.1461995",
+      "date": "2026-02-25",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "6DKB6QMM"
+      }
+    },
+    {
+      "id": "paper-tn8r3nc7",
+      "type": "paper",
+      "title": "Blood platelet factor 4: the elixir of brain rejuvenation",
+      "description": "Author (2024-01)",
+      "url": "https://doi.org/10.1186/s13024-023-00681-w",
+      "date": "2026-02-25",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "TN8R3NC7"
+      }
+    },
+    {
+      "id": "paper-x6w2p5ve",
+      "type": "paper",
+      "title": "Temporal dynamics of the multi-omic response to endurance exercise training",
+      "description": "Group et al. (2024-05-01)",
+      "url": "https://doi.org/10.1038/s41586-023-06877-w",
+      "date": "2026-02-25",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "X6W2P5VE"
+      }
+    },
+    {
+      "id": "paper-divzbcsz",
+      "type": "paper",
+      "title": "Effects of the FNDC5/Irisin on Elderly Dementia and Cognitive Impairment",
+      "description": "Choi et al. (2022)",
+      "url": "https://doi.org/10.3389/fnagi.2022.863901",
+      "date": "2026-02-25",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "DIVZBCSZ"
+      }
+    },
+    {
+      "id": "paper-5eg6em9h",
+      "type": "paper",
+      "title": "Irisin stimulates protective signaling pathways in rat hippocampal neurons",
+      "description": "Lourenco et al. (2022)",
+      "url": "https://doi.org/10.3389/fncel.2022.953991",
+      "date": "2026-02-25",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "5EG6EM9H"
+      }
+    },
+    {
+      "id": "paper-53bnjebu",
+      "type": "paper",
+      "title": "Atlas of exercise metabolism reveals time-dependent signatures of metabolic homeostasis",
+      "description": "Sato et al. (2022-02)",
+      "url": "https://doi.org/10.1016/j.cmet.2021.12.016",
+      "date": "2026-02-25",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "53BNJEBU"
+      }
+    },
+    {
+      "id": "paper-vn3896b7",
+      "type": "paper",
+      "title": "Emerging Roles of GDF15 in Metabolic and Cardiovascular Diseases",
+      "description": "Lockhart (2024)",
+      "url": "https://doi.org/10.34133/research.0832",
+      "date": "2026-02-25",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "VN3896B7"
+      }
+    },
+    {
+      "id": "paper-j2mqhagn",
+      "type": "paper",
+      "title": "Muscle-derived extracellular vesicles mediate crosstalk between skeletal muscle and other organs",
+      "description": "Wang (2024-12)",
+      "url": "https://doi.org/10.3389/fphys.2024.1501957",
+      "date": "2026-02-25",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "J2MQHAGN"
+      }
+    },
+    {
+      "id": "paper-gmn8idjk",
+      "type": "paper",
+      "title": "Blood-to-brain communication in aging and rejuvenation",
+      "description": "Bieri et al. (2023-01-16)",
+      "url": "https://doi.org/10.1038/s41593-022-01238-8",
+      "date": "2026-02-25",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "GMN8IDJK"
+      }
+    },
+    {
+      "id": "paper-zvkr7u5i",
+      "type": "paper",
+      "title": "A Synthetic ERR Agonist Alleviates Metabolic Syndrome",
+      "description": "Billon et al. (2024-01-17)",
+      "url": "https://doi.org/10.1124/jpet.123.001770",
+      "date": "2026-02-25",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "ZVKR7U5I"
+      }
+    },
+    {
+      "id": "paper-6m3ps2jp",
+      "type": "paper",
+      "title": "Platelet-derived exerkine CXCL4/platelet factor 4 rejuvenates hippocampal neurogenesis and restores cognitive function in aged mice",
+      "description": "Leiter et al. (2023-08-16)",
+      "url": "https://doi.org/10.1038/s41467-023-39873-9",
+      "date": "2026-02-25",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "6M3PS2JP"
+      }
+    },
+    {
+      "id": "paper-8kiev76b",
+      "type": "paper",
+      "title": "Neuroprotective mechanisms of exercise and the importance of fitness for healthy brain ageing",
+      "description": "Einarsson (2025)",
+      "url": "https://doi.org/10.1016/S0140-6736(25)00184-9",
+      "date": "2026-02-25",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "8KIEV76B"
+      }
+    },
+    {
+      "id": "paper-2xrktcm5",
+      "type": "paper",
+      "title": "Cognitive Fitness: Harnessing the Strength of Exerkines for Aging and Metabolic Challenges",
+      "description": "Tawfik (2024)",
+      "url": "https://doi.org/10.3390/sports12020057",
+      "date": "2026-02-25",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "2XRKTCM5"
+      }
+    },
+    {
+      "id": "paper-n4ebae3h",
+      "type": "paper",
+      "title": "Exercise mimetics: a novel strategy to combat neuroinflammation and Alzheimer's disease",
+      "description": "Zhao (2024-02)",
+      "url": "https://doi.org/10.1186/s12974-024-03031-9",
+      "date": "2026-02-25",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "N4EBAE3H"
+      }
+    },
+    {
+      "id": "paper-7nq3kcvc",
+      "type": "paper",
+      "title": "Organism-wide, cell-type-specific secretome mapping of exercise training in mice",
+      "description": "Wei et al. (2023-07)",
+      "url": "https://doi.org/10.1016/j.cmet.2023.04.011",
+      "date": "2026-02-25",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "7NQ3KCVC"
+      }
+    },
+    {
+      "id": "paper-w885c33i",
+      "type": "paper",
+      "title": "Platelet factors attenuate inflammation and rescue cognition in ageing",
+      "description": "Schroer et al. (2023-08-16)",
+      "url": "https://doi.org/10.1038/s41586-023-06436-3",
+      "date": "2026-02-25",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "W885C33I"
+      }
+    },
+    {
+      "id": "paper-nadcuqzw",
+      "type": "paper",
+      "title": "GDF15 promotes weight loss by enhancing energy expenditure in muscle",
+      "description": "Wang et al. (2023-06-28)",
+      "url": "https://doi.org/10.1038/s41586-023-06249-4",
+      "date": "2026-02-25",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "NADCUQZW"
+      }
+    },
+    {
+      "id": "paper-544h768d",
+      "type": "paper",
+      "title": "A petavoxel fragment of human cerebral cortex reconstructed at nanoscale resolution",
+      "description": "Shapson-Coe et al. (2024-05-10)",
+      "url": "https://doi.org/10.1126/science.adk4858",
+      "date": "2026-02-25",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "544H768D"
+      }
+    },
+    {
+      "id": "paper-vxate46b",
+      "type": "paper",
+      "title": "Optimism is associated with exceptional longevity in 2 epidemiologic cohorts of men and women",
+      "description": "Lee et al. (2019-09-10)",
+      "url": "https://doi.org/10.1073/pnas.1900712116",
+      "date": "2026-02-25",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "VXATE46B"
       }
     },
     {
@@ -103,6 +415,32 @@
         "tweetId": "2025573538153799816",
         "likes": 0,
         "retweets": 0
+      }
+    },
+    {
+      "id": "paper-jb5nv9ir",
+      "type": "paper",
+      "title": "Right for the wrong reasons: common bad arguments for the correct answer to the Monty Hall Problem",
+      "description": "Fallis et al. (2026-01-15)",
+      "url": "https://doi.org/10.1007/s11229-025-05389-6",
+      "date": "2026-02-22",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "JB5NV9IR"
+      }
+    },
+    {
+      "id": "paper-fiax3zze",
+      "type": "paper",
+      "title": "A critical role for IGF-II in memory consolidation and enhancement",
+      "description": "Chen et al. (1/2011)",
+      "url": "https://doi.org/10.1038/nature09667",
+      "date": "2026-02-22",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "FIAX3ZZE"
       }
     },
     {
@@ -358,18 +696,18 @@
       }
     }
   ],
-  "lastUpdated": "2026-03-04T13:00:14.237Z",
+  "lastUpdated": "2026-03-05T13:00:17.230Z",
   "sources": {
     "zotero": {
-      "lastSync": "2026-02-22T03:03:09.142Z",
-      "count": 2
+      "lastSync": "2026-03-05T13:00:13.191Z",
+      "count": 26
     },
     "github": {
-      "lastSync": "2026-03-04T13:00:12.258Z",
-      "count": 17
+      "lastSync": "2026-03-05T13:00:08.878Z",
+      "count": 18
     },
     "twitter": {
-      "lastSync": "2026-03-04T13:00:14.237Z",
+      "lastSync": "2026-03-05T13:00:17.230Z",
       "count": 5
     },
     "til": {
