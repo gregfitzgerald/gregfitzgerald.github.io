@@ -1,6 +1,84 @@
 {
   "beats": [
     {
+      "id": "paper-aswn4lfy",
+      "type": "paper",
+      "title": "Meta-analysis of sex differences in intelligence",
+      "description": "Parra et al. (2026-03-10)",
+      "url": "https://doi.org/10.26775/OP.2026.03.10",
+      "date": "2026-03-11",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "ASWN4LFY"
+      }
+    },
+    {
+      "id": "paper-bt4rdr53",
+      "type": "paper",
+      "title": "Seminatural environments for rodent behavioral testing: a representative design improving animal welfare and enhancing replicability",
+      "description": "Nørgaard et al. (2023)",
+      "url": "https://doi.org/10.3389/fnbeh.2023.1192213",
+      "date": "2026-03-11",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "BT4RDR53"
+      }
+    },
+    {
+      "id": "paper-qrgnc7ga",
+      "type": "paper",
+      "title": "A paradigm shift in translational psychiatry through rodent neuroethology",
+      "description": "Shemesh et al. (2023)",
+      "url": "https://doi.org/10.1038/s41380-022-01913-z",
+      "date": "2026-03-11",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "QRGNC7GA"
+      }
+    },
+    {
+      "id": "paper-9r6yiljy",
+      "type": "paper",
+      "title": "Women’s neuroplasticity during gestation, childbirth and postpartum",
+      "description": "Paternina-Die et al. (02/2024)",
+      "url": "https://doi.org/10.1038/s41593-023-01513-2",
+      "date": "2026-03-11",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "9R6YILJY"
+      }
+    },
+    {
+      "id": "paper-rkurxce9",
+      "type": "paper",
+      "title": "The visible burrow system: A view from across the hall",
+      "description": "Herman et al. (09/2017)",
+      "url": "https://doi.org/10.1016/j.physbeh.2017.01.021",
+      "date": "2026-03-11",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "RKURXCE9"
+      }
+    },
+    {
+      "id": "code-9068852040",
+      "type": "code",
+      "title": "Pushed to gregfitzgerald.github.io",
+      "description": null,
+      "url": "https://github.com/gregfitzgerald/gregfitzgerald.github.io",
+      "date": "2026-03-05",
+      "source": "GitHub",
+      "meta": {
+        "eventType": "PushEvent",
+        "repo": "gregfitzgerald/gregfitzgerald.github.io"
+      }
+    },
+    {
       "id": "code-9046167203",
       "type": "code",
       "title": "Created branch main in interactive-documents",
@@ -696,19 +774,19 @@
       }
     }
   ],
-  "lastUpdated": "2026-03-05T13:00:17.230Z",
+  "lastUpdated": "2026-03-12T12:00:22.435Z",
   "sources": {
     "zotero": {
-      "lastSync": "2026-03-05T13:00:13.191Z",
-      "count": 26
+      "lastSync": "2026-03-12T12:00:19.948Z",
+      "count": 31
     },
     "github": {
-      "lastSync": "2026-03-05T13:00:08.878Z",
-      "count": 18
+      "lastSync": "2026-03-12T12:00:11.790Z",
+      "count": 15
     },
     "twitter": {
-      "lastSync": "2026-03-05T13:00:17.230Z",
-      "count": 5
+      "lastSync": "2026-03-12T12:00:22.435Z",
+      "count": 2
     },
     "til": {
       "lastSync": null,
