@@ -13,7 +13,11 @@
   --commute: #374151;
   --exercise: #10b981;
   --creative: #f97316;
-  --admin: #8b5cf6;
+  --administrative: #8b5cf6;
+  --papiapt: #7c3aed;
+  --taraapt: #a78bfa;
+  --catapt: #c084fc;
+  --errands: #d97706;
   --social: #ec4899;
   --mealprep: #eab308;
   --selfcare: #06b6d4;
@@ -143,27 +147,23 @@ h1 {
 /* ─── DAY SELECTOR STRIP (mobile) ────────────────────────────────────────── */
 .day-strip {
   display: flex;
-  gap: 6px;
+  gap: 4px;
   margin-bottom: 12px;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
   padding: 2px 0;
 }
-.day-strip::-webkit-scrollbar { display: none; }
 .day-strip-btn {
-  flex-shrink: 0;
+  flex: 1;
+  min-width: 0;
   background: var(--s2);
   border: 1px solid var(--border);
   color: var(--dim);
-  padding: 6px 12px;
+  padding: 6px 2px;
   border-radius: 6px;
   cursor: pointer;
   font-family: 'JetBrains Mono', monospace;
-  font-size: .75rem;
+  font-size: .7rem;
   font-weight: 600;
-  letter-spacing: .04em;
-  min-width: 44px;
+  letter-spacing: .02em;
   min-height: 44px;
   display: flex;
   flex-direction: column;
@@ -325,12 +325,73 @@ h1 {
 .tblock-note { font-size: .6rem; opacity: .7; margin-top: 2px; }
 .tblock-edit { font-size: .6rem; opacity: .3; flex-shrink: 0; padding-left: 8px; }
 
+/* ─── BLOCK COMPLETION ───────────────────────────────────────────────────── */
+.tblock-content { flex: 1; min-width: 0; }
+.tblock-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.tblock-edit-btn {
+  cursor: pointer;
+  opacity: .4;
+  font-size: .7rem;
+  transition: opacity .15s;
+  min-width: 28px;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tblock-edit-btn:hover { opacity: .8; }
+.tblock-check {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--exercise);
+  cursor: pointer;
+}
+.block-done .tblock-title { text-decoration: line-through; opacity: .5; }
+.tblock-done-note {
+  font-size: .55rem;
+  font-style: italic;
+  opacity: .6;
+  margin-top: 2px;
+}
+
+/* ─── TIME INDICATOR ("You Are Here") ────────────────────────────────────── */
+#timeline { position: relative; }
+.trow.past-block .tblock { opacity: 0.4; }
+.now-line {
+  position: absolute;
+  left: 44px;
+  right: 0;
+  height: 2px;
+  background: #3b82f6;
+  z-index: 5;
+  pointer-events: none;
+}
+.now-line::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: -3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #3b82f6;
+}
+
 /* ─── CATEGORY COLORS ────────────────────────────────────────────────────── */
 .work { background: var(--work); }
 .commute { background: var(--commute); }
 .exercise { background: var(--exercise); }
 .creative { background: var(--creative); }
-.admin { background: var(--admin); }
+.administrative { background: var(--administrative); }
+.papiapt { background: var(--papiapt); }
+.taraapt { background: var(--taraapt); }
+.catapt { background: var(--catapt); }
+.errands { background: var(--errands); color: #111; }
 .social { background: var(--social); }
 .mealprep { background: var(--mealprep); color: #111; }
 .selfcare { background: var(--selfcare); }
@@ -338,6 +399,17 @@ h1 {
 .gaming { background: var(--gaming); }
 .intimacy { background: var(--intimacy); }
 .sleep { background: var(--sleep); }
+
+/* ─── RECOVERY BANNER ────────────────────────────────────────────────────── */
+.recovery-banner {
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  font-size: .68rem;
+  color: #a78bfa;
+}
 
 /* ─── BUTTONS ────────────────────────────────────────────────────────────── */
 .add-btn {
@@ -398,7 +470,7 @@ h1 {
   gap: 6px;
 }
 .badge {
-  background: var(--admin);
+  background: var(--administrative);
   color: #fff;
   border-radius: 4px;
   padding: 2px 6px;
@@ -436,6 +508,39 @@ h1 {
   align-items: center;
   justify-content: center;
 }
+
+/* ─── STREAK BADGE ───────────────────────────────────────────────────────── */
+.streak-badge {
+  display: inline-block;
+  background: var(--exercise);
+  color: #fff;
+  border-radius: 10px;
+  padding: 1px 6px;
+  font-size: .5rem;
+  font-weight: 600;
+  vertical-align: middle;
+  margin-left: 4px;
+}
+
+/* ─── DAY NOTES (Papi/Adam) ─────────────────────────────────────────────── */
+.day-notes-section {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.note-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: var(--s2);
+  border-left: 3px solid var(--creative);
+  border-radius: 0 6px 6px 0;
+  margin-bottom: 4px;
+  font-size: .7rem;
+  min-height: 44px;
+}
+.note-item span { flex: 1; }
 
 /* ─── SIDEBAR TASKS ──────────────────────────────────────────────────────── */
 .sidebar-section { margin-bottom: 20px; }

@@ -30,7 +30,11 @@
       <div class="leg"><div class="leg-dot" style="background:var(--commute)"></div>Commute</div>
       <div class="leg"><div class="leg-dot" style="background:var(--exercise)"></div>Exercise</div>
       <div class="leg"><div class="leg-dot" style="background:var(--creative)"></div>Creative</div>
-      <div class="leg"><div class="leg-dot" style="background:var(--admin)"></div>Admin</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--administrative)"></div>Admin</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--papiapt)"></div>Papi Appts</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--taraapt)"></div>Tara Appts</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--catapt)"></div>Cat Appts</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--errands)"></div>Errands</div>
       <div class="leg"><div class="leg-dot" style="background:var(--social)"></div>Social</div>
       <div class="leg"><div class="leg-dot" style="background:var(--gaming)"></div>Gaming</div>
       <div class="leg"><div class="leg-dot" style="background:var(--mealprep)"></div>Meal Prep</div>
@@ -59,6 +63,7 @@
       <div class="detail-body" id="detail-body">
       <div id="timeline"></div>
       <button class="add-btn" id="add-block-btn">+ ADD BLOCK TO THIS DAY</button>
+      <div class="day-notes" id="day-notes"></div>
       <div class="day-tasks" id="day-tasks">
         <div class="section-title">TASKS FOR THIS DAY <span class="badge" id="day-task-count">0</span></div>
         <div id="day-task-list"></div>
@@ -110,12 +115,12 @@
     </div>
     <div class="settings-section">
       <h3>App</h3>
-      <button class="btn-sm" style="width:100%;margin-bottom:8px;" onclick="this.textContent='Refreshing...';this.disabled=true;caches.keys().then(function(k){return Promise.all(k.map(function(n){return caches.delete(n)}))}).then(function(){return navigator.serviceWorker?navigator.serviceWorker.getRegistrations().then(function(r){r.forEach(function(x){x.unregister()})}):0}).then(function(){location.reload()})">Force Refresh</button>
+      <button class="btn-sm" style="width:100%;margin-bottom:8px;" onclick="this.textContent='Refreshing...';this.disabled=true;caches.keys().then(function(k){return Promise.all(k.map(function(n){return caches.delete(n)}))}).then(function(){return navigator.serviceWorker?navigator.serviceWorker.getRegistrations().then(function(r){r.forEach(function(x){x.unregister()})}):0}).then(function(){location.href=location.pathname+'?v='+Date.now()})">Force Refresh</button>
       <p style="font-size:.6rem;color:var(--dim)">Clears cached files and reloads with the latest version.</p>
     </div>
     <div class="settings-section">
       <h3>About</h3>
-      <p>Tara's Schedule v5 -- mobile-first PWA rebuild. Data is saved locally and synced automatically across devices.</p>
+      <p>Tara's Schedule v6 -- added split categories (Administrative, Papi/Tara/Cat Appts, Errands), block completion checkboxes, live time tracking, recurring tasks with streaks, Papi/Adam day notes, and Thursday recovery banner. Data is saved locally and synced automatically across devices.</p>
     </div>
   </div>
 </div>
@@ -175,7 +180,11 @@
       <option value="commute">Commute</option>
       <option value="exercise">Exercise / Walk</option>
       <option value="creative">Creative</option>
-      <option value="admin">Admin / Appointments</option>
+      <option value="administrative">Administrative</option>
+      <option value="papiapt">Papi Appointments</option>
+      <option value="taraapt">Tara Appointments</option>
+      <option value="catapt">Cat Appointments</option>
+      <option value="errands">Errands</option>
       <option value="social">Social</option>
       <option value="gaming">Gaming</option>
       <option value="mealprep">Meal Prep / Cooking</option>
@@ -205,7 +214,11 @@
       <option value="commute">Commute</option>
       <option value="exercise">Exercise / Walk</option>
       <option value="creative">Creative</option>
-      <option value="admin">Admin / Appointments</option>
+      <option value="administrative">Administrative</option>
+      <option value="papiapt">Papi Appointments</option>
+      <option value="taraapt">Tara Appointments</option>
+      <option value="catapt">Cat Appointments</option>
+      <option value="errands">Errands</option>
       <option value="social">Social</option>
       <option value="gaming">Gaming</option>
       <option value="mealprep">Meal Prep / Cooking</option>
@@ -280,6 +293,12 @@
     <select id="nt-type">
       <option value="backlog">Backlog</option>
       <option value="priority">Priority</option>
+    </select>
+    <label>Recurring</label>
+    <select id="nt-recurring">
+      <option value="">None</option>
+      <option value="daily">Daily</option>
+      <option value="weekly">Weekly</option>
     </select>
     <div class="modal-btns">
       <button class="btn-c" id="nt-cancel">Cancel</button>

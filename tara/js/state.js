@@ -12,6 +12,8 @@ export const state = {
   dayTasks: {},
   resetDone: {},
   userTasks: [],
+  blockDone: {},
+  dayNotes: {},
   activeTab: 'schedule',
   syncStatus: 'connected',
   cycleStart: null, // ISO date string of a known Week 1 Monday (e.g. "2026-03-09")
@@ -36,6 +38,8 @@ export function save() {
     localStorage.setItem('t4_dayTasks', JSON.stringify(state.dayTasks));
     localStorage.setItem('t4_resetDone', JSON.stringify(state.resetDone));
     localStorage.setItem('t4_userTasks', JSON.stringify(state.userTasks));
+    localStorage.setItem('t4_blockDone', JSON.stringify(state.blockDone));
+    localStorage.setItem('t4_dayNotes', JSON.stringify(state.dayNotes));
     if (state.cycleStart) localStorage.setItem('t4_cycleStart', state.cycleStart);
     localStorage.setItem('t4_lastModified', String(Date.now()));
   } catch (e) { /* quota exceeded or private browsing */ }
@@ -56,12 +60,23 @@ export function load() {
     if (rd) state.resetDone = JSON.parse(rd);
     const ut = localStorage.getItem('t4_userTasks');
     if (ut) state.userTasks = JSON.parse(ut);
+    const bd = localStorage.getItem('t4_blockDone');
+    if (bd) state.blockDone = JSON.parse(bd);
+    const dn = localStorage.getItem('t4_dayNotes');
+    if (dn) state.dayNotes = JSON.parse(dn);
     const cs = localStorage.getItem('t4_cycleStart');
     if (cs) state.cycleStart = cs;
     // Ensure all days exist
     ALL_DAYS.forEach(d => {
       if (!state.edits[d]) state.edits[d] = [];
       if (!state.dayTasks[d]) state.dayTasks[d] = [];
+    });
+    // Migrate old admin -> administrative
+    ALL_DAYS.forEach(d => {
+      (state.edits[d] || []).forEach(e => {
+        if (e.block && e.block.c === 'admin') e.block.c = 'administrative';
+        if (e.orig && e.orig.c === 'admin') e.orig.c = 'administrative';
+      });
     });
     // Clean up duplicate edits: for replace edits targeting the same _id, keep only the last one
     ALL_DAYS.forEach(d => {
@@ -98,6 +113,8 @@ export function exportData() {
     dayTasks: state.dayTasks,
     resetDone: state.resetDone,
     userTasks: state.userTasks,
+    blockDone: state.blockDone,
+    dayNotes: state.dayNotes,
   };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
@@ -125,12 +142,14 @@ export function getCurrentWeek() {
 
 export function clearAllData(renderAll) {
   if (!confirm('Clear ALL saved data and start fresh? This cannot be undone.')) return;
-  ['t4_edits', 't4_smartDone', 't4_asmrDone', 't4_dayTasks', 't4_resetDone', 't4_userTasks']
+  ['t4_edits', 't4_smartDone', 't4_asmrDone', 't4_dayTasks', 't4_resetDone', 't4_userTasks', 't4_blockDone', 't4_dayNotes']
     .forEach(k => localStorage.removeItem(k));
   ALL_DAYS.forEach(d => { state.edits[d] = []; state.dayTasks[d] = []; });
   state.smartDone = {};
   state.asmrDone = {};
   state.resetDone = {};
   state.userTasks = [];
+  state.blockDone = {};
+  state.dayNotes = {};
   renderAll();
 }

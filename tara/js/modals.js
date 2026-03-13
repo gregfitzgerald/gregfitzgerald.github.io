@@ -196,8 +196,16 @@ export function saveNewTask() {
   const name = document.getElementById('nt-name').value.trim();
   const cat = document.getElementById('nt-cat').value.trim() || 'General';
   const type = document.getElementById('nt-type').value;
+  const recurringEl = document.getElementById('nt-recurring');
+  const recurring = recurringEl ? recurringEl.value || null : null;
   if (!name) return;
-  state.userTasks.push({ id: 'u' + Date.now(), name, cat, priority: type === 'priority' });
+  const task = { id: 'u' + Date.now(), name, cat, priority: type === 'priority' };
+  if (recurring) {
+    task.recurring = recurring;
+    task.streak = 0;
+    task.lastCompleted = null;
+  }
+  state.userTasks.push(task);
   save();
   closeNewTaskModal();
   renderSmart();

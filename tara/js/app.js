@@ -5,11 +5,12 @@ import { getBlocks } from './blocks.js';
 import {
   renderAll, renderGrid, renderDetail, renderDayPreview, renderStats, renderTabs,
   renderDayStrip, setTaskRenderers, toggleReset, clearReset,
-  renderWeeklyReset, renderResetTab,
+  renderWeeklyReset, renderResetTab, updateTimeIndicator,
 } from './render.js';
 import {
   renderSmart, renderAsmr, toggleSmart, toggleAsmr,
   quickAssign, toggleDayTask, deleteDayTask, renderTasksTab,
+  renderDayNotes,
 } from './tasks.js';
 import {
   openEditModal, closeEditModal, saveEditBlock, confirmDeleteBlock,
@@ -201,6 +202,29 @@ function setView(v) {
   }
 }
 
+// ─── LONG-PRESS ON CHECKBOX FOR NOTE ─────────────────────────────────────
+{
+  let _lpTimer = null;
+  document.addEventListener('touchstart', (e) => {
+    const check = e.target.closest('.tblock-check');
+    if (!check) return;
+    _lpTimer = setTimeout(() => {
+      const key = check.dataset.doneKey;
+      if (!key) return;
+      const existing = state.blockDone[key] && state.blockDone[key].note || '';
+      const note = prompt('Add a note:', existing);
+      if (note !== null) {
+        if (!state.blockDone[key]) state.blockDone[key] = { done: false, note: '' };
+        state.blockDone[key].note = note;
+        save();
+        if (state.selectedDay) renderDetail(state.selectedDay);
+      }
+    }, 500);
+  }, { passive: true });
+  document.addEventListener('touchend', () => { clearTimeout(_lpTimer); }, { passive: true });
+  document.addEventListener('touchmove', () => { clearTimeout(_lpTimer); }, { passive: true });
+}
+
 // ─── BOTTOM NAV TABS ──────────────────────────────────────────────────────────
 function switchTab(tab) {
   state.activeTab = tab;
@@ -283,9 +307,16 @@ document.addEventListener('click', (e) => {
     return;
   }
 
-  // Block click -> edit modal
+  // Edit button on block
+  const editBtn = target.closest('.tblock-edit-btn[data-edit-idx]');
+  if (editBtn) { openEditModal(parseInt(editBtn.dataset.editIdx)); return; }
+
+  // Block click -> edit modal (but not if clicking checkbox or edit button)
   const blockEl = target.closest('[data-block-idx]');
-  if (blockEl) { openEditModal(parseInt(blockEl.dataset.blockIdx)); return; }
+  if (blockEl && !target.closest('.tblock-check') && !target.closest('.tblock-edit-btn')) {
+    openEditModal(parseInt(blockEl.dataset.blockIdx));
+    return;
+  }
 
 
   // Reset day
@@ -348,6 +379,30 @@ document.addEventListener('click', (e) => {
     return;
   }
 
+  // Add note (Papi/Adam)
+  if (target.closest('#add-note-btn')) {
+    const note = prompt('Note for Papi/Adam:');
+    if (note && note.trim() && state.selectedDay) {
+      if (!state.dayNotes[state.selectedDay]) state.dayNotes[state.selectedDay] = [];
+      state.dayNotes[state.selectedDay].push({ text: note.trim(), id: 'n' + Date.now() });
+      save();
+      renderDayNotes(state.selectedDay);
+    }
+    return;
+  }
+
+  // Delete note
+  const delNoteBtn = target.closest('[data-del-note-idx]');
+  if (delNoteBtn && state.selectedDay) {
+    const idx = parseInt(delNoteBtn.dataset.delNoteIdx);
+    if (state.dayNotes[state.selectedDay]) {
+      state.dayNotes[state.selectedDay].splice(idx, 1);
+      save();
+      renderDayNotes(state.selectedDay);
+    }
+    return;
+  }
+
   // Day task delete
   const delBtn = target.closest('[data-del-day]');
   if (delBtn) {
@@ -368,21 +423,21 @@ document.addEventListener('click', (e) => {
     return;
   }
 
-  // Force refresh: clear all caches and reload
+  // Force refresh: clear all caches, unregister SW, bust HTTP cache
   if (target.closest('#force-refresh-btn')) {
     if ('caches' in window) {
       caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k)))).then(() => {
         if (navigator.serviceWorker) {
           navigator.serviceWorker.getRegistrations().then(regs => {
             regs.forEach(r => r.unregister());
-            window.location.reload(true);
+            window.location.href = location.pathname + '?v=' + Date.now();
           });
         } else {
-          window.location.reload(true);
+          window.location.href = location.pathname + '?v=' + Date.now();
         }
       });
     } else {
-      window.location.reload(true);
+      window.location.href = location.pathname + '?v=' + Date.now();
     }
     return;
   }
@@ -402,6 +457,16 @@ document.addEventListener('click', (e) => {
 // Change events (checkboxes, selects)
 document.addEventListener('change', (e) => {
   const target = e.target;
+
+  // Block completion checkbox
+  if (target.classList.contains('tblock-check') && target.dataset.doneKey) {
+    const key = target.dataset.doneKey;
+    if (!state.blockDone[key]) state.blockDone[key] = { done: false, note: '' };
+    state.blockDone[key].done = target.checked;
+    save();
+    if (state.selectedDay) renderDetail(state.selectedDay);
+    return;
+  }
 
   // Day task checkbox
   if (target.dataset.dayTask) {
@@ -453,3 +518,6 @@ initSync(renderAll);
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js').catch(() => {});
 }
+
+// ─── TIME INDICATOR UPDATE (every 60s) ──────────────────────────────────
+setInterval(updateTimeIndicator, 60000);

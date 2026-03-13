@@ -26,6 +26,8 @@ async function pushToFirebase() {
     dayTasks: state.dayTasks,
     resetDone: state.resetDone,
     userTasks: state.userTasks,
+    blockDone: state.blockDone,
+    dayNotes: state.dayNotes,
     cycleStart: state.cycleStart || null,
     lastModified: Date.now(),
   };
@@ -57,11 +59,20 @@ async function pullFromFirebase() {
       if (data.dayTasks) state.dayTasks = data.dayTasks;
       if (data.resetDone) state.resetDone = data.resetDone;
       if (data.userTasks) state.userTasks = data.userTasks;
+      if (data.blockDone) state.blockDone = data.blockDone;
+      if (data.dayNotes) state.dayNotes = data.dayNotes;
       if (data.cycleStart) state.cycleStart = data.cycleStart;
       // Ensure all days exist
       ALL_DAYS.forEach(d => {
         if (!state.edits[d]) state.edits[d] = [];
         if (!state.dayTasks[d]) state.dayTasks[d] = [];
+      });
+      // Migrate old admin -> administrative
+      ALL_DAYS.forEach(d => {
+        (state.edits[d] || []).forEach(e => {
+          if (e.block && e.block.c === 'admin') e.block.c = 'administrative';
+          if (e.orig && e.orig.c === 'admin') e.orig.c = 'administrative';
+        });
       });
       save();
       if (_renderAll) _renderAll();
