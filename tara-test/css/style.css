@@ -702,33 +702,57 @@ h1 {
 .sync-error { color: #fca5a5; background: rgba(127,29,29,.2); }
 
 /* ─── DRAG TO REORDER ────────────────────────────────────────────────────── */
+
+/* Pre-drag hint: subtle glow while long-pressing */
+.touch-holding .tblock {
+  transform: scale(1.02);
+  box-shadow: 0 0 12px rgba(59,130,246,0.35);
+  transition: transform 150ms ease-out, box-shadow 150ms ease-out;
+}
+
+/* Ghost element: elevated, slightly scaled, semi-transparent */
 .drag-ghost {
   position: fixed;
   left: 16px;
   right: 16px;
   z-index: 200;
-  opacity: .85;
+  opacity: 0.9;
   transform: scale(1.03);
-  box-shadow: 0 8px 32px rgba(0,0,0,.5);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
   pointer-events: none;
-  transition: transform .1s;
   border-radius: 6px;
-  overflow: hidden;
+  overflow: visible;
+  will-change: top;
 }
+
+/* Origin placeholder: faded silhouette */
 .drag-origin {
-  opacity: .25;
+  opacity: 0.3;
 }
-.drop-indicator {
-  height: 3px;
-  margin: 2px 0;
-  border-radius: 2px;
-  background: transparent;
-  transition: background .15s, height .15s;
+
+/* Gap animation: rows slide apart during drag */
+body.dragging .trow {
+  transition: transform 150ms ease-in-out;
 }
-.drop-indicator.active {
-  height: 4px;
-  background: var(--work);
-  box-shadow: 0 0 8px rgba(59,130,246,.4);
+
+/* Live time preview above the ghost */
+.drag-time-label {
+  position: absolute;
+  top: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--s1);
+  border: 1px solid var(--work);
+  color: var(--text);
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: .6rem;
+  font-family: 'JetBrains Mono', monospace;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 201;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  transition: opacity 150ms ease;
 }
 
 /* ─── SWIPE PAGE-TURN ANIMATION ──────────────────────────────────────────── */
