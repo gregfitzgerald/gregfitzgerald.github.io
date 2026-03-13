@@ -115,7 +115,7 @@
     </div>
     <div class="settings-section">
       <h3>App</h3>
-      <button class="btn-sm" style="width:100%;margin-bottom:8px;" onclick="this.textContent='Refreshing...';this.disabled=true;caches.keys().then(function(k){return Promise.all(k.map(function(n){return caches.delete(n)}))}).then(function(){return navigator.serviceWorker?navigator.serviceWorker.getRegistrations().then(function(r){r.forEach(function(x){x.unregister()})}):0}).then(function(){location.reload()})">Force Refresh</button>
+      <button class="btn-sm" style="width:100%;margin-bottom:8px;" onclick="this.textContent='Refreshing...';this.disabled=true;caches.keys().then(function(k){return Promise.all(k.map(function(n){return caches.delete(n)}))}).then(function(){return navigator.serviceWorker?navigator.serviceWorker.getRegistrations().then(function(r){r.forEach(function(x){x.unregister()})}):0}).then(function(){location.href=location.pathname+'?v='+Date.now()})">Force Refresh</button>
       <p style="font-size:.6rem;color:var(--dim)">Clears cached files and reloads with the latest version.</p>
     </div>
     <div class="settings-section">

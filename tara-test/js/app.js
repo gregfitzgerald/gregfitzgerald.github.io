@@ -423,21 +423,21 @@ document.addEventListener('click', (e) => {
     return;
   }
 
-  // Force refresh: clear all caches and reload
+  // Force refresh: clear all caches, unregister SW, bust HTTP cache
   if (target.closest('#force-refresh-btn')) {
     if ('caches' in window) {
       caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k)))).then(() => {
         if (navigator.serviceWorker) {
           navigator.serviceWorker.getRegistrations().then(regs => {
             regs.forEach(r => r.unregister());
-            window.location.reload(true);
+            window.location.href = location.pathname + '?v=' + Date.now();
           });
         } else {
-          window.location.reload(true);
+          window.location.href = location.pathname + '?v=' + Date.now();
         }
       });
     } else {
-      window.location.reload(true);
+      window.location.href = location.pathname + '?v=' + Date.now();
     }
     return;
   }
