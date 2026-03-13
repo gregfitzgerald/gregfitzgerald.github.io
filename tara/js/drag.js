@@ -5,7 +5,7 @@ import { toMin, toTime, dur } from './time.js';
 import { openCascade } from './cascade.js';
 
 let dragState = null;
-const LONG_PRESS_MS = 400;
+const LONG_PRESS_MS = 1000;
 
 export function initDrag(renderDetail, renderGrid, renderStats) {
   const timeline = document.getElementById('timeline');
