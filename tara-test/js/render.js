@@ -1,6 +1,6 @@
 // ─── RENDER FUNCTIONS ─────────────────────────────────────────────────────────
 import { ALL_DAYS, WEEKLY_RESET, RESET_IDS } from './data.js';
-import { state, save } from './state.js';
+import { state, save, getCurrentWeek } from './state.js';
 import { getBlocks } from './blocks.js';
 import { toMin, dur, fmtDur, fmtTime } from './time.js';
 import { renderDayTasks } from './tasks.js';
@@ -148,17 +148,29 @@ export function renderDetail(day) {
       '<div class="recovery-banner">Recovery evening -- no chores or admin</div>');
   }
 
-  document.getElementById('timeline').innerHTML = blocks.map((b, i) => `
+  document.getElementById('timeline').innerHTML = blocks.map((b, i) => {
+    const doneKey = `${state.view}_${day}_${b._id}`;
+    const doneEntry = state.blockDone[doneKey];
+    const isDone = doneEntry && doneEntry.done;
+    const doneNote = doneEntry && doneEntry.note;
+    return `
     <div class="trow">
       <div class="ttime">${fmtTime(b.s)}<br><span style="opacity:.3">${fmtTime(b.e)}</span></div>
-      <div class="tblock ${b.c}" data-block-idx="${i}" title="Click to edit">
-        <div>
+      <div class="tblock ${b.c} ${isDone ? 'block-done' : ''}" data-block-idx="${i}">
+        <div class="tblock-content">
           <div class="tblock-title">${b.l}${dur(b) >= 60 ? ` <span style="opacity:.5;font-size:.58rem">${fmtDur(dur(b))}</span>` : ''}${b._edited ? '<span style="opacity:.4;font-size:.55rem"> edited</span>' : b._added ? '<span style="opacity:.4;font-size:.55rem"> +</span>' : ''}</div>
           ${b.n ? `<div class="tblock-note">${b.n}</div>` : ''}
+          ${doneNote ? `<div class="tblock-done-note">${doneNote}</div>` : ''}
         </div>
-        <span class="tblock-edit">edit</span>
+        <div class="tblock-actions">
+          <span class="tblock-edit-btn" data-edit-idx="${i}" title="Edit">&#9998;</span>
+          <input type="checkbox" class="tblock-check" data-done-key="${doneKey}" ${isDone ? 'checked' : ''}>
+        </div>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
+
+  updateTimeIndicator();
 
   renderDayTasks(day);
 
@@ -246,4 +258,57 @@ export function clearReset() {
   save();
   renderWeeklyReset();
   renderResetTab();
+}
+
+// ─── TIME INDICATOR ("You Are Here") ────────────────────────────────────────
+function isViewingToday() {
+  const now = new Date();
+  const todayIdx = [6, 0, 1, 2, 3, 4, 5][now.getDay()];
+  const todayDay = ALL_DAYS[todayIdx];
+  if (state.selectedDay !== todayDay) return false;
+  const currentWeek = getCurrentWeek();
+  return !currentWeek || state.view === currentWeek;
+}
+
+export function updateTimeIndicator() {
+  const timeline = document.getElementById('timeline');
+  if (!timeline) return;
+
+  // Remove existing indicators
+  const oldLine = timeline.querySelector('.now-line');
+  if (oldLine) oldLine.remove();
+  timeline.querySelectorAll('.trow.past-block').forEach(r => r.classList.remove('past-block'));
+
+  if (!isViewingToday()) return;
+
+  const now = new Date();
+  const nowMin = now.getHours() * 60 + now.getMinutes();
+  const rows = timeline.querySelectorAll('.trow');
+  const blocks = getBlocks(state.selectedDay);
+
+  rows.forEach((row, i) => {
+    const b = blocks[i];
+    if (!b) return;
+    const endMin = toMin(b.e);
+    if (endMin <= nowMin) row.classList.add('past-block');
+  });
+
+  // Find block spanning current time and place now-line
+  for (let i = 0; i < blocks.length; i++) {
+    const b = blocks[i];
+    const startMin = toMin(b.s);
+    const endMin = toMin(b.e);
+    if (nowMin >= startMin && nowMin < endMin) {
+      const row = rows[i];
+      if (!row) break;
+      const block = row.querySelector('.tblock');
+      if (!block) break;
+      const pct = (nowMin - startMin) / (endMin - startMin);
+      const line = document.createElement('div');
+      line.className = 'now-line';
+      line.style.top = `${row.offsetTop + block.offsetTop + pct * block.offsetHeight}px`;
+      timeline.appendChild(line);
+      break;
+    }
+  }
 }

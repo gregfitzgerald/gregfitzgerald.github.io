@@ -5,7 +5,7 @@ import { getBlocks } from './blocks.js';
 import {
   renderAll, renderGrid, renderDetail, renderDayPreview, renderStats, renderTabs,
   renderDayStrip, setTaskRenderers, toggleReset, clearReset,
-  renderWeeklyReset, renderResetTab,
+  renderWeeklyReset, renderResetTab, updateTimeIndicator,
 } from './render.js';
 import {
   renderSmart, renderAsmr, toggleSmart, toggleAsmr,
@@ -201,6 +201,29 @@ function setView(v) {
   }
 }
 
+// ─── LONG-PRESS ON CHECKBOX FOR NOTE ─────────────────────────────────────
+{
+  let _lpTimer = null;
+  document.addEventListener('touchstart', (e) => {
+    const check = e.target.closest('.tblock-check');
+    if (!check) return;
+    _lpTimer = setTimeout(() => {
+      const key = check.dataset.doneKey;
+      if (!key) return;
+      const existing = state.blockDone[key] && state.blockDone[key].note || '';
+      const note = prompt('Add a note:', existing);
+      if (note !== null) {
+        if (!state.blockDone[key]) state.blockDone[key] = { done: false, note: '' };
+        state.blockDone[key].note = note;
+        save();
+        if (state.selectedDay) renderDetail(state.selectedDay);
+      }
+    }, 500);
+  }, { passive: true });
+  document.addEventListener('touchend', () => { clearTimeout(_lpTimer); }, { passive: true });
+  document.addEventListener('touchmove', () => { clearTimeout(_lpTimer); }, { passive: true });
+}
+
 // ─── BOTTOM NAV TABS ──────────────────────────────────────────────────────────
 function switchTab(tab) {
   state.activeTab = tab;
@@ -283,9 +306,16 @@ document.addEventListener('click', (e) => {
     return;
   }
 
-  // Block click -> edit modal
+  // Edit button on block
+  const editBtn = target.closest('.tblock-edit-btn[data-edit-idx]');
+  if (editBtn) { openEditModal(parseInt(editBtn.dataset.editIdx)); return; }
+
+  // Block click -> edit modal (but not if clicking checkbox or edit button)
   const blockEl = target.closest('[data-block-idx]');
-  if (blockEl) { openEditModal(parseInt(blockEl.dataset.blockIdx)); return; }
+  if (blockEl && !target.closest('.tblock-check') && !target.closest('.tblock-edit-btn')) {
+    openEditModal(parseInt(blockEl.dataset.blockIdx));
+    return;
+  }
 
 
   // Reset day
@@ -403,6 +433,16 @@ document.addEventListener('click', (e) => {
 document.addEventListener('change', (e) => {
   const target = e.target;
 
+  // Block completion checkbox
+  if (target.classList.contains('tblock-check') && target.dataset.doneKey) {
+    const key = target.dataset.doneKey;
+    if (!state.blockDone[key]) state.blockDone[key] = { done: false, note: '' };
+    state.blockDone[key].done = target.checked;
+    save();
+    if (state.selectedDay) renderDetail(state.selectedDay);
+    return;
+  }
+
   // Day task checkbox
   if (target.dataset.dayTask) {
     toggleDayTask(target.dataset.dayTask, parseInt(target.dataset.taskIdx));
@@ -453,3 +493,6 @@ initSync(renderAll);
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js').catch(() => {});
 }
+
+// ─── TIME INDICATOR UPDATE (every 60s) ──────────────────────────────────
+setInterval(updateTimeIndicator, 60000);

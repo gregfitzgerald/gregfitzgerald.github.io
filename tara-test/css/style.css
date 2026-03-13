@@ -329,6 +329,63 @@ h1 {
 .tblock-note { font-size: .6rem; opacity: .7; margin-top: 2px; }
 .tblock-edit { font-size: .6rem; opacity: .3; flex-shrink: 0; padding-left: 8px; }
 
+/* ─── BLOCK COMPLETION ───────────────────────────────────────────────────── */
+.tblock-content { flex: 1; min-width: 0; }
+.tblock-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.tblock-edit-btn {
+  cursor: pointer;
+  opacity: .4;
+  font-size: .7rem;
+  transition: opacity .15s;
+  min-width: 28px;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tblock-edit-btn:hover { opacity: .8; }
+.tblock-check {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--exercise);
+  cursor: pointer;
+}
+.block-done .tblock-title { text-decoration: line-through; opacity: .5; }
+.tblock-done-note {
+  font-size: .55rem;
+  font-style: italic;
+  opacity: .6;
+  margin-top: 2px;
+}
+
+/* ─── TIME INDICATOR ("You Are Here") ────────────────────────────────────── */
+#timeline { position: relative; }
+.trow.past-block .tblock { opacity: 0.4; }
+.now-line {
+  position: absolute;
+  left: 44px;
+  right: 0;
+  height: 2px;
+  background: #3b82f6;
+  z-index: 5;
+  pointer-events: none;
+}
+.now-line::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: -3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #3b82f6;
+}
+
 /* ─── CATEGORY COLORS ────────────────────────────────────────────────────── */
 .work { background: var(--work); }
 .commute { background: var(--commute); }
