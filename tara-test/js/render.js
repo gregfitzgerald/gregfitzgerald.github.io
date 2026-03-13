@@ -307,7 +307,7 @@ export function updateTimeIndicator() {
       const pct = (nowMin - startMin) / (endMin - startMin);
       const line = document.createElement('div');
       line.className = 'now-line';
-      line.style.top = `${row.offsetTop + block.offsetTop + pct * block.offsetHeight}px`;
+      line.style.top = `${row.offsetTop + pct * row.offsetHeight}px`;
       timeline.appendChild(line);
       break;
     }

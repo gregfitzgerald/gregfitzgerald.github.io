@@ -302,12 +302,10 @@ export function updateTimeIndicator() {
     if (nowMin >= startMin && nowMin < endMin) {
       const row = rows[i];
       if (!row) break;
-      const block = row.querySelector('.tblock');
-      if (!block) break;
       const pct = (nowMin - startMin) / (endMin - startMin);
       const line = document.createElement('div');
       line.className = 'now-line';
-      line.style.top = `${row.offsetTop + block.offsetTop + pct * block.offsetHeight}px`;
+      line.style.top = `${row.offsetTop + pct * row.offsetHeight}px`;
       timeline.appendChild(line);
       break;
     }
