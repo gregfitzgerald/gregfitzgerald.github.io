@@ -7,14 +7,26 @@ import { renderDayTasks, renderDayNotes } from './tasks.js';
 
 // ─── DATE HELPER ─────────────────────────────────────────────────────────────
 // Returns the actual calendar date for a given day name.
-// weekDelta: 0 = current week, +1 = next week, -1 = previous week
+// weekDelta: additional offset on top of the view-based week (for swipe previews)
+// viewOverride: use a specific view instead of state.view (for preview panels)
 const DAY_OFFSETS = { MON: 0, TUE: 1, WED: 2, THU: 3, FRI: 4, SAT: 5, SUN: 6 };
-function getDateForDay(dayName, weekDelta) {
+function getDateForDay(dayName, weekDelta, viewOverride) {
   const today = new Date();
   const dow = today.getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
   const mondayOffset = dow === 0 ? -6 : 1 - dow;
   const monday = new Date(today);
-  monday.setDate(today.getDate() + mondayOffset + (weekDelta || 0) * 7);
+  monday.setDate(today.getDate() + mondayOffset);
+
+  // Determine week offset based on which view we're showing vs current real week
+  const currentWeek = getCurrentWeek();
+  const targetView = viewOverride || state.view;
+  let viewDelta = 0;
+  if (currentWeek && currentWeek !== targetView) {
+    // Showing the other week -- offset by +1 week
+    viewDelta = 1;
+  }
+
+  monday.setDate(monday.getDate() + (viewDelta + (weekDelta || 0)) * 7);
   const target = new Date(monday);
   target.setDate(monday.getDate() + DAY_OFFSETS[dayName]);
   return `${target.getMonth() + 1}/${target.getDate()}`;
@@ -105,7 +117,7 @@ export function renderDayPreview(day, weekOverride, weekDelta) {
   const creMin = blocks.filter(b => b.c === 'creative').reduce((s, b) => s + dur(b), 0);
   const exMin = blocks.filter(b => b.c === 'exercise').reduce((s, b) => s + dur(b), 0);
 
-  const dateStr = getDateForDay(day, weekDelta || 0);
+  const dateStr = getDateForDay(day, weekDelta || 0, week);
   const weekLabel = weekOverride && weekOverride !== state.view ? ` (${week === 'w1' ? 'Wk1' : 'Wk2'})` : '';
   return `
     <div class="detail-top">
