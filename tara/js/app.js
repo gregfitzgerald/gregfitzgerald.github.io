@@ -1,6 +1,6 @@
 // ─── APP INIT ─────────────────────────────────────────────────────────────────
 import { ALL_DAYS } from './data.js';
-import { state, load, save, exportData, clearAllData } from './state.js';
+import { state, load, save, exportData, clearAllData, setSaveHook } from './state.js';
 import { getBlocks } from './blocks.js';
 import {
   renderAll, renderGrid, renderDetail, renderStats, renderTabs,
@@ -20,16 +20,37 @@ import {
 import {
   toggleCascade, selectAllCascade, applyCascade, closeCascade,
 } from './cascade.js';
+import { initSync, connectSync, disconnectSync, syncNow, debouncedSync } from './sync.js';
+import { initDrag } from './drag.js';
 
 // Wire up task renderers to avoid circular dependency
 setTaskRenderers(renderSmart, renderAsmr);
 
+// Wire up sync: every save() triggers a debounced push to Firebase
+setSaveHook(debouncedSync);
+
 // ─── NAVIGATION ───────────────────────────────────────────────────────────────
-function selectDay(day) {
+function selectDay(day, direction) {
+  const oldDay = state.selectedDay;
   state.selectedDay = day;
   renderGrid();
   renderDayStrip();
-  renderDetail(day);
+
+  // Animate slide if direction is specified (swipe navigation)
+  if (direction && oldDay) {
+    animateSlide(direction, () => {
+      renderDetail(day);
+      initDragForCurrentDay();
+    });
+  } else {
+    renderDetail(day);
+    initDragForCurrentDay();
+  }
+}
+
+function initDragForCurrentDay() {
+  // Re-init drag after timeline is rendered
+  setTimeout(() => initDrag(renderDetail, renderGrid, renderStats), 50);
 }
 
 function closeDetail() {
@@ -56,6 +77,43 @@ function setView(v) {
   renderDayStrip();
 }
 
+// ─── SWIPE PAGE-TURN ANIMATION ───────────────────────────────────────────────
+function animateSlide(direction, onMidpoint) {
+  const slide = document.getElementById('detail-slide');
+  if (!slide) { onMidpoint(); return; }
+
+  // Slide current content out
+  const outClass = direction === 'left' ? 'slide-out-left' : 'slide-out-right';
+  const inClass = direction === 'left' ? 'slide-in-left' : 'slide-in-right';
+
+  slide.classList.add(outClass);
+
+  const onOutDone = () => {
+    slide.removeEventListener('transitionend', onOutDone);
+    slide.classList.remove(outClass);
+
+    // Render new content
+    onMidpoint();
+
+    // Position new content off-screen on the incoming side
+    slide.classList.add(inClass);
+
+    // Force reflow so the browser registers the starting position
+    slide.offsetHeight;
+
+    // Slide in
+    slide.classList.remove(inClass);
+    slide.classList.add('slide-enter');
+
+    const onInDone = () => {
+      slide.removeEventListener('transitionend', onInDone);
+      slide.classList.remove('slide-enter');
+    };
+    slide.addEventListener('transitionend', onInDone, { once: true });
+  };
+  slide.addEventListener('transitionend', onOutDone, { once: true });
+}
+
 // ─── BOTTOM NAV TABS ──────────────────────────────────────────────────────────
 function switchTab(tab) {
   state.activeTab = tab;
@@ -69,30 +127,93 @@ function switchTab(tab) {
 
   if (tab === 'tasks') renderTasksTab();
   if (tab === 'reset') renderResetTab();
+  if (tab === 'settings') updateSyncButtons();
   if (tab === 'schedule') {
     renderAll();
     renderDayStrip();
   }
 }
 
-// ─── TOUCH SWIPE ──────────────────────────────────────────────────────────────
+// ─── SYNC UI HELPERS ─────────────────────────────────────────────────────────
+function updateSyncButtons() {
+  const connected = !!state.syncHash;
+  const connectBtn = document.getElementById('sync-connect-btn');
+  const disconnectBtn = document.getElementById('sync-disconnect-btn');
+  const syncNowBtn = document.getElementById('sync-now-btn');
+  const input = document.getElementById('sync-passphrase');
+
+  if (connectBtn) connectBtn.style.display = connected ? 'none' : 'flex';
+  if (disconnectBtn) disconnectBtn.style.display = connected ? 'flex' : 'none';
+  if (syncNowBtn) syncNowBtn.style.display = connected ? 'flex' : 'none';
+  if (input) input.disabled = connected;
+  if (input && connected) input.value = '********';
+}
+
+// ─── TOUCH SWIPE WITH LIVE TRACKING ──────────────────────────────────────────
 let touchStartX = 0;
 let touchStartY = 0;
+let touchStartTime = 0;
+let isSwiping = false;
 
 function handleTouchStart(e) {
+  // Don't interfere with drag-to-reorder
+  if (e.target.closest('.tblock')) return;
   touchStartX = e.touches[0].clientX;
   touchStartY = e.touches[0].clientY;
+  touchStartTime = Date.now();
+  isSwiping = false;
+}
+
+function handleTouchMove(e) {
+  if (state.activeTab !== 'schedule' || !state.selectedDay) return;
+  if (e.target.closest('.tblock')) return;
+
+  const dx = e.touches[0].clientX - touchStartX;
+  const dy = e.touches[0].clientY - touchStartY;
+
+  // Only start swiping if horizontal movement dominates
+  if (!isSwiping && Math.abs(dx) > 20 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+    isSwiping = true;
+  }
+
+  if (isSwiping) {
+    const slide = document.getElementById('detail-slide');
+    if (slide) {
+      slide.classList.add('swiping');
+      // Dampen the movement for a paper-pull feel
+      const dampened = dx * 0.4;
+      slide.style.transform = `translateX(${dampened}px)`;
+      slide.style.opacity = Math.max(0.3, 1 - Math.abs(dx) / 500);
+    }
+  }
 }
 
 function handleTouchEnd(e) {
+  const slide = document.getElementById('detail-slide');
+  if (slide) {
+    slide.classList.remove('swiping');
+    slide.style.transform = '';
+    slide.style.opacity = '';
+  }
+
   if (state.activeTab !== 'schedule' || !state.selectedDay) return;
+
   const dx = e.changedTouches[0].clientX - touchStartX;
   const dy = e.changedTouches[0].clientY - touchStartY;
-  if (Math.abs(dx) < 60 || Math.abs(dy) > Math.abs(dx)) return;
+  const elapsed = Date.now() - touchStartTime;
+
+  // Need either a long swipe (>80px) or a fast flick (>40px in <300ms)
+  const isSwipe = (Math.abs(dx) > 80 || (Math.abs(dx) > 40 && elapsed < 300))
+    && Math.abs(dx) > Math.abs(dy);
+
+  if (!isSwipe) return;
 
   const idx = ALL_DAYS.indexOf(state.selectedDay);
-  if (dx < 0 && idx < ALL_DAYS.length - 1) selectDay(ALL_DAYS[idx + 1]);
-  else if (dx > 0 && idx > 0) selectDay(ALL_DAYS[idx - 1]);
+  if (dx < 0 && idx < ALL_DAYS.length - 1) {
+    selectDay(ALL_DAYS[idx + 1], 'left');
+  } else if (dx > 0 && idx > 0) {
+    selectDay(ALL_DAYS[idx - 1], 'right');
+  }
 }
 
 // ─── EVENT DELEGATION ─────────────────────────────────────────────────────────
@@ -191,6 +312,26 @@ document.addEventListener('click', (e) => {
   // Clear reset
   if (target.closest('#clear-reset-btn')) { clearReset(); return; }
 
+  // Sync buttons
+  if (target.closest('#sync-connect-btn')) {
+    const input = document.getElementById('sync-passphrase');
+    if (input && input.value.trim()) {
+      connectSync(input.value.trim()).then(() => updateSyncButtons());
+    }
+    return;
+  }
+  if (target.closest('#sync-disconnect-btn')) {
+    disconnectSync();
+    const input = document.getElementById('sync-passphrase');
+    if (input) { input.value = ''; input.disabled = false; }
+    updateSyncButtons();
+    return;
+  }
+  if (target.closest('#sync-now-btn')) {
+    syncNow();
+    return;
+  }
+
   // Bottom nav
   const navBtn = target.closest('[data-tab]');
   if (navBtn && target.closest('.bottom-nav')) { switchTab(navBtn.dataset.tab); return; }
@@ -226,8 +367,9 @@ document.addEventListener('change', (e) => {
   }
 });
 
-// Touch events for swipe navigation
+// Touch events for swipe navigation with page-turn animation
 document.addEventListener('touchstart', handleTouchStart, { passive: true });
+document.addEventListener('touchmove', handleTouchMove, { passive: true });
 document.addEventListener('touchend', handleTouchEnd, { passive: true });
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
@@ -241,6 +383,9 @@ const todayIdx = new Date().getDay();
 const todayMap = [6, 0, 1, 2, 3, 4, 5]; // JS Sunday=0 -> our SUN=6
 const todayDay = ALL_DAYS[todayMap[todayIdx]];
 selectDay(todayDay);
+
+// Initialize sync (restores saved passphrase, pulls remote data)
+initSync(renderAll);
 
 // ─── SERVICE WORKER ───────────────────────────────────────────────────────────
 if ('serviceWorker' in navigator) {

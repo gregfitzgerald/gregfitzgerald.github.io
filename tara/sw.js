@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tara-schedule-v1';
+const CACHE_NAME = 'tara-schedule-v2';
 const PRECACHE_URLS = [
   './',
   './index.html',
@@ -12,6 +12,8 @@ const PRECACHE_URLS = [
   './js/render.js',
   './js/tasks.js',
   './js/modals.js',
+  './js/sync.js',
+  './js/drag.js',
   './manifest.json',
 ];
 
@@ -36,6 +38,11 @@ self.addEventListener('activate', (event) => {
 // Fetch: cache-first for static assets, network-first for fonts
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
+
+  // Skip caching for Firebase API calls
+  if (url.hostname.includes('firebaseio.com')) {
+    return;
+  }
 
   // Cache Google Fonts on first fetch
   if (url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com') {

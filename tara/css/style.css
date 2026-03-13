@@ -641,6 +641,100 @@ h1 {
   margin-bottom: 12px;
 }
 
+/* ─── SYNC UI ────────────────────────────────────────────────────────────── */
+.sync-input {
+  width: 100%;
+  background: var(--s3);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .75rem;
+  min-height: 44px;
+}
+.sync-status {
+  font-size: .65rem;
+  margin-top: 8px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  text-align: center;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.sync-disconnected { color: var(--dim); background: var(--s3); }
+.sync-connected { color: var(--exercise); background: rgba(16,185,129,.1); }
+.sync-syncing { color: var(--work); background: rgba(59,130,246,.1); }
+.sync-error { color: #fca5a5; background: rgba(127,29,29,.2); }
+
+/* ─── DRAG TO REORDER ────────────────────────────────────────────────────── */
+.drag-ghost {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  z-index: 200;
+  opacity: .85;
+  transform: scale(1.03);
+  box-shadow: 0 8px 32px rgba(0,0,0,.5);
+  pointer-events: none;
+  transition: transform .1s;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.drag-origin {
+  opacity: .25;
+}
+.drop-indicator {
+  height: 3px;
+  margin: 2px 0;
+  border-radius: 2px;
+  background: transparent;
+  transition: background .15s, height .15s;
+}
+.drop-indicator.active {
+  height: 4px;
+  background: var(--work);
+  box-shadow: 0 0 8px rgba(59,130,246,.4);
+}
+
+/* ─── SWIPE PAGE-TURN ANIMATION ──────────────────────────────────────────── */
+.detail-panel {
+  overflow: hidden;
+  position: relative;
+}
+.detail-slide {
+  transition: transform .3s ease, opacity .3s ease;
+  will-change: transform, opacity;
+}
+.detail-slide.slide-out-left {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+.detail-slide.slide-out-right {
+  transform: translateX(100%);
+  opacity: 0;
+}
+.detail-slide.slide-in-left {
+  transform: translateX(100%);
+  opacity: 0;
+  transition: none;
+}
+.detail-slide.slide-in-right {
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: none;
+}
+.detail-slide.slide-enter {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Swipe tracking visual feedback */
+.detail-slide.swiping {
+  transition: none;
+  will-change: transform;
+}
+
 /* ─── DESKTOP (>768px) ───────────────────────────────────────────────────── */
 @media (min-width: 769px) {
   .app {

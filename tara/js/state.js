@@ -13,6 +13,8 @@ export const state = {
   resetDone: {},
   userTasks: [],
   activeTab: 'schedule',
+  syncHash: null,
+  syncStatus: 'disconnected',
 };
 
 // Initialize edits and dayTasks for all days
@@ -20,6 +22,10 @@ ALL_DAYS.forEach(d => {
   state.edits[d] = [];
   state.dayTasks[d] = [];
 });
+
+// Sync callback -- set by app.js after sync module loads
+let _onSave = null;
+export function setSaveHook(fn) { _onSave = fn; }
 
 // ─── PERSISTENCE ─────────────────────────────────────────────────────────────
 export function save() {
@@ -30,7 +36,9 @@ export function save() {
     localStorage.setItem('t4_dayTasks', JSON.stringify(state.dayTasks));
     localStorage.setItem('t4_resetDone', JSON.stringify(state.resetDone));
     localStorage.setItem('t4_userTasks', JSON.stringify(state.userTasks));
+    localStorage.setItem('t4_lastModified', String(Date.now()));
   } catch (e) { /* quota exceeded or private browsing */ }
+  if (_onSave) _onSave();
 }
 
 export function load() {

@@ -46,6 +46,7 @@
     <div class="week-grid" id="week-grid"></div>
 
     <div class="detail-panel" id="detail">
+      <div class="detail-slide" id="detail-slide">
       <div class="detail-top">
         <div>
           <div class="detail-title" id="d-title"></div>
@@ -64,6 +65,7 @@
         <button class="add-btn" id="assign-task-btn">+ ASSIGN TASK TO THIS DAY</button>
       </div>
       <div id="weekly-reset-container" style="display:none;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)"></div>
+      </div><!-- /detail-slide -->
     </div>
   </div>
 
@@ -83,6 +85,19 @@
       <h2>Settings</h2>
     </div>
     <div class="settings-section">
+      <h3>Cross-Device Sync</h3>
+      <p>Enter a passphrase to sync your schedule across devices. Use the same passphrase on each device.</p>
+      <div class="sync-row">
+        <input type="text" id="sync-passphrase" placeholder="Enter passphrase..." class="sync-input" autocomplete="off">
+      </div>
+      <div class="sync-row" style="margin-top:8px;display:flex;gap:8px;align-items:center;">
+        <button class="btn-s" id="sync-connect-btn" style="flex:1;">Connect</button>
+        <button class="btn-sm" id="sync-disconnect-btn" style="display:none;">Disconnect</button>
+        <button class="btn-sm" id="sync-now-btn" style="display:none;">Sync Now</button>
+      </div>
+      <div class="sync-status sync-disconnected" id="sync-status-settings">Not connected</div>
+    </div>
+    <div class="settings-section">
       <h3>Data</h3>
       <p>Export your schedule data as JSON or clear all saved changes.</p>
       <button class="btn-sm" style="width:100%;margin-bottom:8px;" id="export-btn">Export data</button>
@@ -90,7 +105,7 @@
     </div>
     <div class="settings-section">
       <h3>About</h3>
-      <p>Tara's Schedule v5 -- mobile-first PWA rebuild. Data is saved locally on this device.</p>
+      <p>Tara's Schedule v5 -- mobile-first PWA rebuild. Data is saved locally on this device and optionally synced via passphrase.</p>
     </div>
   </div>
 </div>
