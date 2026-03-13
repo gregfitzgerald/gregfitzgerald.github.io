@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /tara/
 
 Sitemap: https://greg-fitzgerald.com/sitemap.xml

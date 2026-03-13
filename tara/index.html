@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a0a0f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Tara's Schedule</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+</head>
+<body>
+<div class="app">
+
+<!-- ═══ MAIN CONTENT ═══ -->
+<div class="main">
+
+  <!-- SCHEDULE TAB -->
+  <div class="tab-content active" id="schedule-tab">
+    <div style="margin-bottom:12px;">
+      <h1>TARA'S SCHEDULE</h1>
+      <div class="header-sub">Tap any day -- edit any block -- cascade time changes</div>
+    </div>
+
+    <div class="legend">
+      <div class="leg"><div class="leg-dot" style="background:var(--work)"></div>Work</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--commute)"></div>Commute</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--exercise)"></div>Exercise</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--creative)"></div>Creative</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--admin)"></div>Admin</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--social)"></div>Social</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--gaming)"></div>Gaming</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--mealprep)"></div>Meal Prep</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--selfcare)"></div>Self-Care</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--free)"></div>Free</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--intimacy)"></div>Intimacy</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--sleep)"></div>Sleep</div>
+    </div>
+
+    <div class="tabs" id="tabs"></div>
+    <div class="day-strip" id="day-strip"></div>
+    <div class="stats" id="stats"></div>
+    <div class="week-grid" id="week-grid"></div>
+
+    <div class="detail-panel" id="detail">
+      <div class="detail-top">
+        <div>
+          <div class="detail-title" id="d-title"></div>
+          <div class="detail-meta" id="d-meta"></div>
+        </div>
+        <div class="detail-actions">
+          <button class="btn-sm" id="close-detail-btn">Close</button>
+          <button class="btn-sm danger" id="reset-day-btn">Reset Day</button>
+        </div>
+      </div>
+      <div id="timeline"></div>
+      <button class="add-btn" id="add-block-btn">+ ADD BLOCK TO THIS DAY</button>
+      <div class="day-tasks" id="day-tasks">
+        <div class="section-title">TASKS FOR THIS DAY <span class="badge" id="day-task-count">0</span></div>
+        <div id="day-task-list"></div>
+        <button class="add-btn" id="assign-task-btn">+ ASSIGN TASK TO THIS DAY</button>
+      </div>
+      <div id="weekly-reset-container" style="display:none;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)"></div>
+    </div>
+  </div>
+
+  <!-- TASKS TAB (mobile only) -->
+  <div class="tab-content" id="tasks-tab">
+    <div id="tasks-content"></div>
+  </div>
+
+  <!-- RESET TAB (mobile only) -->
+  <div class="tab-content" id="reset-tab">
+    <div id="reset-content"></div>
+  </div>
+
+  <!-- SETTINGS TAB (mobile only) -->
+  <div class="tab-content" id="settings-tab">
+    <div class="tab-header">
+      <h2>Settings</h2>
+    </div>
+    <div class="settings-section">
+      <h3>Data</h3>
+      <p>Export your schedule data as JSON or clear all saved changes.</p>
+      <button class="btn-sm" style="width:100%;margin-bottom:8px;" id="export-btn">Export data</button>
+      <button class="btn-sm danger" style="width:100%;" id="clear-btn">Clear all data</button>
+    </div>
+    <div class="settings-section">
+      <h3>About</h3>
+      <p>Tara's Schedule v5 -- mobile-first PWA rebuild. Data is saved locally on this device.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SIDEBAR (desktop only) ═══ -->
+<div class="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-title">PRIORITY TASKS <span class="badge" id="smart-badge">4</span></div>
+    <div id="smart-list"></div>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-title">BACKLOG TASKS <span class="badge-orange" id="asmr-badge">12</span></div>
+    <div style="font-size:.58rem;color:var(--dim);margin-bottom:8px;">No time pressure -- assign or check off when done.</div>
+    <div id="asmr-list"></div>
+    <button class="add-btn" id="new-task-btn">+ NEW TASK</button>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-title" style="color:var(--dim)">DATA</div>
+    <button class="btn-sm" style="width:100%;margin-bottom:5px;" id="export-btn-desktop">Export data</button>
+    <button class="btn-sm danger" style="width:100%;" id="clear-btn-desktop">Clear all data</button>
+  </div>
+</div>
+
+</div>
+
+<!-- ═══ BOTTOM NAVIGATION (mobile) ═══ -->
+<nav class="bottom-nav">
+  <button class="bottom-nav-btn active" data-tab="schedule">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    Schedule
+  </button>
+  <button class="bottom-nav-btn" data-tab="tasks">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+    Tasks
+  </button>
+  <button class="bottom-nav-btn" data-tab="reset">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+    Reset
+  </button>
+  <button class="bottom-nav-btn" data-tab="settings">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+    Settings
+  </button>
+</nav>
+
+<!-- ═══ MODALS ═══ -->
+
+<!-- ADD BLOCK MODAL -->
+<div class="overlay" id="add-modal">
+  <div class="modal">
+    <h3>ADD TIME BLOCK</h3>
+    <label>Start Time</label><input type="time" id="am-start" value="17:00">
+    <label>End Time</label><input type="time" id="am-end" value="18:00">
+    <label>Category</label>
+    <select id="am-cat">
+      <option value="work">Work</option>
+      <option value="commute">Commute</option>
+      <option value="exercise">Exercise / Walk</option>
+      <option value="creative">Creative</option>
+      <option value="admin">Admin / Appointments</option>
+      <option value="social">Social</option>
+      <option value="gaming">Gaming</option>
+      <option value="mealprep">Meal Prep / Cooking</option>
+      <option value="selfcare">Self-Care</option>
+      <option value="free">Free Time</option>
+      <option value="intimacy">Intimacy</option>
+      <option value="sleep">Sleep</option>
+    </select>
+    <label>Label</label><input type="text" id="am-label" placeholder="e.g. Dad appt, Extra work, Walk...">
+    <label>Note (optional)</label><textarea id="am-note" rows="2" placeholder="Any details..."></textarea>
+    <div class="modal-btns">
+      <button class="btn-c" id="am-cancel">Cancel</button>
+      <button class="btn-s" id="am-save">Add</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT BLOCK MODAL -->
+<div class="overlay" id="edit-modal">
+  <div class="modal">
+    <h3>EDIT BLOCK</h3>
+    <label>Start Time</label><input type="time" id="em-start">
+    <label>End Time</label><input type="time" id="em-end">
+    <label>Category</label>
+    <select id="em-cat">
+      <option value="work">Work</option>
+      <option value="commute">Commute</option>
+      <option value="exercise">Exercise / Walk</option>
+      <option value="creative">Creative</option>
+      <option value="admin">Admin / Appointments</option>
+      <option value="social">Social</option>
+      <option value="gaming">Gaming</option>
+      <option value="mealprep">Meal Prep / Cooking</option>
+      <option value="selfcare">Self-Care</option>
+      <option value="free">Free Time</option>
+      <option value="intimacy">Intimacy</option>
+      <option value="sleep">Sleep</option>
+    </select>
+    <label>Label</label><input type="text" id="em-label">
+    <label>Note (optional)</label><textarea id="em-note" rows="2"></textarea>
+    <div class="modal-btns">
+      <button class="btn-del" id="em-delete">Delete</button>
+      <button class="btn-c" id="em-cancel">Cancel</button>
+      <button class="btn-s" id="em-save">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- CASCADE MODAL -->
+<div class="overlay" id="cascade-modal">
+  <div class="modal">
+    <h3>SHIFT FOLLOWING BLOCKS?</h3>
+    <p style="font-size:.68rem;color:var(--dim);margin-bottom:12px;">End time shifted by <strong id="cascade-delta" style="color:var(--text)"></strong>. Choose which blocks to move:</p>
+    <div id="cascade-list"></div>
+    <div class="modal-btns">
+      <button class="btn-c" id="cascade-skip">Skip</button>
+      <button class="btn-c" id="cascade-all" style="color:var(--text)">All</button>
+      <button class="btn-s" id="cascade-apply">Shift Selected</button>
+    </div>
+  </div>
+</div>
+
+<!-- TASK ASSIGN MODAL -->
+<div class="overlay" id="task-modal">
+  <div class="modal">
+    <h3>ASSIGN TASK TO <span id="tm-day"></span></h3>
+    <label>Source</label>
+    <select id="tm-source">
+      <option value="smart">Priority Tasks</option>
+      <option value="asmr">Backlog Tasks</option>
+      <option value="custom">Custom (type your own)</option>
+    </select>
+    <label>Task</label>
+    <select id="tm-task"></select>
+    <input type="text" id="tm-custom" placeholder="Type task..." style="display:none;margin-top:4px;">
+    <div class="modal-btns">
+      <button class="btn-c" id="tm-cancel">Cancel</button>
+      <button class="btn-s" id="tm-save">Assign</button>
+    </div>
+  </div>
+</div>
+
+<!-- NEW TASK MODAL -->
+<div class="overlay" id="new-task-modal">
+  <div class="modal">
+    <h3>NEW BACKLOG TASK</h3>
+    <label>Task Name</label><input type="text" id="nt-name" placeholder="What needs doing?">
+    <label>Category</label><input type="text" id="nt-cat" placeholder="e.g. Admin, Home, Health...">
+    <div class="modal-btns">
+      <button class="btn-c" id="nt-cancel">Cancel</button>
+      <button class="btn-s" id="nt-save">Add</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
