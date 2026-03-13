@@ -5,6 +5,21 @@ import { getBlocks } from './blocks.js';
 import { toMin, dur, fmtDur, fmtTime } from './time.js';
 import { renderDayTasks } from './tasks.js';
 
+// ─── DATE HELPER ─────────────────────────────────────────────────────────────
+// Returns the actual calendar date for a given day name.
+// weekDelta: 0 = current week, +1 = next week, -1 = previous week
+const DAY_OFFSETS = { MON: 0, TUE: 1, WED: 2, THU: 3, FRI: 4, SAT: 5, SUN: 6 };
+function getDateForDay(dayName, weekDelta) {
+  const today = new Date();
+  const dow = today.getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
+  const mondayOffset = dow === 0 ? -6 : 1 - dow;
+  const monday = new Date(today);
+  monday.setDate(today.getDate() + mondayOffset + (weekDelta || 0) * 7);
+  const target = new Date(monday);
+  target.setDate(monday.getDate() + DAY_OFFSETS[dayName]);
+  return `${target.getMonth() + 1}/${target.getDate()}`;
+}
+
 // ─── RENDER ALL ───────────────────────────────────────────────────────────────
 export function renderAll() {
   renderTabs();
@@ -31,7 +46,8 @@ export function renderTabs() {
     { id: 'w2', label: 'WEEK 2', note: '31.5h + OFF FRI' },
   ].map(v => `
     <div class="tab ${state.view === v.id ? 'active' : ''}" data-view="${v.id}">
-      ${v.label} <span style="opacity:.5;font-size:.6rem">${v.note}</span>
+      <div>${v.label}</div>
+      <div style="opacity:.5;font-size:.55rem;margin-top:2px">${v.note}</div>
     </div>`).join('');
 }
 
@@ -61,7 +77,8 @@ export function renderDayStrip() {
   if (!strip) return;
   strip.innerHTML = ALL_DAYS.map(day => {
     const isOff = state.view === 'w2' && day === 'FRI';
-    return `<button class="day-strip-btn ${state.selectedDay === day ? 'active' : ''} ${isOff ? 'off' : ''}" data-day="${day}">${day}</button>`;
+    const dateStr = getDateForDay(day);
+    return `<button class="day-strip-btn ${state.selectedDay === day ? 'active' : ''} ${isOff ? 'off' : ''}" data-day="${day}">${day}<span class="day-strip-date">${dateStr}</span></button>`;
   }).join('');
 }
 
@@ -78,12 +95,46 @@ export function renderStats() {
     </div>`).join('');
 }
 
+// ─── DAY PREVIEW (for swipe peek panels) ─────────────────────────────────────
+export function renderDayPreview(day, weekOverride, weekDelta) {
+  if (!day) return '';
+  const week = weekOverride || state.view;
+  const blocks = getBlocks(day, week);
+  const isOff = week === 'w2' && day === 'FRI';
+  const freeMin = blocks.filter(b => b.c === 'free').reduce((s, b) => s + dur(b), 0);
+  const creMin = blocks.filter(b => b.c === 'creative').reduce((s, b) => s + dur(b), 0);
+  const exMin = blocks.filter(b => b.c === 'exercise').reduce((s, b) => s + dur(b), 0);
+
+  const dateStr = getDateForDay(day, weekDelta || 0);
+  const weekLabel = weekOverride && weekOverride !== state.view ? ` (${week === 'w1' ? 'Wk1' : 'Wk2'})` : '';
+  return `
+    <div class="detail-top">
+      <div>
+        <div class="detail-title">${day} ${dateStr}${weekLabel}${isOff ? ' -- OFF' : ''}</div>
+        <div class="detail-meta">Free: ${fmtDur(freeMin)} | Creative: ${fmtDur(creMin)} | Exercise: ${fmtDur(exMin)}</div>
+      </div>
+    </div>
+    <div>${blocks.map((b, i) => `
+      <div class="trow">
+        <div class="ttime">${fmtTime(b.s)}<br><span style="opacity:.3">${fmtTime(b.e)}</span></div>
+        <div class="tblock ${b.c}">
+          <div>
+            <div class="tblock-title">${b.l}${dur(b) >= 60 ? ` <span style="opacity:.5;font-size:.58rem">${fmtDur(dur(b))}</span>` : ''}</div>
+            ${b.n ? `<div class="tblock-note">${b.n}</div>` : ''}
+          </div>
+        </div>
+      </div>`).join('')}
+    </div>`;
+}
+
 // ─── DETAIL PANEL ─────────────────────────────────────────────────────────────
 export function renderDetail(day) {
   const panel = document.getElementById('detail');
   panel.classList.add('show');
-  document.getElementById('d-title').textContent = day + (state.view === 'w2' && day === 'FRI' ? ' — OFF' : '');
-
+  panel.classList.remove('collapsed');
+  const dateStr = getDateForDay(day);
+  const suffix = state.view === 'w2' && day === 'FRI' ? ' -- OFF' : '';
+  document.getElementById('d-title').textContent = `${day} ${dateStr}${suffix}`;
   const blocks = getBlocks(day);
   const freeMin = blocks.filter(b => b.c === 'free').reduce((s, b) => s + dur(b), 0);
   const creMin = blocks.filter(b => b.c === 'creative').reduce((s, b) => s + dur(b), 0);
@@ -112,7 +163,7 @@ export function renderDetail(day) {
     rc.style.display = 'none';
   }
 
-  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  // No auto-scroll -- let the user control their scroll position
 }
 
 // ─── WEEKLY RESET ─────────────────────────────────────────────────────────────

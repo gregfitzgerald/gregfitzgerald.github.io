@@ -1,9 +1,9 @@
 // ─── APP INIT ─────────────────────────────────────────────────────────────────
 import { ALL_DAYS } from './data.js';
-import { state, load, save, exportData, clearAllData, setSaveHook } from './state.js';
+import { state, load, save, exportData, clearAllData, setSaveHook, getCurrentWeek } from './state.js';
 import { getBlocks } from './blocks.js';
 import {
-  renderAll, renderGrid, renderDetail, renderStats, renderTabs,
+  renderAll, renderGrid, renderDetail, renderDayPreview, renderStats, renderTabs,
   renderDayStrip, setTaskRenderers, toggleReset, clearReset,
   renderWeeklyReset, renderResetTab,
 } from './render.js';
@@ -30,23 +30,40 @@ setTaskRenderers(renderSmart, renderAsmr);
 setSaveHook(debouncedSync);
 
 // ─── NAVIGATION ───────────────────────────────────────────────────────────────
-function selectDay(day, direction) {
-  const oldDay = state.selectedDay;
+function otherWeek() { return state.view === 'w1' ? 'w2' : 'w1'; }
+
+function selectDay(day, switchWeek) {
+  if (switchWeek) {
+    state.view = otherWeek();
+    renderTabs();
+  }
   state.selectedDay = day;
   renderGrid();
   renderDayStrip();
+  renderDetail(day);
+  renderAdjacentPreviews();
+  initDragForCurrentDay();
+}
 
-  // Animate slide if direction is specified (arrow navigation)
-  if (direction && oldDay) {
-    animateSlide(direction, () => {
-      renderDetail(day);
-      updateDayNavButtons();
-      initDragForCurrentDay();
-    });
+function renderAdjacentPreviews() {
+  const idx = ALL_DAYS.indexOf(state.selectedDay);
+  const prevPanel = document.getElementById('swipe-prev');
+  const nextPanel = document.getElementById('swipe-next');
+
+  if (idx > 0) {
+    // Normal prev day within same week
+    if (prevPanel) prevPanel.innerHTML = renderDayPreview(ALL_DAYS[idx - 1]);
   } else {
-    renderDetail(day);
-    updateDayNavButtons();
-    initDragForCurrentDay();
+    // MON -> show SUN of other week
+    if (prevPanel) prevPanel.innerHTML = renderDayPreview('SUN', otherWeek(), -1);
+  }
+
+  if (idx < ALL_DAYS.length - 1) {
+    // Normal next day within same week
+    if (nextPanel) nextPanel.innerHTML = renderDayPreview(ALL_DAYS[idx + 1]);
+  } else {
+    // SUN -> show MON of other week
+    if (nextPanel) nextPanel.innerHTML = renderDayPreview('MON', otherWeek(), 1);
   }
 }
 
@@ -55,12 +72,6 @@ function initDragForCurrentDay() {
   setTimeout(() => initDrag(renderDetail, renderGrid, renderStats), 50);
 }
 
-function closeDetail() {
-  state.selectedDay = null;
-  renderGrid();
-  renderDayStrip();
-  document.getElementById('detail').classList.remove('show');
-}
 
 function resetDay() {
   if (!state.selectedDay) return;
@@ -79,41 +90,115 @@ function setView(v) {
   renderDayStrip();
 }
 
-// ─── SWIPE PAGE-TURN ANIMATION ───────────────────────────────────────────────
-function animateSlide(direction, onMidpoint) {
-  const slide = document.getElementById('detail-slide');
-  if (!slide) { onMidpoint(); return; }
+// ─── PEEK-SWIPE NAVIGATION ───────────────────────────────────────────────────
+// Swipe the detail panel to peek at adjacent days, with real-time finger tracking.
+{
+  const container = document.getElementById('swipe-container');
+  if (container) {
+    let startX = 0;
+    let startY = 0;
+    let tracking = false;
+    let locked = false; // true once we decide horizontal vs vertical
+    let isHorizontal = false;
+    const THRESHOLD = 0.25; // 25% of panel width to commit
 
-  // Slide current content out
-  const outClass = direction === 'left' ? 'slide-out-left' : 'slide-out-right';
-  const inClass = direction === 'left' ? 'slide-in-left' : 'slide-in-right';
+    container.addEventListener('touchstart', (e) => {
+      // Don't interfere with drag-to-reorder
+      if (document.body.classList.contains('dragging')) return;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      tracking = true;
+      locked = false;
+      isHorizontal = false;
+      container.classList.remove('snapping');
+      container.classList.add('swiping');
+    }, { passive: true });
 
-  slide.classList.add(outClass);
+    container.addEventListener('touchmove', (e) => {
+      if (!tracking) return;
+      const dx = e.touches[0].clientX - startX;
+      const dy = e.touches[0].clientY - startY;
 
-  const onOutDone = () => {
-    slide.removeEventListener('transitionend', onOutDone);
-    slide.classList.remove(outClass);
+      // Lock direction after 10px of movement
+      if (!locked && (Math.abs(dx) > 10 || Math.abs(dy) > 10)) {
+        locked = true;
+        isHorizontal = Math.abs(dx) > Math.abs(dy);
+        if (!isHorizontal) {
+          // Vertical scroll -- stop tracking
+          tracking = false;
+          container.classList.remove('swiping');
+          container.style.transform = '';
+          return;
+        }
+      }
 
-    // Render new content
-    onMidpoint();
+      if (!isHorizontal) return;
 
-    // Position new content off-screen on the incoming side
-    slide.classList.add(inClass);
+      // Prevent vertical scroll while swiping horizontally
+      e.preventDefault();
 
-    // Force reflow so the browser registers the starting position
-    slide.offsetHeight;
+      const panelWidth = container.parentElement.offsetWidth;
+      // Offset as percentage of total container (300% wide, showing center third)
+      // Default position: translateX(-33.333%)
+      // dx positive = swiping right (prev day), dx negative = swiping left (next day)
+      const pct = (dx / panelWidth) * 33.333;
 
-    // Slide in
-    slide.classList.remove(inClass);
-    slide.classList.add('slide-enter');
+      // Always allow swiping -- cross-week wrapping at boundaries
+      container.style.transform = `translateX(${-33.333 + pct}%)`;
+    }, { passive: false });
 
-    const onInDone = () => {
-      slide.removeEventListener('transitionend', onInDone);
-      slide.classList.remove('slide-enter');
-    };
-    slide.addEventListener('transitionend', onInDone, { once: true });
-  };
-  slide.addEventListener('transitionend', onOutDone, { once: true });
+    container.addEventListener('touchend', (e) => {
+      if (!tracking || !isHorizontal) {
+        tracking = false;
+        container.classList.remove('swiping');
+        return;
+      }
+      tracking = false;
+      container.classList.remove('swiping');
+
+      const dx = e.changedTouches[0].clientX - startX;
+      const panelWidth = container.parentElement.offsetWidth;
+      const ratio = Math.abs(dx) / panelWidth;
+      const idx = ALL_DAYS.indexOf(state.selectedDay);
+
+      if (ratio > THRESHOLD) {
+        // Commit: animate to the target panel
+        container.classList.add('snapping');
+        if (dx > 0) {
+          // Swipe right = go to previous day (or wrap to other week's SUN)
+          container.style.transform = 'translateX(0%)';
+          container.addEventListener('transitionend', () => {
+            container.classList.remove('snapping');
+            container.style.transform = '';
+            if (idx > 0) {
+              selectDay(ALL_DAYS[idx - 1]);
+            } else {
+              selectDay('SUN', true); // wrap to other week
+            }
+          }, { once: true });
+        } else if (dx < 0) {
+          // Swipe left = go to next day (or wrap to other week's MON)
+          container.style.transform = 'translateX(-66.666%)';
+          container.addEventListener('transitionend', () => {
+            container.classList.remove('snapping');
+            container.style.transform = '';
+            if (idx < ALL_DAYS.length - 1) {
+              selectDay(ALL_DAYS[idx + 1]);
+            } else {
+              selectDay('MON', true); // wrap to other week
+            }
+          }, { once: true });
+        }
+      } else {
+        // Cancel: snap back to center
+        container.classList.add('snapping');
+        container.style.transform = '';
+        container.addEventListener('transitionend', () => {
+          container.classList.remove('snapping');
+        }, { once: true });
+      }
+    }, { passive: true });
+  }
 }
 
 // ─── BOTTOM NAV TABS ──────────────────────────────────────────────────────────
@@ -129,6 +214,7 @@ function switchTab(tab) {
 
   if (tab === 'tasks') renderTasksTab();
   if (tab === 'reset') renderResetTab();
+  if (tab === 'settings') initSettingsTab();
   if (tab === 'schedule') {
     renderAll();
     renderDayStrip();
@@ -136,25 +222,50 @@ function switchTab(tab) {
 }
 
 
-// ─── DAY NAVIGATION (arrow buttons) ──────────────────────────────────────────
-function goToPrevDay() {
-  if (!state.selectedDay) return;
-  const idx = ALL_DAYS.indexOf(state.selectedDay);
-  if (idx > 0) selectDay(ALL_DAYS[idx - 1], 'right');
+// ─── SETTINGS ─────────────────────────────────────────────────────────────────
+function initSettingsTab() {
+  const input = document.getElementById('cycle-start-input');
+  const status = document.getElementById('cycle-status');
+  if (!input) return;
+  if (state.cycleStart) input.value = state.cycleStart;
+  updateCycleStatus();
 }
 
-function goToNextDay() {
-  if (!state.selectedDay) return;
-  const idx = ALL_DAYS.indexOf(state.selectedDay);
-  if (idx < ALL_DAYS.length - 1) selectDay(ALL_DAYS[idx + 1], 'left');
+function updateCycleStatus() {
+  const status = document.getElementById('cycle-status');
+  if (!status) return;
+  const week = getCurrentWeek();
+  if (week) {
+    status.textContent = `Currently: ${week === 'w1' ? 'Week 1' : 'Week 2'}`;
+    status.style.color = 'var(--exercise)';
+  } else {
+    status.textContent = 'Not set -- using manual Week 1/2 tabs.';
+    status.style.color = 'var(--dim)';
+  }
 }
 
-function updateDayNavButtons() {
-  const idx = ALL_DAYS.indexOf(state.selectedDay);
-  const prev = document.getElementById('prev-day-btn');
-  const next = document.getElementById('next-day-btn');
-  if (prev) prev.disabled = idx <= 0;
-  if (next) next.disabled = idx >= ALL_DAYS.length - 1;
+function setCycleStart(dateStr) {
+  // Validate it's a Monday
+  const d = new Date(dateStr + 'T00:00:00');
+  if (d.getDay() !== 1) {
+    // Find the Monday of that week
+    const dow = d.getDay();
+    const offset = dow === 0 ? -6 : 1 - dow;
+    d.setDate(d.getDate() + offset);
+    dateStr = d.toISOString().split('T')[0];
+    const input = document.getElementById('cycle-start-input');
+    if (input) input.value = dateStr;
+  }
+  state.cycleStart = dateStr;
+  save();
+  const autoWeek = getCurrentWeek();
+  if (autoWeek) {
+    state.view = autoWeek;
+    renderAll();
+    renderDayStrip();
+    if (state.selectedDay) renderDetail(state.selectedDay);
+  }
+  updateCycleStatus();
 }
 
 // ─── EVENT DELEGATION ─────────────────────────────────────────────────────────
@@ -176,12 +287,6 @@ document.addEventListener('click', (e) => {
   const blockEl = target.closest('[data-block-idx]');
   if (blockEl) { openEditModal(parseInt(blockEl.dataset.blockIdx)); return; }
 
-  // Day nav arrows
-  if (target.closest('#prev-day-btn')) { goToPrevDay(); return; }
-  if (target.closest('#next-day-btn')) { goToNextDay(); return; }
-
-  // Close detail
-  if (target.closest('#close-detail-btn')) { closeDetail(); return; }
 
   // Reset day
   if (target.closest('#reset-day-btn')) { resetDay(); return; }
@@ -315,14 +420,23 @@ document.addEventListener('change', (e) => {
     renderTaskOptions();
     return;
   }
+
+  // Cycle start date
+  if (target.id === 'cycle-start-input') {
+    if (target.value) setCycleStart(target.value);
+    return;
+  }
 });
 
-// Swipe navigation removed -- conflicts with Chrome's back gesture on mobile.
-// Day navigation uses arrow buttons instead.
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 // Bug fix #1: localStorage nuke IIFE removed entirely -- data persists across refreshes
 load();
+
+// Auto-detect week from cycle start date
+const autoWeek = getCurrentWeek();
+if (autoWeek) state.view = autoWeek;
+
 renderAll();
 renderDayStrip();
 

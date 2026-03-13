@@ -156,7 +156,7 @@ h1 {
   background: var(--s2);
   border: 1px solid var(--border);
   color: var(--dim);
-  padding: 8px 16px;
+  padding: 6px 12px;
   border-radius: 6px;
   cursor: pointer;
   font-family: 'JetBrains Mono', monospace;
@@ -166,7 +166,9 @@ h1 {
   min-width: 44px;
   min-height: 44px;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  gap: 1px;
   justify-content: center;
   transition: all .15s;
   -webkit-tap-highlight-color: transparent;
@@ -177,6 +179,7 @@ h1 {
   color: #fff;
 }
 .day-strip-btn.off { opacity: .5; }
+.day-strip-date { font-size: .55rem; font-weight: 400; opacity: .7; }
 
 /* ─── WEEK TABS ──────────────────────────────────────────────────────────── */
 .tabs { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
@@ -193,7 +196,9 @@ h1 {
   transition: all .15s;
   min-height: 44px;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   -webkit-tap-highlight-color: transparent;
 }
 .tab.active { background: var(--work); border-color: var(--work); color: #fff; }
@@ -261,7 +266,6 @@ h1 {
   background: var(--s1);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 16px;
   margin-bottom: 16px;
 }
 .detail-panel.show { display: block; }
@@ -270,6 +274,8 @@ h1 {
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 12px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 .detail-title {
   font-family: 'Space Grotesk', sans-serif;
@@ -277,31 +283,9 @@ h1 {
   font-weight: 700;
 }
 .detail-meta { font-size: .6rem; color: var(--dim); margin-top: 2px; }
-.day-nav {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-.day-nav-btn {
-  background: var(--s3);
-  border: 1px solid var(--border);
-  color: var(--dim);
-  width: 36px;
-  height: 36px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: .8rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 44px;
-  min-height: 44px;
-  -webkit-tap-highlight-color: transparent;
-  transition: all .15s;
-}
-.day-nav-btn:hover { border-color: var(--work); color: var(--text); }
-.day-nav-btn:disabled { opacity: .2; pointer-events: none; }
-.detail-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.detail-body { }
+.detail-panel.collapsed .detail-body { display: none; }
+.detail-panel.collapsed .detail-top { margin-bottom: 0; }
 
 /* ─── TIMELINE ───────────────────────────────────────────────────────────── */
 .trow {
@@ -702,71 +686,91 @@ h1 {
 .sync-error { color: #fca5a5; background: rgba(127,29,29,.2); }
 
 /* ─── DRAG TO REORDER ────────────────────────────────────────────────────── */
+
+/* Pre-drag hint: subtle glow while long-pressing */
+.touch-holding .tblock {
+  transform: scale(1.02);
+  box-shadow: 0 0 12px rgba(59,130,246,0.35);
+  transition: transform 150ms ease-out, box-shadow 150ms ease-out;
+}
+
+/* Ghost element: elevated, slightly scaled, semi-transparent */
 .drag-ghost {
   position: fixed;
   left: 16px;
   right: 16px;
   z-index: 200;
-  opacity: .85;
+  opacity: 0.9;
   transform: scale(1.03);
-  box-shadow: 0 8px 32px rgba(0,0,0,.5);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
   pointer-events: none;
-  transition: transform .1s;
   border-radius: 6px;
-  overflow: hidden;
-}
-.drag-origin {
-  opacity: .25;
-}
-.drop-indicator {
-  height: 3px;
-  margin: 2px 0;
-  border-radius: 2px;
-  background: transparent;
-  transition: background .15s, height .15s;
-}
-.drop-indicator.active {
-  height: 4px;
-  background: var(--work);
-  box-shadow: 0 0 8px rgba(59,130,246,.4);
+  overflow: visible;
+  will-change: top;
 }
 
-/* ─── SWIPE PAGE-TURN ANIMATION ──────────────────────────────────────────── */
-.detail-panel {
+/* Origin placeholder: faded silhouette */
+.drag-origin {
+  opacity: 0.3;
+}
+
+/* Gap animation: rows slide apart during drag */
+body.dragging .trow {
+  transition: transform 150ms ease-in-out;
+}
+
+/* Live time preview above the ghost */
+.drag-time-label {
+  position: absolute;
+  top: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--s1);
+  border: 1px solid var(--work);
+  color: var(--text);
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: .6rem;
+  font-family: 'JetBrains Mono', monospace;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 201;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  transition: opacity 150ms ease;
+}
+
+/* ─── SWIPE PEEK NAVIGATION ─────────────────────────────────────────────── */
+
+/* Clip wrapper: no padding/border, pure overflow clipping */
+.swipe-clip {
   overflow: hidden;
   position: relative;
 }
-.detail-slide {
-  transition: transform .3s ease, opacity .3s ease;
+
+/* Three-panel swipe container: [prev][current][next] */
+.swipe-container {
+  display: flex;
+  width: 300%;
+  transform: translateX(-33.333%); /* show center panel by default */
+  will-change: transform;
 }
-.detail-slide.slide-out-left,
-.detail-slide.slide-out-right,
-.detail-slide.slide-in-left,
-.detail-slide.slide-in-right,
-.detail-slide.slide-enter {
-  will-change: transform, opacity;
+.swipe-container.swiping {
+  transition: none; /* finger tracking, no transition */
 }
-.detail-slide.slide-out-left {
-  transform: translateX(-100%);
-  opacity: 0;
+.swipe-container.snapping {
+  transition: transform .3s ease-out;
 }
-.detail-slide.slide-out-right {
-  transform: translateX(100%);
-  opacity: 0;
+
+.swipe-panel {
+  width: 33.333%;
+  flex-shrink: 0;
+  min-height: 0;
+  padding: 16px;
 }
-.detail-slide.slide-in-left {
-  transform: translateX(100%);
-  opacity: 0;
-  transition: none;
-}
-.detail-slide.slide-in-right {
-  transform: translateX(-100%);
-  opacity: 0;
-  transition: none;
-}
-.detail-slide.slide-enter {
-  transform: translateX(0);
-  opacity: 1;
+
+/* Prev/next panels render adjacent day content */
+.swipe-prev, .swipe-next {
+  overflow: hidden;
 }
 
 

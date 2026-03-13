@@ -26,6 +26,7 @@ async function pushToFirebase() {
     dayTasks: state.dayTasks,
     resetDone: state.resetDone,
     userTasks: state.userTasks,
+    cycleStart: state.cycleStart || null,
     lastModified: Date.now(),
   };
   try {
@@ -56,6 +57,7 @@ async function pullFromFirebase() {
       if (data.dayTasks) state.dayTasks = data.dayTasks;
       if (data.resetDone) state.resetDone = data.resetDone;
       if (data.userTasks) state.userTasks = data.userTasks;
+      if (data.cycleStart) state.cycleStart = data.cycleStart;
       // Ensure all days exist
       ALL_DAYS.forEach(d => {
         if (!state.edits[d]) state.edits[d] = [];

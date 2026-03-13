@@ -6,8 +6,9 @@ import { toMin } from './time.js';
 let _dynamicId = 0;
 
 // Returns the final list of blocks for a day, applying edits on top of base
-export function getBlocks(day) {
-  const base = (BASE[state.view][day] || []).map(b => ({ ...b, _base: true }));
+export function getBlocks(day, weekOverride) {
+  const week = weekOverride || state.view;
+  const base = (BASE[week][day] || []).map(b => ({ ...b, _base: true }));
   const dayEdits = state.edits[day] || [];
 
   let result = [...base];
