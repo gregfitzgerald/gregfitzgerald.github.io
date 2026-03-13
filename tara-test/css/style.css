@@ -757,7 +757,9 @@ body.dragging .trow {
 }
 
 /* ─── SWIPE PEEK NAVIGATION ─────────────────────────────────────────────── */
-.detail-panel {
+
+/* Clip wrapper: no padding/border, pure overflow clipping */
+.swipe-clip {
   overflow: hidden;
   position: relative;
 }
