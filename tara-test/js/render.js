@@ -5,6 +5,20 @@ import { getBlocks } from './blocks.js';
 import { toMin, dur, fmtDur, fmtTime } from './time.js';
 import { renderDayTasks } from './tasks.js';
 
+// ─── DATE HELPER ─────────────────────────────────────────────────────────────
+// Returns the actual calendar date for a given day name in the current week
+const DAY_OFFSETS = { MON: 0, TUE: 1, WED: 2, THU: 3, FRI: 4, SAT: 5, SUN: 6 };
+function getDateForDay(dayName) {
+  const today = new Date();
+  const dow = today.getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
+  const mondayOffset = dow === 0 ? -6 : 1 - dow;
+  const monday = new Date(today);
+  monday.setDate(today.getDate() + mondayOffset);
+  const target = new Date(monday);
+  target.setDate(monday.getDate() + DAY_OFFSETS[dayName]);
+  return `${target.getMonth() + 1}/${target.getDate()}`;
+}
+
 // ─── RENDER ALL ───────────────────────────────────────────────────────────────
 export function renderAll() {
   renderTabs();
@@ -62,7 +76,8 @@ export function renderDayStrip() {
   if (!strip) return;
   strip.innerHTML = ALL_DAYS.map(day => {
     const isOff = state.view === 'w2' && day === 'FRI';
-    return `<button class="day-strip-btn ${state.selectedDay === day ? 'active' : ''} ${isOff ? 'off' : ''}" data-day="${day}">${day}</button>`;
+    const dateStr = getDateForDay(day);
+    return `<button class="day-strip-btn ${state.selectedDay === day ? 'active' : ''} ${isOff ? 'off' : ''}" data-day="${day}">${day}<span class="day-strip-date">${dateStr}</span></button>`;
   }).join('');
 }
 
@@ -88,15 +103,12 @@ export function renderDayPreview(day) {
   const creMin = blocks.filter(b => b.c === 'creative').reduce((s, b) => s + dur(b), 0);
   const exMin = blocks.filter(b => b.c === 'exercise').reduce((s, b) => s + dur(b), 0);
 
+  const dateStr = getDateForDay(day);
   return `
     <div class="detail-top">
-      <div class="day-nav">
-        <div></div>
-        <div>
-          <div class="detail-title">${day}${isOff ? ' -- OFF' : ''}</div>
-          <div class="detail-meta">Free: ${fmtDur(freeMin)} | Creative: ${fmtDur(creMin)} | Exercise: ${fmtDur(exMin)}</div>
-        </div>
-        <div></div>
+      <div>
+        <div class="detail-title">${day} ${dateStr}${isOff ? ' -- OFF' : ''}</div>
+        <div class="detail-meta">Free: ${fmtDur(freeMin)} | Creative: ${fmtDur(creMin)} | Exercise: ${fmtDur(exMin)}</div>
       </div>
     </div>
     <div>${blocks.map((b, i) => `
@@ -116,7 +128,13 @@ export function renderDayPreview(day) {
 export function renderDetail(day) {
   const panel = document.getElementById('detail');
   panel.classList.add('show');
-  document.getElementById('d-title').textContent = day + (state.view === 'w2' && day === 'FRI' ? ' — OFF' : '');
+  panel.classList.remove('collapsed');
+  const dateStr = getDateForDay(day);
+  const suffix = state.view === 'w2' && day === 'FRI' ? ' -- OFF' : '';
+  document.getElementById('d-title').textContent = `${day} ${dateStr}${suffix}`;
+  // Update collapse button text
+  const collapseBtn = document.getElementById('collapse-btn');
+  if (collapseBtn) collapseBtn.textContent = 'Collapse';
 
   const blocks = getBlocks(day);
   const freeMin = blocks.filter(b => b.c === 'free').reduce((s, b) => s + dur(b), 0);

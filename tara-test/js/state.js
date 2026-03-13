@@ -14,6 +14,7 @@ export const state = {
   userTasks: [],
   activeTab: 'schedule',
   syncStatus: 'connected',
+  cycleStart: null, // ISO date string of a known Week 1 Monday (e.g. "2026-03-09")
 };
 
 // Initialize edits and dayTasks for all days
@@ -35,6 +36,7 @@ export function save() {
     localStorage.setItem('t4test_dayTasks', JSON.stringify(state.dayTasks));
     localStorage.setItem('t4test_resetDone', JSON.stringify(state.resetDone));
     localStorage.setItem('t4test_userTasks', JSON.stringify(state.userTasks));
+    if (state.cycleStart) localStorage.setItem('t4test_cycleStart', state.cycleStart);
     localStorage.setItem('t4test_lastModified', String(Date.now()));
   } catch (e) { /* quota exceeded or private browsing */ }
   if (_onSave) _onSave();
@@ -54,6 +56,8 @@ export function load() {
     if (rd) state.resetDone = JSON.parse(rd);
     const ut = localStorage.getItem('t4test_userTasks');
     if (ut) state.userTasks = JSON.parse(ut);
+    const cs = localStorage.getItem('t4test_cycleStart');
+    if (cs) state.cycleStart = cs;
     // Ensure all days exist
     ALL_DAYS.forEach(d => {
       if (!state.edits[d]) state.edits[d] = [];
@@ -101,6 +105,22 @@ export function exportData() {
   a.download = 'tara_schedule_data.json';
   a.click();
   URL.revokeObjectURL(a.href);
+}
+
+// Compute current week (w1 or w2) based on cycle start date
+export function getCurrentWeek() {
+  if (!state.cycleStart) return null; // no cycle configured
+  const start = new Date(state.cycleStart + 'T00:00:00');
+  const now = new Date();
+  // Get Monday of current week
+  const dow = now.getDay();
+  const mondayOffset = dow === 0 ? -6 : 1 - dow;
+  const thisMonday = new Date(now);
+  thisMonday.setHours(0, 0, 0, 0);
+  thisMonday.setDate(now.getDate() + mondayOffset);
+  const diffMs = thisMonday - start;
+  const diffWeeks = Math.round(diffMs / (7 * 24 * 60 * 60 * 1000));
+  return diffWeeks % 2 === 0 ? 'w1' : 'w2';
 }
 
 export function clearAllData(renderAll) {

@@ -50,20 +50,14 @@
       <div class="swipe-container" id="swipe-container">
       <div class="swipe-panel swipe-prev" id="swipe-prev"></div>
       <div class="swipe-panel swipe-current" id="detail-slide">
-      <div class="detail-top">
-        <div class="day-nav">
-          <button class="day-nav-btn" id="prev-day-btn">&lt;</button>
-          <div>
-            <div class="detail-title" id="d-title"></div>
-            <div class="detail-meta" id="d-meta"></div>
-          </div>
-          <button class="day-nav-btn" id="next-day-btn">&gt;</button>
+      <div class="detail-top" id="detail-top">
+        <div>
+          <div class="detail-title" id="d-title"></div>
+          <div class="detail-meta" id="d-meta"></div>
         </div>
-        <div class="detail-actions">
-          <button class="btn-sm" id="close-detail-btn">Close</button>
-          <button class="btn-sm danger" id="reset-day-btn">Reset Day</button>
-        </div>
+        <button class="btn-sm" id="collapse-btn">Collapse</button>
       </div>
+      <div class="detail-body" id="detail-body">
       <div id="timeline"></div>
       <button class="add-btn" id="add-block-btn">+ ADD BLOCK TO THIS DAY</button>
       <div class="day-tasks" id="day-tasks">
@@ -72,6 +66,8 @@
         <button class="add-btn" id="assign-task-btn">+ ASSIGN TASK TO THIS DAY</button>
       </div>
       <div id="weekly-reset-container" style="display:none;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)"></div>
+      <button class="btn-sm danger" id="reset-day-btn" style="width:100%;margin-top:14px;">Reset Day</button>
+      </div><!-- /detail-body -->
       </div><!-- /detail-slide (swipe-current) -->
       <div class="swipe-panel swipe-next" id="swipe-next"></div>
       </div><!-- /swipe-container -->
@@ -93,6 +89,13 @@
   <div class="tab-content" id="settings-tab">
     <div class="tab-header">
       <h2>Settings</h2>
+    </div>
+    <div class="settings-section">
+      <h3>Two-Week Cycle</h3>
+      <p>Set the Monday that starts a Week 1 cycle. The app will auto-detect which week you're in.</p>
+      <label style="font-size:.65rem;color:var(--dim);display:block;margin-bottom:4px;">Week 1 starts on (Monday):</label>
+      <input type="date" id="cycle-start-input" style="width:100%;margin-bottom:8px;">
+      <div style="font-size:.6rem;color:var(--dim);" id="cycle-status"></div>
     </div>
     <div class="settings-section">
       <h3>Cross-Device Sync</h3>

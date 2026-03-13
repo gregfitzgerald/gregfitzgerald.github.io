@@ -26,6 +26,7 @@ async function pushToFirebase() {
     dayTasks: state.dayTasks,
     resetDone: state.resetDone,
     userTasks: state.userTasks,
+    cycleStart: state.cycleStart || null,
     lastModified: Date.now(),
   };
   try {
@@ -48,7 +49,7 @@ async function pullFromFirebase() {
     if (!data) return; // no remote data yet
 
     // Last-write-wins: if remote is newer, apply it
-    const localTime = parseInt(localStorage.getItem('t4_lastModified') || '0');
+    const localTime = parseInt(localStorage.getItem('t4test_lastModified') || '0');
     if (data.lastModified && data.lastModified > localTime) {
       if (data.edits) state.edits = data.edits;
       if (data.smartDone) state.smartDone = data.smartDone;
@@ -56,6 +57,7 @@ async function pullFromFirebase() {
       if (data.dayTasks) state.dayTasks = data.dayTasks;
       if (data.resetDone) state.resetDone = data.resetDone;
       if (data.userTasks) state.userTasks = data.userTasks;
+      if (data.cycleStart) state.cycleStart = data.cycleStart;
       // Ensure all days exist
       ALL_DAYS.forEach(d => {
         if (!state.edits[d]) state.edits[d] = [];

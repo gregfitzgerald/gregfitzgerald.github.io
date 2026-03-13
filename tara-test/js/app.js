@@ -1,6 +1,6 @@
 // ─── APP INIT ─────────────────────────────────────────────────────────────────
 import { ALL_DAYS } from './data.js';
-import { state, load, save, exportData, clearAllData, setSaveHook } from './state.js';
+import { state, load, save, exportData, clearAllData, setSaveHook, getCurrentWeek } from './state.js';
 import { getBlocks } from './blocks.js';
 import {
   renderAll, renderGrid, renderDetail, renderDayPreview, renderStats, renderTabs,
@@ -35,7 +35,6 @@ function selectDay(day) {
   renderGrid();
   renderDayStrip();
   renderDetail(day);
-  updateDayNavButtons();
   renderAdjacentPreviews();
   initDragForCurrentDay();
 }
@@ -55,11 +54,13 @@ function initDragForCurrentDay() {
   setTimeout(() => initDrag(renderDetail, renderGrid, renderStats), 50);
 }
 
-function closeDetail() {
-  state.selectedDay = null;
-  renderGrid();
-  renderDayStrip();
-  document.getElementById('detail').classList.remove('show');
+function toggleCollapse() {
+  const panel = document.getElementById('detail');
+  panel.classList.toggle('collapsed');
+}
+
+function expandDetail() {
+  document.getElementById('detail').classList.remove('collapsed');
 }
 
 function resetDay() {
@@ -206,6 +207,7 @@ function switchTab(tab) {
 
   if (tab === 'tasks') renderTasksTab();
   if (tab === 'reset') renderResetTab();
+  if (tab === 'settings') initSettingsTab();
   if (tab === 'schedule') {
     renderAll();
     renderDayStrip();
@@ -213,25 +215,50 @@ function switchTab(tab) {
 }
 
 
-// ─── DAY NAVIGATION (arrow buttons) ──────────────────────────────────────────
-function goToPrevDay() {
-  if (!state.selectedDay) return;
-  const idx = ALL_DAYS.indexOf(state.selectedDay);
-  if (idx > 0) selectDay(ALL_DAYS[idx - 1]);
+// ─── SETTINGS ─────────────────────────────────────────────────────────────────
+function initSettingsTab() {
+  const input = document.getElementById('cycle-start-input');
+  const status = document.getElementById('cycle-status');
+  if (!input) return;
+  if (state.cycleStart) input.value = state.cycleStart;
+  updateCycleStatus();
 }
 
-function goToNextDay() {
-  if (!state.selectedDay) return;
-  const idx = ALL_DAYS.indexOf(state.selectedDay);
-  if (idx < ALL_DAYS.length - 1) selectDay(ALL_DAYS[idx + 1]);
+function updateCycleStatus() {
+  const status = document.getElementById('cycle-status');
+  if (!status) return;
+  const week = getCurrentWeek();
+  if (week) {
+    status.textContent = `Currently: ${week === 'w1' ? 'Week 1' : 'Week 2'}`;
+    status.style.color = 'var(--exercise)';
+  } else {
+    status.textContent = 'Not set -- using manual Week 1/2 tabs.';
+    status.style.color = 'var(--dim)';
+  }
 }
 
-function updateDayNavButtons() {
-  const idx = ALL_DAYS.indexOf(state.selectedDay);
-  const prev = document.getElementById('prev-day-btn');
-  const next = document.getElementById('next-day-btn');
-  if (prev) prev.disabled = idx <= 0;
-  if (next) next.disabled = idx >= ALL_DAYS.length - 1;
+function setCycleStart(dateStr) {
+  // Validate it's a Monday
+  const d = new Date(dateStr + 'T00:00:00');
+  if (d.getDay() !== 1) {
+    // Find the Monday of that week
+    const dow = d.getDay();
+    const offset = dow === 0 ? -6 : 1 - dow;
+    d.setDate(d.getDate() + offset);
+    dateStr = d.toISOString().split('T')[0];
+    const input = document.getElementById('cycle-start-input');
+    if (input) input.value = dateStr;
+  }
+  state.cycleStart = dateStr;
+  save();
+  const autoWeek = getCurrentWeek();
+  if (autoWeek) {
+    state.view = autoWeek;
+    renderAll();
+    renderDayStrip();
+    if (state.selectedDay) renderDetail(state.selectedDay);
+  }
+  updateCycleStatus();
 }
 
 // ─── EVENT DELEGATION ─────────────────────────────────────────────────────────
@@ -253,12 +280,13 @@ document.addEventListener('click', (e) => {
   const blockEl = target.closest('[data-block-idx]');
   if (blockEl) { openEditModal(parseInt(blockEl.dataset.blockIdx)); return; }
 
-  // Day nav arrows
-  if (target.closest('#prev-day-btn')) { goToPrevDay(); return; }
-  if (target.closest('#next-day-btn')) { goToNextDay(); return; }
-
-  // Close detail
-  if (target.closest('#close-detail-btn')) { closeDetail(); return; }
+  // Collapse/expand detail panel
+  if (target.closest('#collapse-btn')) { toggleCollapse(); return; }
+  // Click on collapsed header -> expand
+  if (target.closest('#detail-top') && document.getElementById('detail').classList.contains('collapsed')) {
+    expandDetail();
+    return;
+  }
 
   // Reset day
   if (target.closest('#reset-day-btn')) { resetDay(); return; }
@@ -392,12 +420,23 @@ document.addEventListener('change', (e) => {
     renderTaskOptions();
     return;
   }
+
+  // Cycle start date
+  if (target.id === 'cycle-start-input') {
+    if (target.value) setCycleStart(target.value);
+    return;
+  }
 });
 
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 // Bug fix #1: localStorage nuke IIFE removed entirely -- data persists across refreshes
 load();
+
+// Auto-detect week from cycle start date
+const autoWeek = getCurrentWeek();
+if (autoWeek) state.view = autoWeek;
+
 renderAll();
 renderDayStrip();
 
