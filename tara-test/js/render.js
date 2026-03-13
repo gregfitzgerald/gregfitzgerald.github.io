@@ -84,7 +84,7 @@ export function renderDayStrip() {
 
 // ─── STATS ────────────────────────────────────────────────────────────────────
 export function renderStats() {
-  const cats = { exercise: 0, creative: 0, admin: 0, free: 0, gaming: 0 };
+  const cats = { exercise: 0, creative: 0, administrative: 0, free: 0, gaming: 0 };
   ALL_DAYS.forEach(d => getBlocks(d).forEach(b => {
     if (cats[b.c] !== undefined) cats[b.c] += dur(b);
   }));
@@ -140,6 +140,13 @@ export function renderDetail(day) {
   const creMin = blocks.filter(b => b.c === 'creative').reduce((s, b) => s + dur(b), 0);
   const exMin = blocks.filter(b => b.c === 'exercise').reduce((s, b) => s + dur(b), 0);
   document.getElementById('d-meta').textContent = `Free: ${fmtDur(freeMin)} | Creative: ${fmtDur(creMin)} | Exercise: ${fmtDur(exMin)}`;
+
+  const bannerEl = document.querySelector('.recovery-banner');
+  if (bannerEl) bannerEl.remove();
+  if (day === 'THU') {
+    document.getElementById('timeline').insertAdjacentHTML('beforebegin',
+      '<div class="recovery-banner">Recovery evening -- no chores or admin</div>');
+  }
 
   document.getElementById('timeline').innerHTML = blocks.map((b, i) => `
     <div class="trow">

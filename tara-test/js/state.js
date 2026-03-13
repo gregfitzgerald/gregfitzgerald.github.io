@@ -63,6 +63,13 @@ export function load() {
       if (!state.edits[d]) state.edits[d] = [];
       if (!state.dayTasks[d]) state.dayTasks[d] = [];
     });
+    // Migrate old admin -> administrative
+    ALL_DAYS.forEach(d => {
+      (state.edits[d] || []).forEach(e => {
+        if (e.block && e.block.c === 'admin') e.block.c = 'administrative';
+        if (e.orig && e.orig.c === 'admin') e.orig.c = 'administrative';
+      });
+    });
     // Clean up duplicate edits: for replace edits targeting the same _id, keep only the last one
     ALL_DAYS.forEach(d => {
       const edits = state.edits[d];

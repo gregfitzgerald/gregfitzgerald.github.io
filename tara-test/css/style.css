@@ -13,7 +13,11 @@
   --commute: #374151;
   --exercise: #10b981;
   --creative: #f97316;
-  --admin: #8b5cf6;
+  --administrative: #8b5cf6;
+  --papiapt: #7c3aed;
+  --taraapt: #a78bfa;
+  --catapt: #c084fc;
+  --errands: #d97706;
   --social: #ec4899;
   --mealprep: #eab308;
   --selfcare: #06b6d4;
@@ -330,7 +334,11 @@ h1 {
 .commute { background: var(--commute); }
 .exercise { background: var(--exercise); }
 .creative { background: var(--creative); }
-.admin { background: var(--admin); }
+.administrative { background: var(--administrative); }
+.papiapt { background: var(--papiapt); }
+.taraapt { background: var(--taraapt); }
+.catapt { background: var(--catapt); }
+.errands { background: var(--errands); color: #111; }
 .social { background: var(--social); }
 .mealprep { background: var(--mealprep); color: #111; }
 .selfcare { background: var(--selfcare); }
@@ -338,6 +346,17 @@ h1 {
 .gaming { background: var(--gaming); }
 .intimacy { background: var(--intimacy); }
 .sleep { background: var(--sleep); }
+
+/* ─── RECOVERY BANNER ────────────────────────────────────────────────────── */
+.recovery-banner {
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  font-size: .68rem;
+  color: #a78bfa;
+}
 
 /* ─── BUTTONS ────────────────────────────────────────────────────────────── */
 .add-btn {
@@ -398,7 +417,7 @@ h1 {
   gap: 6px;
 }
 .badge {
-  background: var(--admin);
+  background: var(--administrative);
   color: #fff;
   border-radius: 4px;
   padding: 2px 6px;
