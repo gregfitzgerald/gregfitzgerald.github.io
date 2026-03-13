@@ -13,6 +13,7 @@ export const state = {
   resetDone: {},
   userTasks: [],
   blockDone: {},
+  dayNotes: {},
   activeTab: 'schedule',
   syncStatus: 'connected',
   cycleStart: null, // ISO date string of a known Week 1 Monday (e.g. "2026-03-09")
@@ -38,6 +39,7 @@ export function save() {
     localStorage.setItem('t4test_resetDone', JSON.stringify(state.resetDone));
     localStorage.setItem('t4test_userTasks', JSON.stringify(state.userTasks));
     localStorage.setItem('t4test_blockDone', JSON.stringify(state.blockDone));
+    localStorage.setItem('t4test_dayNotes', JSON.stringify(state.dayNotes));
     if (state.cycleStart) localStorage.setItem('t4test_cycleStart', state.cycleStart);
     localStorage.setItem('t4test_lastModified', String(Date.now()));
   } catch (e) { /* quota exceeded or private browsing */ }
@@ -60,6 +62,8 @@ export function load() {
     if (ut) state.userTasks = JSON.parse(ut);
     const bd = localStorage.getItem('t4test_blockDone');
     if (bd) state.blockDone = JSON.parse(bd);
+    const dn = localStorage.getItem('t4test_dayNotes');
+    if (dn) state.dayNotes = JSON.parse(dn);
     const cs = localStorage.getItem('t4test_cycleStart');
     if (cs) state.cycleStart = cs;
     // Ensure all days exist
@@ -110,6 +114,7 @@ export function exportData() {
     resetDone: state.resetDone,
     userTasks: state.userTasks,
     blockDone: state.blockDone,
+    dayNotes: state.dayNotes,
   };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
@@ -137,7 +142,7 @@ export function getCurrentWeek() {
 
 export function clearAllData(renderAll) {
   if (!confirm('Clear ALL saved data and start fresh? This cannot be undone.')) return;
-  ['t4test_edits', 't4test_smartDone', 't4test_asmrDone', 't4test_dayTasks', 't4test_resetDone', 't4test_userTasks', 't4test_blockDone']
+  ['t4test_edits', 't4test_smartDone', 't4test_asmrDone', 't4test_dayTasks', 't4test_resetDone', 't4test_userTasks', 't4test_blockDone', 't4test_dayNotes']
     .forEach(k => localStorage.removeItem(k));
   ALL_DAYS.forEach(d => { state.edits[d] = []; state.dayTasks[d] = []; });
   state.smartDone = {};
@@ -145,5 +150,6 @@ export function clearAllData(renderAll) {
   state.resetDone = {};
   state.userTasks = [];
   state.blockDone = {};
+  state.dayNotes = {};
   renderAll();
 }

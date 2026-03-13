@@ -10,6 +10,7 @@ import {
 import {
   renderSmart, renderAsmr, toggleSmart, toggleAsmr,
   quickAssign, toggleDayTask, deleteDayTask, renderTasksTab,
+  renderDayNotes,
 } from './tasks.js';
 import {
   openEditModal, closeEditModal, saveEditBlock, confirmDeleteBlock,
@@ -375,6 +376,30 @@ document.addEventListener('click', (e) => {
   const assignBtn = target.closest('[data-quick-assign]');
   if (assignBtn) {
     quickAssign(assignBtn.dataset.quickAssign, assignBtn.dataset.quickId);
+    return;
+  }
+
+  // Add note (Papi/Adam)
+  if (target.closest('#add-note-btn')) {
+    const note = prompt('Note for Papi/Adam:');
+    if (note && note.trim() && state.selectedDay) {
+      if (!state.dayNotes[state.selectedDay]) state.dayNotes[state.selectedDay] = [];
+      state.dayNotes[state.selectedDay].push({ text: note.trim(), id: 'n' + Date.now() });
+      save();
+      renderDayNotes(state.selectedDay);
+    }
+    return;
+  }
+
+  // Delete note
+  const delNoteBtn = target.closest('[data-del-note-idx]');
+  if (delNoteBtn && state.selectedDay) {
+    const idx = parseInt(delNoteBtn.dataset.delNoteIdx);
+    if (state.dayNotes[state.selectedDay]) {
+      state.dayNotes[state.selectedDay].splice(idx, 1);
+      save();
+      renderDayNotes(state.selectedDay);
+    }
     return;
   }
 

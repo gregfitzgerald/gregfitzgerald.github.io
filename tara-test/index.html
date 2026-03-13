@@ -63,6 +63,7 @@
       <div class="detail-body" id="detail-body">
       <div id="timeline"></div>
       <button class="add-btn" id="add-block-btn">+ ADD BLOCK TO THIS DAY</button>
+      <div class="day-notes" id="day-notes"></div>
       <div class="day-tasks" id="day-tasks">
         <div class="section-title">TASKS FOR THIS DAY <span class="badge" id="day-task-count">0</span></div>
         <div id="day-task-list"></div>
@@ -292,6 +293,12 @@
     <select id="nt-type">
       <option value="backlog">Backlog</option>
       <option value="priority">Priority</option>
+    </select>
+    <label>Recurring</label>
+    <select id="nt-recurring">
+      <option value="">None</option>
+      <option value="daily">Daily</option>
+      <option value="weekly">Weekly</option>
     </select>
     <div class="modal-btns">
       <button class="btn-c" id="nt-cancel">Cancel</button>

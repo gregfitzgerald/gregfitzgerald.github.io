@@ -3,7 +3,7 @@ import { ALL_DAYS, WEEKLY_RESET, RESET_IDS } from './data.js';
 import { state, save, getCurrentWeek } from './state.js';
 import { getBlocks } from './blocks.js';
 import { toMin, dur, fmtDur, fmtTime } from './time.js';
-import { renderDayTasks } from './tasks.js';
+import { renderDayTasks, renderDayNotes } from './tasks.js';
 
 // ─── DATE HELPER ─────────────────────────────────────────────────────────────
 // Returns the actual calendar date for a given day name.
@@ -172,6 +172,7 @@ export function renderDetail(day) {
 
   updateTimeIndicator();
 
+  renderDayNotes(day);
   renderDayTasks(day);
 
   const rc = document.getElementById('weekly-reset-container');

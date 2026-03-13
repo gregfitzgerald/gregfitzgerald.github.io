@@ -513,6 +513,39 @@ h1 {
   justify-content: center;
 }
 
+/* ─── STREAK BADGE ───────────────────────────────────────────────────────── */
+.streak-badge {
+  display: inline-block;
+  background: var(--exercise);
+  color: #fff;
+  border-radius: 10px;
+  padding: 1px 6px;
+  font-size: .5rem;
+  font-weight: 600;
+  vertical-align: middle;
+  margin-left: 4px;
+}
+
+/* ─── DAY NOTES (Papi/Adam) ─────────────────────────────────────────────── */
+.day-notes-section {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.note-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: var(--s2);
+  border-left: 3px solid var(--creative);
+  border-radius: 0 6px 6px 0;
+  margin-bottom: 4px;
+  font-size: .7rem;
+  min-height: 44px;
+}
+.note-item span { flex: 1; }
+
 /* ─── SIDEBAR TASKS ──────────────────────────────────────────────────────── */
 .sidebar-section { margin-bottom: 20px; }
 .sidebar-title {

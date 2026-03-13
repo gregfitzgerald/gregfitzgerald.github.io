@@ -2,6 +2,37 @@
 import { SMART_TASKS, ASMR_TASKS } from './data.js';
 import { state, save } from './state.js';
 
+// ─── STREAK HELPER ───────────────────────────────────────────────────────────
+function updateStreak(task) {
+  if (!task.recurring) return;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const todayISO = today.toISOString().split('T')[0];
+
+  if (task.lastCompleted === todayISO) return; // already completed today
+
+  if (task.lastCompleted) {
+    const last = new Date(task.lastCompleted + 'T00:00:00');
+    const diffDays = Math.round((today - last) / (24 * 60 * 60 * 1000));
+    if (task.recurring === 'daily' && diffDays === 1) {
+      task.streak = (task.streak || 0) + 1;
+    } else if (task.recurring === 'weekly' && diffDays >= 5 && diffDays <= 9) {
+      task.streak = (task.streak || 0) + 1;
+    } else {
+      task.streak = 1;
+    }
+  } else {
+    task.streak = 1;
+  }
+  task.lastCompleted = todayISO;
+}
+
+function streakBadge(t) {
+  if (!t.recurring) return '';
+  const label = t.recurring === 'daily' ? 'd' : 'w';
+  return ` <span class="streak-badge">${t.streak || 0}${label} streak</span>`;
+}
+
 // ─── DAY TASKS ────────────────────────────────────────────────────────────────
 export function renderDayTasks(day) {
   const tasks = state.dayTasks[day] || [];
@@ -26,6 +57,13 @@ export function toggleDayTask(day, i) {
   const t = state.dayTasks[day][i];
   if (t.type === 'smart') state.smartDone[t.refId] = t.done;
   if (t.type === 'asmr') state.asmrDone[t.refId] = t.done;
+
+  // Update streak for recurring tasks
+  if (t.done && t.refId) {
+    const userTask = state.userTasks.find(ut => ut.id === t.refId);
+    if (userTask && userTask.recurring) updateStreak(userTask);
+  }
+
   save();
   renderDayTasks(day);
   renderSmart();
@@ -50,7 +88,7 @@ export function renderSmart() {
   list.innerHTML = allPriority.map(t => `
     <div class="smart-item ${state.smartDone[t.id] ? 'done' : ''}" data-smart-id="${t.id}">
       <div style="flex:1">
-        <div>${t.name}</div>
+        <div>${t.name}${streakBadge(t)}</div>
         <div class="smart-item-cat">${t.cat}</div>
       </div>
       <button class="assign-btn" data-quick-assign="smart" data-quick-id="${t.id}">+ Day</button>
@@ -68,7 +106,7 @@ export function renderAsmr() {
   list.innerHTML = allTasks.map(t => `
     <div class="smart-item ${state.asmrDone[t.id] ? 'done' : ''}" data-asmr-id="${t.id}">
       <div style="flex:1">
-        <div>${t.name}</div>
+        <div>${t.name}${streakBadge(t)}</div>
         <div class="smart-item-cat">${t.cat}</div>
       </div>
       <button class="assign-btn" data-quick-assign="asmr" data-quick-id="${t.id}">+ Day</button>
@@ -77,12 +115,22 @@ export function renderAsmr() {
 
 export function toggleSmart(id) {
   state.smartDone[id] = !state.smartDone[id];
+  // Update streak for recurring user tasks
+  if (state.smartDone[id]) {
+    const userTask = state.userTasks.find(t => t.id === id);
+    if (userTask && userTask.recurring) updateStreak(userTask);
+  }
   save();
   renderSmart();
 }
 
 export function toggleAsmr(id) {
   state.asmrDone[id] = !state.asmrDone[id];
+  // Update streak for recurring user tasks
+  if (state.asmrDone[id]) {
+    const userTask = state.userTasks.find(t => t.id === id);
+    if (userTask && userTask.recurring) updateStreak(userTask);
+  }
   save();
   renderAsmr();
 }
@@ -135,7 +183,7 @@ export function renderTasksTab() {
   smartListTab.innerHTML = allPriority.map(t => `
     <div class="smart-item ${state.smartDone[t.id] ? 'done' : ''}" data-smart-id="${t.id}">
       <div style="flex:1">
-        <div>${t.name}</div>
+        <div>${t.name}${streakBadge(t)}</div>
         <div class="smart-item-cat">${t.cat}</div>
       </div>
       <button class="assign-btn" data-quick-assign="smart" data-quick-id="${t.id}">+ Day</button>
@@ -145,9 +193,36 @@ export function renderTasksTab() {
   asmrListTab.innerHTML = allBacklog.map(t => `
     <div class="smart-item ${state.asmrDone[t.id] ? 'done' : ''}" data-asmr-id="${t.id}">
       <div style="flex:1">
-        <div>${t.name}</div>
+        <div>${t.name}${streakBadge(t)}</div>
         <div class="smart-item-cat">${t.cat}</div>
       </div>
       <button class="assign-btn" data-quick-assign="asmr" data-quick-id="${t.id}">+ Day</button>
     </div>`).join('');
+}
+
+// ─── DAY NOTES (Papi/Adam) ──────────────────────────────────────────────────
+export function renderDayNotes(day) {
+  const container = document.getElementById('day-notes');
+  if (!container) return;
+
+  const notes = state.dayNotes[day] || [];
+  if (!notes.length) {
+    container.innerHTML = `
+      <div class="day-notes-section">
+        <div class="section-title">NOTES <span class="badge" style="background:var(--creative)">${notes.length}</span></div>
+        <button class="add-btn" id="add-note-btn">+ ADD NOTE (Papi/Adam)</button>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="day-notes-section">
+      <div class="section-title">NOTES <span class="badge" style="background:var(--creative)">${notes.length}</span></div>
+      ${notes.map((n, i) => `
+        <div class="note-item">
+          <span>${n.text}</span>
+          <button class="task-del" data-del-note-idx="${i}">x</button>
+        </div>`).join('')}
+      <button class="add-btn" id="add-note-btn">+ ADD NOTE (Papi/Adam)</button>
+    </div>`;
 }
