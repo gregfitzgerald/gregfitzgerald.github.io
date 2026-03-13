@@ -193,7 +193,9 @@ h1 {
   transition: all .15s;
   min-height: 44px;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   -webkit-tap-highlight-color: transparent;
 }
 .tab.active { background: var(--work); border-color: var(--work); color: #fff; }
@@ -755,42 +757,35 @@ body.dragging .trow {
   transition: opacity 150ms ease;
 }
 
-/* ─── SWIPE PAGE-TURN ANIMATION ──────────────────────────────────────────── */
+/* ─── SWIPE PEEK NAVIGATION ─────────────────────────────────────────────── */
 .detail-panel {
   overflow: hidden;
   position: relative;
 }
-.detail-slide {
-  transition: transform .3s ease, opacity .3s ease;
+
+/* Three-panel swipe container: [prev][current][next] */
+.swipe-container {
+  display: flex;
+  width: 300%;
+  transform: translateX(-33.333%); /* show center panel by default */
+  will-change: transform;
 }
-.detail-slide.slide-out-left,
-.detail-slide.slide-out-right,
-.detail-slide.slide-in-left,
-.detail-slide.slide-in-right,
-.detail-slide.slide-enter {
-  will-change: transform, opacity;
+.swipe-container.swiping {
+  transition: none; /* finger tracking, no transition */
 }
-.detail-slide.slide-out-left {
-  transform: translateX(-100%);
-  opacity: 0;
+.swipe-container.snapping {
+  transition: transform .3s ease-out;
 }
-.detail-slide.slide-out-right {
-  transform: translateX(100%);
-  opacity: 0;
+
+.swipe-panel {
+  width: 33.333%;
+  flex-shrink: 0;
+  min-height: 0;
 }
-.detail-slide.slide-in-left {
-  transform: translateX(100%);
-  opacity: 0;
-  transition: none;
-}
-.detail-slide.slide-in-right {
-  transform: translateX(-100%);
-  opacity: 0;
-  transition: none;
-}
-.detail-slide.slide-enter {
-  transform: translateX(0);
-  opacity: 1;
+
+/* Prev/next panels render adjacent day content */
+.swipe-prev, .swipe-next {
+  overflow: hidden;
 }
 
 

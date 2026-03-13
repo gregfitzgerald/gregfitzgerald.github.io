@@ -3,7 +3,7 @@ import { ALL_DAYS } from './data.js';
 import { state, load, save, exportData, clearAllData, setSaveHook } from './state.js';
 import { getBlocks } from './blocks.js';
 import {
-  renderAll, renderGrid, renderDetail, renderStats, renderTabs,
+  renderAll, renderGrid, renderDetail, renderDayPreview, renderStats, renderTabs,
   renderDayStrip, setTaskRenderers, toggleReset, clearReset,
   renderWeeklyReset, renderResetTab,
 } from './render.js';
@@ -30,24 +30,24 @@ setTaskRenderers(renderSmart, renderAsmr);
 setSaveHook(debouncedSync);
 
 // ─── NAVIGATION ───────────────────────────────────────────────────────────────
-function selectDay(day, direction) {
-  const oldDay = state.selectedDay;
+function selectDay(day) {
   state.selectedDay = day;
   renderGrid();
   renderDayStrip();
+  renderDetail(day);
+  updateDayNavButtons();
+  renderAdjacentPreviews();
+  initDragForCurrentDay();
+}
 
-  // Animate slide if direction is specified (arrow navigation)
-  if (direction && oldDay) {
-    animateSlide(direction, () => {
-      renderDetail(day);
-      updateDayNavButtons();
-      initDragForCurrentDay();
-    });
-  } else {
-    renderDetail(day);
-    updateDayNavButtons();
-    initDragForCurrentDay();
-  }
+function renderAdjacentPreviews() {
+  const idx = ALL_DAYS.indexOf(state.selectedDay);
+  const prevDay = idx > 0 ? ALL_DAYS[idx - 1] : null;
+  const nextDay = idx < ALL_DAYS.length - 1 ? ALL_DAYS[idx + 1] : null;
+  const prevPanel = document.getElementById('swipe-prev');
+  const nextPanel = document.getElementById('swipe-next');
+  if (prevPanel) prevPanel.innerHTML = prevDay ? renderDayPreview(prevDay) : '';
+  if (nextPanel) nextPanel.innerHTML = nextDay ? renderDayPreview(nextDay) : '';
 }
 
 function initDragForCurrentDay() {
@@ -79,41 +79,118 @@ function setView(v) {
   renderDayStrip();
 }
 
-// ─── SWIPE PAGE-TURN ANIMATION ───────────────────────────────────────────────
-function animateSlide(direction, onMidpoint) {
-  const slide = document.getElementById('detail-slide');
-  if (!slide) { onMidpoint(); return; }
+// ─── PEEK-SWIPE NAVIGATION ───────────────────────────────────────────────────
+// Swipe the detail panel to peek at adjacent days, with real-time finger tracking.
+{
+  const container = document.getElementById('swipe-container');
+  if (container) {
+    let startX = 0;
+    let startY = 0;
+    let tracking = false;
+    let locked = false; // true once we decide horizontal vs vertical
+    let isHorizontal = false;
+    const THRESHOLD = 0.25; // 25% of panel width to commit
 
-  // Slide current content out
-  const outClass = direction === 'left' ? 'slide-out-left' : 'slide-out-right';
-  const inClass = direction === 'left' ? 'slide-in-left' : 'slide-in-right';
+    container.addEventListener('touchstart', (e) => {
+      // Don't interfere with drag-to-reorder
+      if (document.body.classList.contains('dragging')) return;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      tracking = true;
+      locked = false;
+      isHorizontal = false;
+      container.classList.remove('snapping');
+      container.classList.add('swiping');
+    }, { passive: true });
 
-  slide.classList.add(outClass);
+    container.addEventListener('touchmove', (e) => {
+      if (!tracking) return;
+      const dx = e.touches[0].clientX - startX;
+      const dy = e.touches[0].clientY - startY;
 
-  const onOutDone = () => {
-    slide.removeEventListener('transitionend', onOutDone);
-    slide.classList.remove(outClass);
+      // Lock direction after 10px of movement
+      if (!locked && (Math.abs(dx) > 10 || Math.abs(dy) > 10)) {
+        locked = true;
+        isHorizontal = Math.abs(dx) > Math.abs(dy);
+        if (!isHorizontal) {
+          // Vertical scroll -- stop tracking
+          tracking = false;
+          container.classList.remove('swiping');
+          container.style.transform = '';
+          return;
+        }
+      }
 
-    // Render new content
-    onMidpoint();
+      if (!isHorizontal) return;
 
-    // Position new content off-screen on the incoming side
-    slide.classList.add(inClass);
+      // Prevent vertical scroll while swiping horizontally
+      e.preventDefault();
 
-    // Force reflow so the browser registers the starting position
-    slide.offsetHeight;
+      const panelWidth = container.parentElement.offsetWidth;
+      // Offset as percentage of total container (300% wide, showing center third)
+      // Default position: translateX(-33.333%)
+      // dx positive = swiping right (prev day), dx negative = swiping left (next day)
+      const pct = (dx / panelWidth) * 33.333;
 
-    // Slide in
-    slide.classList.remove(inClass);
-    slide.classList.add('slide-enter');
+      // Limit: can't swipe right if no prev day, can't swipe left if no next day
+      const idx = ALL_DAYS.indexOf(state.selectedDay);
+      if (dx > 0 && idx <= 0) return;
+      if (dx < 0 && idx >= ALL_DAYS.length - 1) return;
 
-    const onInDone = () => {
-      slide.removeEventListener('transitionend', onInDone);
-      slide.classList.remove('slide-enter');
-    };
-    slide.addEventListener('transitionend', onInDone, { once: true });
-  };
-  slide.addEventListener('transitionend', onOutDone, { once: true });
+      container.style.transform = `translateX(${-33.333 + pct}%)`;
+    }, { passive: false });
+
+    container.addEventListener('touchend', (e) => {
+      if (!tracking || !isHorizontal) {
+        tracking = false;
+        container.classList.remove('swiping');
+        return;
+      }
+      tracking = false;
+      container.classList.remove('swiping');
+
+      const dx = e.changedTouches[0].clientX - startX;
+      const panelWidth = container.parentElement.offsetWidth;
+      const ratio = Math.abs(dx) / panelWidth;
+      const idx = ALL_DAYS.indexOf(state.selectedDay);
+
+      if (ratio > THRESHOLD) {
+        // Commit: animate to the target panel
+        container.classList.add('snapping');
+        if (dx > 0 && idx > 0) {
+          // Swipe right = go to previous day
+          container.style.transform = 'translateX(0%)';
+          container.addEventListener('transitionend', () => {
+            container.classList.remove('snapping');
+            container.style.transform = '';
+            selectDay(ALL_DAYS[idx - 1]);
+          }, { once: true });
+        } else if (dx < 0 && idx < ALL_DAYS.length - 1) {
+          // Swipe left = go to next day
+          container.style.transform = 'translateX(-66.666%)';
+          container.addEventListener('transitionend', () => {
+            container.classList.remove('snapping');
+            container.style.transform = '';
+            selectDay(ALL_DAYS[idx + 1]);
+          }, { once: true });
+        } else {
+          // Can't go further, snap back
+          container.classList.add('snapping');
+          container.style.transform = '';
+          container.addEventListener('transitionend', () => {
+            container.classList.remove('snapping');
+          }, { once: true });
+        }
+      } else {
+        // Cancel: snap back to center
+        container.classList.add('snapping');
+        container.style.transform = '';
+        container.addEventListener('transitionend', () => {
+          container.classList.remove('snapping');
+        }, { once: true });
+      }
+    }, { passive: true });
+  }
 }
 
 // ─── BOTTOM NAV TABS ──────────────────────────────────────────────────────────
@@ -140,13 +217,13 @@ function switchTab(tab) {
 function goToPrevDay() {
   if (!state.selectedDay) return;
   const idx = ALL_DAYS.indexOf(state.selectedDay);
-  if (idx > 0) selectDay(ALL_DAYS[idx - 1], 'right');
+  if (idx > 0) selectDay(ALL_DAYS[idx - 1]);
 }
 
 function goToNextDay() {
   if (!state.selectedDay) return;
   const idx = ALL_DAYS.indexOf(state.selectedDay);
-  if (idx < ALL_DAYS.length - 1) selectDay(ALL_DAYS[idx + 1], 'left');
+  if (idx < ALL_DAYS.length - 1) selectDay(ALL_DAYS[idx + 1]);
 }
 
 function updateDayNavButtons() {
@@ -298,48 +375,6 @@ document.addEventListener('change', (e) => {
   }
 });
 
-// ─── SWIPE NAVIGATION ────────────────────────────────────────────────────────
-// Horizontal swipe on the detail panel to navigate between days.
-// Uses angle detection: only triggers when swipe is clearly horizontal (>2:1 ratio)
-// and requires minimum 60px distance to avoid accidental triggers.
-{
-  let touchStartX = 0;
-  let touchStartY = 0;
-  let swiping = false;
-
-  const detailSlide = document.getElementById('detail-slide');
-  if (detailSlide) {
-    detailSlide.addEventListener('touchstart', (e) => {
-      // Don't interfere with drag-to-reorder
-      if (document.body.classList.contains('dragging')) return;
-      touchStartX = e.touches[0].clientX;
-      touchStartY = e.touches[0].clientY;
-      swiping = true;
-    }, { passive: true });
-
-    detailSlide.addEventListener('touchmove', (e) => {
-      // Cancel if vertical scroll dominates
-      if (!swiping) return;
-      const dx = Math.abs(e.touches[0].clientX - touchStartX);
-      const dy = Math.abs(e.touches[0].clientY - touchStartY);
-      if (dy > dx) swiping = false;
-    }, { passive: true });
-
-    detailSlide.addEventListener('touchend', (e) => {
-      if (!swiping || !state.selectedDay) { swiping = false; return; }
-      const dx = e.changedTouches[0].clientX - touchStartX;
-      const dy = Math.abs(e.changedTouches[0].clientY - touchStartY);
-      const absDx = Math.abs(dx);
-
-      // Must be clearly horizontal (2:1 ratio) and at least 60px
-      if (absDx > 60 && absDx > dy * 2) {
-        if (dx > 0) goToPrevDay();  // swipe right = previous day
-        else goToNextDay();          // swipe left = next day
-      }
-      swiping = false;
-    }, { passive: true });
-  }
-}
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 // Bug fix #1: localStorage nuke IIFE removed entirely -- data persists across refreshes

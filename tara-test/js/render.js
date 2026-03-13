@@ -79,6 +79,39 @@ export function renderStats() {
     </div>`).join('');
 }
 
+// ─── DAY PREVIEW (for swipe peek panels) ─────────────────────────────────────
+export function renderDayPreview(day) {
+  if (!day) return '';
+  const blocks = getBlocks(day);
+  const isOff = state.view === 'w2' && day === 'FRI';
+  const freeMin = blocks.filter(b => b.c === 'free').reduce((s, b) => s + dur(b), 0);
+  const creMin = blocks.filter(b => b.c === 'creative').reduce((s, b) => s + dur(b), 0);
+  const exMin = blocks.filter(b => b.c === 'exercise').reduce((s, b) => s + dur(b), 0);
+
+  return `
+    <div class="detail-top">
+      <div class="day-nav">
+        <div></div>
+        <div>
+          <div class="detail-title">${day}${isOff ? ' -- OFF' : ''}</div>
+          <div class="detail-meta">Free: ${fmtDur(freeMin)} | Creative: ${fmtDur(creMin)} | Exercise: ${fmtDur(exMin)}</div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+    <div>${blocks.map((b, i) => `
+      <div class="trow">
+        <div class="ttime">${fmtTime(b.s)}<br><span style="opacity:.3">${fmtTime(b.e)}</span></div>
+        <div class="tblock ${b.c}">
+          <div>
+            <div class="tblock-title">${b.l}${dur(b) >= 60 ? ` <span style="opacity:.5;font-size:.58rem">${fmtDur(dur(b))}</span>` : ''}</div>
+            ${b.n ? `<div class="tblock-note">${b.n}</div>` : ''}
+          </div>
+        </div>
+      </div>`).join('')}
+    </div>`;
+}
+
 // ─── DETAIL PANEL ─────────────────────────────────────────────────────────────
 export function renderDetail(day) {
   const panel = document.getElementById('detail');

@@ -46,7 +46,9 @@
     <div class="week-grid" id="week-grid"></div>
 
     <div class="detail-panel" id="detail">
-      <div class="detail-slide" id="detail-slide">
+      <div class="swipe-container" id="swipe-container">
+      <div class="swipe-panel swipe-prev" id="swipe-prev"></div>
+      <div class="swipe-panel swipe-current" id="detail-slide">
       <div class="detail-top">
         <div class="day-nav">
           <button class="day-nav-btn" id="prev-day-btn">&lt;</button>
@@ -69,7 +71,9 @@
         <button class="add-btn" id="assign-task-btn">+ ASSIGN TASK TO THIS DAY</button>
       </div>
       <div id="weekly-reset-container" style="display:none;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)"></div>
-      </div><!-- /detail-slide -->
+      </div><!-- /detail-slide (swipe-current) -->
+      <div class="swipe-panel swipe-next" id="swipe-next"></div>
+      </div><!-- /swipe-container -->
     </div>
   </div>
 
