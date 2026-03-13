@@ -263,6 +263,25 @@ document.addEventListener('click', (e) => {
     return;
   }
 
+  // Force refresh: clear all caches and reload
+  if (target.closest('#force-refresh-btn')) {
+    if ('caches' in window) {
+      caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k)))).then(() => {
+        if (navigator.serviceWorker) {
+          navigator.serviceWorker.getRegistrations().then(regs => {
+            regs.forEach(r => r.unregister());
+            window.location.reload(true);
+          });
+        } else {
+          window.location.reload(true);
+        }
+      });
+    } else {
+      window.location.reload(true);
+    }
+    return;
+  }
+
   // Bottom nav
   const navBtn = target.closest('[data-tab]');
   if (navBtn && target.closest('.bottom-nav')) { switchTab(navBtn.dataset.tab); return; }
