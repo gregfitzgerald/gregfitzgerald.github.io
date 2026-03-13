@@ -30,7 +30,13 @@ setTaskRenderers(renderSmart, renderAsmr);
 setSaveHook(debouncedSync);
 
 // ─── NAVIGATION ───────────────────────────────────────────────────────────────
-function selectDay(day) {
+function otherWeek() { return state.view === 'w1' ? 'w2' : 'w1'; }
+
+function selectDay(day, switchWeek) {
+  if (switchWeek) {
+    state.view = otherWeek();
+    renderTabs();
+  }
   state.selectedDay = day;
   renderGrid();
   renderDayStrip();
@@ -41,12 +47,24 @@ function selectDay(day) {
 
 function renderAdjacentPreviews() {
   const idx = ALL_DAYS.indexOf(state.selectedDay);
-  const prevDay = idx > 0 ? ALL_DAYS[idx - 1] : null;
-  const nextDay = idx < ALL_DAYS.length - 1 ? ALL_DAYS[idx + 1] : null;
   const prevPanel = document.getElementById('swipe-prev');
   const nextPanel = document.getElementById('swipe-next');
-  if (prevPanel) prevPanel.innerHTML = prevDay ? renderDayPreview(prevDay) : '';
-  if (nextPanel) nextPanel.innerHTML = nextDay ? renderDayPreview(nextDay) : '';
+
+  if (idx > 0) {
+    // Normal prev day within same week
+    if (prevPanel) prevPanel.innerHTML = renderDayPreview(ALL_DAYS[idx - 1]);
+  } else {
+    // MON -> show SUN of other week
+    if (prevPanel) prevPanel.innerHTML = renderDayPreview('SUN', otherWeek(), -1);
+  }
+
+  if (idx < ALL_DAYS.length - 1) {
+    // Normal next day within same week
+    if (nextPanel) nextPanel.innerHTML = renderDayPreview(ALL_DAYS[idx + 1]);
+  } else {
+    // SUN -> show MON of other week
+    if (nextPanel) nextPanel.innerHTML = renderDayPreview('MON', otherWeek(), 1);
+  }
 }
 
 function initDragForCurrentDay() {
@@ -125,11 +143,7 @@ function setView(v) {
       // dx positive = swiping right (prev day), dx negative = swiping left (next day)
       const pct = (dx / panelWidth) * 33.333;
 
-      // Limit: can't swipe right if no prev day, can't swipe left if no next day
-      const idx = ALL_DAYS.indexOf(state.selectedDay);
-      if (dx > 0 && idx <= 0) return;
-      if (dx < 0 && idx >= ALL_DAYS.length - 1) return;
-
+      // Always allow swiping -- cross-week wrapping at boundaries
       container.style.transform = `translateX(${-33.333 + pct}%)`;
     }, { passive: false });
 
@@ -150,28 +164,29 @@ function setView(v) {
       if (ratio > THRESHOLD) {
         // Commit: animate to the target panel
         container.classList.add('snapping');
-        if (dx > 0 && idx > 0) {
-          // Swipe right = go to previous day
+        if (dx > 0) {
+          // Swipe right = go to previous day (or wrap to other week's SUN)
           container.style.transform = 'translateX(0%)';
           container.addEventListener('transitionend', () => {
             container.classList.remove('snapping');
             container.style.transform = '';
-            selectDay(ALL_DAYS[idx - 1]);
+            if (idx > 0) {
+              selectDay(ALL_DAYS[idx - 1]);
+            } else {
+              selectDay('SUN', true); // wrap to other week
+            }
           }, { once: true });
-        } else if (dx < 0 && idx < ALL_DAYS.length - 1) {
-          // Swipe left = go to next day
+        } else if (dx < 0) {
+          // Swipe left = go to next day (or wrap to other week's MON)
           container.style.transform = 'translateX(-66.666%)';
           container.addEventListener('transitionend', () => {
             container.classList.remove('snapping');
             container.style.transform = '';
-            selectDay(ALL_DAYS[idx + 1]);
-          }, { once: true });
-        } else {
-          // Can't go further, snap back
-          container.classList.add('snapping');
-          container.style.transform = '';
-          container.addEventListener('transitionend', () => {
-            container.classList.remove('snapping');
+            if (idx < ALL_DAYS.length - 1) {
+              selectDay(ALL_DAYS[idx + 1]);
+            } else {
+              selectDay('MON', true); // wrap to other week
+            }
           }, { once: true });
         }
       } else {

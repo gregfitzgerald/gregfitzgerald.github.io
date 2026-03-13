@@ -6,14 +6,15 @@ import { toMin, dur, fmtDur, fmtTime } from './time.js';
 import { renderDayTasks } from './tasks.js';
 
 // ─── DATE HELPER ─────────────────────────────────────────────────────────────
-// Returns the actual calendar date for a given day name in the current week
+// Returns the actual calendar date for a given day name.
+// weekDelta: 0 = current week, +1 = next week, -1 = previous week
 const DAY_OFFSETS = { MON: 0, TUE: 1, WED: 2, THU: 3, FRI: 4, SAT: 5, SUN: 6 };
-function getDateForDay(dayName) {
+function getDateForDay(dayName, weekDelta) {
   const today = new Date();
   const dow = today.getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
   const mondayOffset = dow === 0 ? -6 : 1 - dow;
   const monday = new Date(today);
-  monday.setDate(today.getDate() + mondayOffset);
+  monday.setDate(today.getDate() + mondayOffset + (weekDelta || 0) * 7);
   const target = new Date(monday);
   target.setDate(monday.getDate() + DAY_OFFSETS[dayName]);
   return `${target.getMonth() + 1}/${target.getDate()}`;
@@ -95,19 +96,21 @@ export function renderStats() {
 }
 
 // ─── DAY PREVIEW (for swipe peek panels) ─────────────────────────────────────
-export function renderDayPreview(day) {
+export function renderDayPreview(day, weekOverride, weekDelta) {
   if (!day) return '';
-  const blocks = getBlocks(day);
-  const isOff = state.view === 'w2' && day === 'FRI';
+  const week = weekOverride || state.view;
+  const blocks = getBlocks(day, week);
+  const isOff = week === 'w2' && day === 'FRI';
   const freeMin = blocks.filter(b => b.c === 'free').reduce((s, b) => s + dur(b), 0);
   const creMin = blocks.filter(b => b.c === 'creative').reduce((s, b) => s + dur(b), 0);
   const exMin = blocks.filter(b => b.c === 'exercise').reduce((s, b) => s + dur(b), 0);
 
-  const dateStr = getDateForDay(day);
+  const dateStr = getDateForDay(day, weekDelta || 0);
+  const weekLabel = weekOverride && weekOverride !== state.view ? ` (${week === 'w1' ? 'Wk1' : 'Wk2'})` : '';
   return `
     <div class="detail-top">
       <div>
-        <div class="detail-title">${day} ${dateStr}${isOff ? ' -- OFF' : ''}</div>
+        <div class="detail-title">${day} ${dateStr}${weekLabel}${isOff ? ' -- OFF' : ''}</div>
         <div class="detail-meta">Free: ${fmtDur(freeMin)} | Creative: ${fmtDur(creMin)} | Exercise: ${fmtDur(exMin)}</div>
       </div>
     </div>
