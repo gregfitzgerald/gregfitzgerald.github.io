@@ -2,7 +2,6 @@
 import { state, save } from './state.js';
 import { getBlocks, sameBlock } from './blocks.js';
 import { toMin, toTime, dur, fmtTime } from './time.js';
-import { openCascade } from './cascade.js';
 
 let dragState = null;
 const LONG_PRESS_MS = 400;
@@ -304,52 +303,48 @@ function endDrag(renderDetail, renderGrid, renderStats) {
     ghost.remove();
     document.querySelectorAll('.drag-origin').forEach(el => el.classList.remove('drag-origin'));
 
-    // Compute new times
-    const blockDuration = dur(block);
-    const newStartMin = computeNewStartMin(insertionIdx, idx, blocks, block);
-    const newEndMin = newStartMin + blockDuration;
+    // Build the new sequence: remove dragged block, insert at new position
+    const withoutDrag = blocks.filter((_, i) => i !== idx);
+    const effectiveIdx = insertionIdx > idx ? insertionIdx - 1 : insertionIdx;
+    const newSequence = [...withoutDrag];
+    newSequence.splice(effectiveIdx, 0, block);
 
-    const moved = {
-      s: toTime(newStartMin),
-      e: toTime(newEndMin),
-      c: block.c,
-      l: block.l,
-      n: block.n,
-      _id: block._id,
-    };
+    // Recalculate ALL times sequentially: each block starts where the previous ended
+    let cursor = toMin(newSequence[0].s);
+    for (let i = 0; i < newSequence.length; i++) {
+      const b = newSequence[i];
+      const duration = dur(b);
+      const newS = toTime(cursor);
+      const newE = toTime(cursor + duration);
 
-    // Apply as edit -- find existing edit by _id to prevent duplicates
-    if (block._added) {
-      const ae = state.edits[day].find(e => e.action === 'add' && sameBlock(e.block, block));
-      if (ae) ae.block = moved;
-    } else {
-      const re = block._id
-        ? state.edits[day].find(e => e.action === 'replace' && e.orig._id === block._id)
-        : state.edits[day].find(e => e.action === 'replace' && sameBlock(e.block, block));
-      if (re) {
-        re.block = moved;
-      } else {
-        state.edits[day].push({ action: 'replace', orig: { s: block.s, e: block.e, l: block.l, _id: block._id }, block: moved });
+      // Skip if times haven't changed
+      if (b.s === newS && b.e === newE) {
+        cursor += duration;
+        continue;
       }
+
+      const updated = { s: newS, e: newE, c: b.c, l: b.l, n: b.n, _id: b._id };
+
+      if (b._added) {
+        const ae = state.edits[day].find(e => e.action === 'add' && sameBlock(e.block, b));
+        if (ae) ae.block = updated;
+      } else {
+        const re = b._id
+          ? state.edits[day].find(e => e.action === 'replace' && e.orig._id === b._id)
+          : state.edits[day].find(e => e.action === 'replace' && sameBlock(e.block, b));
+        if (re) {
+          re.block = updated;
+        } else {
+          state.edits[day].push({ action: 'replace', orig: { s: b.s, e: b.e, l: b.l, _id: b._id }, block: updated });
+        }
+      }
+
+      cursor += duration;
     }
 
     save();
     renderDetail(day);
     renderGrid();
     renderStats();
-
-    // Offer cascade if the moved block overlaps with following blocks
-    const updatedBlocks = getBlocks(day);
-    const movedIdx = updatedBlocks.findIndex(b => b._id && b._id === moved._id);
-    if (movedIdx > -1 && movedIdx < updatedBlocks.length - 1) {
-      const nextBlock = updatedBlocks[movedIdx + 1];
-      if (nextBlock.c !== 'sleep') {
-        const nextStartMin = toMin(nextBlock.s);
-        const overlap = newEndMin - nextStartMin;
-        if (overlap > 0) {
-          setTimeout(() => openCascade(day, nextStartMin, overlap, renderDetail, renderGrid, renderStats), 50);
-        }
-      }
-    }
   }, 220);
 }

@@ -298,8 +298,48 @@ document.addEventListener('change', (e) => {
   }
 });
 
-// Swipe navigation removed -- conflicts with Chrome's back gesture on mobile.
-// Day navigation uses arrow buttons instead.
+// ─── SWIPE NAVIGATION ────────────────────────────────────────────────────────
+// Horizontal swipe on the detail panel to navigate between days.
+// Uses angle detection: only triggers when swipe is clearly horizontal (>2:1 ratio)
+// and requires minimum 60px distance to avoid accidental triggers.
+{
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let swiping = false;
+
+  const detailSlide = document.getElementById('detail-slide');
+  if (detailSlide) {
+    detailSlide.addEventListener('touchstart', (e) => {
+      // Don't interfere with drag-to-reorder
+      if (document.body.classList.contains('dragging')) return;
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      swiping = true;
+    }, { passive: true });
+
+    detailSlide.addEventListener('touchmove', (e) => {
+      // Cancel if vertical scroll dominates
+      if (!swiping) return;
+      const dx = Math.abs(e.touches[0].clientX - touchStartX);
+      const dy = Math.abs(e.touches[0].clientY - touchStartY);
+      if (dy > dx) swiping = false;
+    }, { passive: true });
+
+    detailSlide.addEventListener('touchend', (e) => {
+      if (!swiping || !state.selectedDay) { swiping = false; return; }
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      const dy = Math.abs(e.changedTouches[0].clientY - touchStartY);
+      const absDx = Math.abs(dx);
+
+      // Must be clearly horizontal (2:1 ratio) and at least 60px
+      if (absDx > 60 && absDx > dy * 2) {
+        if (dx > 0) goToPrevDay();  // swipe right = previous day
+        else goToNextDay();          // swipe left = next day
+      }
+      swiping = false;
+    }, { passive: true });
+  }
+}
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 // Bug fix #1: localStorage nuke IIFE removed entirely -- data persists across refreshes

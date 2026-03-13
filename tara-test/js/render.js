@@ -31,7 +31,8 @@ export function renderTabs() {
     { id: 'w2', label: 'WEEK 2', note: '31.5h + OFF FRI' },
   ].map(v => `
     <div class="tab ${state.view === v.id ? 'active' : ''}" data-view="${v.id}">
-      ${v.label} <span style="opacity:.5;font-size:.6rem">${v.note}</span>
+      <div>${v.label}</div>
+      <div style="opacity:.5;font-size:.55rem;margin-top:2px">${v.note}</div>
     </div>`).join('');
 }
 
@@ -112,7 +113,7 @@ export function renderDetail(day) {
     rc.style.display = 'none';
   }
 
-  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  // No auto-scroll -- let the user control their scroll position
 }
 
 // ─── WEEKLY RESET ─────────────────────────────────────────────────────────────
