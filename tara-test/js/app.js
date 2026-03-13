@@ -54,14 +54,6 @@ function initDragForCurrentDay() {
   setTimeout(() => initDrag(renderDetail, renderGrid, renderStats), 50);
 }
 
-function toggleCollapse() {
-  const panel = document.getElementById('detail');
-  panel.classList.toggle('collapsed');
-}
-
-function expandDetail() {
-  document.getElementById('detail').classList.remove('collapsed');
-}
 
 function resetDay() {
   if (!state.selectedDay) return;
@@ -280,13 +272,6 @@ document.addEventListener('click', (e) => {
   const blockEl = target.closest('[data-block-idx]');
   if (blockEl) { openEditModal(parseInt(blockEl.dataset.blockIdx)); return; }
 
-  // Collapse/expand detail panel
-  if (target.closest('#collapse-btn')) { toggleCollapse(); return; }
-  // Click on collapsed header -> expand
-  if (target.closest('#detail-top') && document.getElementById('detail').classList.contains('collapsed')) {
-    expandDetail();
-    return;
-  }
 
   // Reset day
   if (target.closest('#reset-day-btn')) { resetDay(); return; }

@@ -286,7 +286,6 @@ h1 {
 .detail-body { }
 .detail-panel.collapsed .detail-body { display: none; }
 .detail-panel.collapsed .detail-top { margin-bottom: 0; }
-.detail-panel.collapsed #collapse-btn { display: none; }
 
 /* ─── TIMELINE ───────────────────────────────────────────────────────────── */
 .trow {

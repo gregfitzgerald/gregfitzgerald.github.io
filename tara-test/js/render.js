@@ -132,10 +132,6 @@ export function renderDetail(day) {
   const dateStr = getDateForDay(day);
   const suffix = state.view === 'w2' && day === 'FRI' ? ' -- OFF' : '';
   document.getElementById('d-title').textContent = `${day} ${dateStr}${suffix}`;
-  // Update collapse button text
-  const collapseBtn = document.getElementById('collapse-btn');
-  if (collapseBtn) collapseBtn.textContent = 'Collapse';
-
   const blocks = getBlocks(day);
   const freeMin = blocks.filter(b => b.c === 'free').reduce((s, b) => s + dur(b), 0);
   const creMin = blocks.filter(b => b.c === 'creative').reduce((s, b) => s + dur(b), 0);
