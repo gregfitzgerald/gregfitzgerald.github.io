@@ -41,16 +41,13 @@ export function saveEditBlock() {
   if (orig._added) {
     const ae = state.edits[state.selectedDay].find(e => e.action === 'add' && sameBlock(e.block, orig));
     if (ae) ae.block = updated;
-  } else if (orig._edited) {
-    const re = state.edits[state.selectedDay].find(e => e.action === 'replace' && sameBlock(e.block, orig));
+  } else {
+    // Find existing replace edit by orig._id to prevent duplicates
+    const re = orig._id
+      ? state.edits[state.selectedDay].find(e => e.action === 'replace' && e.orig._id === orig._id)
+      : state.edits[state.selectedDay].find(e => e.action === 'replace' && sameBlock(e.block, orig));
     if (re) re.block = updated;
     else state.edits[state.selectedDay].push({
-      action: 'replace',
-      orig: { s: orig.s, e: orig.e, l: orig.l, _id: orig._id },
-      block: updated,
-    });
-  } else {
-    state.edits[state.selectedDay].push({
       action: 'replace',
       orig: { s: orig.s, e: orig.e, l: orig.l, _id: orig._id },
       block: updated,

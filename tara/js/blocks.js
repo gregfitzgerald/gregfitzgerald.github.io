@@ -24,6 +24,18 @@ export function getBlocks(day) {
     }
   }
 
+  // Deduplicate: if multiple blocks share the same _id, keep only the last one
+  // (later edits win). This prevents stale/duplicate replace edits from creating ghosts.
+  const seen = new Map();
+  for (let i = result.length - 1; i >= 0; i--) {
+    const id = result[i]._id;
+    if (id && seen.has(id)) {
+      result.splice(i, 1);
+    } else if (id) {
+      seen.set(id, true);
+    }
+  }
+
   return result.sort((a, b) => toMin(a.s) - toMin(b.s));
 }
 

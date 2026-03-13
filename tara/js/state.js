@@ -59,6 +59,30 @@ export function load() {
       if (!state.edits[d]) state.edits[d] = [];
       if (!state.dayTasks[d]) state.dayTasks[d] = [];
     });
+    // Clean up duplicate edits: for replace edits targeting the same _id, keep only the last one
+    ALL_DAYS.forEach(d => {
+      const edits = state.edits[d];
+      if (!edits || !edits.length) return;
+      const lastById = new Map();
+      for (let i = 0; i < edits.length; i++) {
+        const e = edits[i];
+        if (e.action === 'replace' && e.orig && e.orig._id) {
+          lastById.set(e.orig._id, i);
+        }
+      }
+      if (lastById.size) {
+        const dupeIndices = new Set();
+        for (let i = 0; i < edits.length; i++) {
+          const e = edits[i];
+          if (e.action === 'replace' && e.orig && e.orig._id && lastById.get(e.orig._id) !== i) {
+            dupeIndices.add(i);
+          }
+        }
+        if (dupeIndices.size) {
+          state.edits[d] = edits.filter((_, i) => !dupeIndices.has(i));
+        }
+      }
+    });
   } catch (e) { /* corrupted data, use defaults */ }
 }
 

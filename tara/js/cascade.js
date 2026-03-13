@@ -61,12 +61,13 @@ export function applyCascade() {
     if (orig._added) {
       const ae = state.edits[day].find(e => e.action === 'add' && sameBlock(e.block, orig));
       if (ae) ae.block = shifted;
-    } else if (orig._edited) {
-      const re = state.edits[day].find(e => e.action === 'replace' && sameBlock(e.block, orig));
+    } else {
+      // Find existing replace edit by orig._id to prevent duplicates
+      const re = orig._id
+        ? state.edits[day].find(e => e.action === 'replace' && e.orig._id === orig._id)
+        : state.edits[day].find(e => e.action === 'replace' && sameBlock(e.block, orig));
       if (re) re.block = shifted;
       else state.edits[day].push({ action: 'replace', orig: { s: orig.s, e: orig.e, l: orig.l, _id: orig._id }, block: shifted });
-    } else {
-      state.edits[day].push({ action: 'replace', orig: { s: orig.s, e: orig.e, l: orig.l, _id: orig._id }, block: shifted });
     }
   });
   save();

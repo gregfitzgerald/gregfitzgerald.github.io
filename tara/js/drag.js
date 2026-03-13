@@ -2,6 +2,7 @@
 import { state, save } from './state.js';
 import { getBlocks, sameBlock } from './blocks.js';
 import { toMin, toTime, dur } from './time.js';
+import { openCascade } from './cascade.js';
 
 let dragState = null;
 const LONG_PRESS_MS = 400;
@@ -227,6 +228,21 @@ function endDrag(renderDetail, renderGrid, renderStats) {
   renderDetail(day);
   renderGrid();
   renderStats();
+
+  // Offer cascade if the moved block overlaps with following blocks
+  const updatedBlocks = getBlocks(day);
+  const movedIdx = updatedBlocks.findIndex(b => b._id && b._id === moved._id);
+  if (movedIdx > -1 && movedIdx < updatedBlocks.length - 1) {
+    const nextBlock = updatedBlocks[movedIdx + 1];
+    if (nextBlock.c !== 'sleep') {
+      const nextStartMin = toMin(nextBlock.s);
+      const overlap = newEndMin - nextStartMin;
+      if (overlap > 0) {
+        // Use nextStartMin as threshold so the overlapping block is included as a candidate
+        setTimeout(() => openCascade(day, nextStartMin, overlap, renderDetail, renderGrid, renderStats), 50);
+      }
+    }
+  }
 
   dragState = null;
 }
