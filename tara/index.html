@@ -233,11 +233,23 @@
     <select id="tm-source">
       <option value="smart">Priority Tasks</option>
       <option value="asmr">Backlog Tasks</option>
-      <option value="custom">Custom (type your own)</option>
+      <option value="new">Create New Task</option>
     </select>
-    <label>Task</label>
-    <select id="tm-task"></select>
-    <input type="text" id="tm-custom" placeholder="Type task..." style="display:none;margin-top:4px;">
+    <div id="tm-pick-fields">
+      <label>Task</label>
+      <select id="tm-task"></select>
+    </div>
+    <div id="tm-new-fields" style="display:none">
+      <label>Task Name</label>
+      <input type="text" id="tm-new-name" placeholder="What needs doing?">
+      <label>Category</label>
+      <input type="text" id="tm-new-cat" placeholder="e.g. Admin, Home, Health...">
+      <label>Type</label>
+      <select id="tm-new-type">
+        <option value="backlog">Backlog</option>
+        <option value="priority">Priority</option>
+      </select>
+    </div>
     <div class="modal-btns">
       <button class="btn-c" id="tm-cancel">Cancel</button>
       <button class="btn-s" id="tm-save">Assign</button>
@@ -248,9 +260,14 @@
 <!-- NEW TASK MODAL -->
 <div class="overlay" id="new-task-modal">
   <div class="modal">
-    <h3>NEW BACKLOG TASK</h3>
+    <h3>NEW TASK</h3>
     <label>Task Name</label><input type="text" id="nt-name" placeholder="What needs doing?">
     <label>Category</label><input type="text" id="nt-cat" placeholder="e.g. Admin, Home, Health...">
+    <label>Type</label>
+    <select id="nt-type">
+      <option value="backlog">Backlog</option>
+      <option value="priority">Priority</option>
+    </select>
     <div class="modal-btns">
       <button class="btn-c" id="nt-cancel">Cancel</button>
       <button class="btn-s" id="nt-save">Add</button>

@@ -126,35 +126,48 @@ export function closeTaskModal() {
 
 export function renderTaskOptions() {
   const src = document.getElementById('tm-source').value;
-  const sel = document.getElementById('tm-task');
-  const cust = document.getElementById('tm-custom');
-  if (src === 'custom') {
-    sel.style.display = 'none';
-    cust.style.display = 'block';
+  const pickFields = document.getElementById('tm-pick-fields');
+  const newFields = document.getElementById('tm-new-fields');
+  if (src === 'new') {
+    pickFields.style.display = 'none';
+    newFields.style.display = 'block';
     return;
   }
-  sel.style.display = 'block';
-  cust.style.display = 'none';
-  const pool = src === 'smart' ? SMART_TASKS : [...ASMR_TASKS, ...state.userTasks];
+  pickFields.style.display = 'block';
+  newFields.style.display = 'none';
+  const sel = document.getElementById('tm-task');
+  const pool = src === 'smart'
+    ? [...SMART_TASKS, ...state.userTasks.filter(t => t.priority)]
+    : [...ASMR_TASKS, ...state.userTasks.filter(t => !t.priority)];
   sel.innerHTML = pool.map(t => `<option value="${t.id}">${t.name}</option>`).join('');
 }
 
 export function assignTask() {
   const src = document.getElementById('tm-source').value;
   let label, refId, type;
-  if (src === 'custom') {
-    label = document.getElementById('tm-custom').value.trim();
-    if (!label) return;
-    type = 'custom';
-    refId = null;
+
+  if (src === 'new') {
+    // Create new task and assign to day in one step
+    const name = document.getElementById('tm-new-name').value.trim();
+    const cat = document.getElementById('tm-new-cat').value.trim() || 'General';
+    const taskType = document.getElementById('tm-new-type').value;
+    if (!name) return;
+    const id = 'u' + Date.now();
+    state.userTasks.push({ id, name, cat, priority: taskType === 'priority' });
+    label = name;
+    refId = id;
+    type = taskType === 'priority' ? 'smart' : 'asmr';
   } else {
     refId = document.getElementById('tm-task').value;
-    const pool = src === 'smart' ? SMART_TASKS : [...ASMR_TASKS, ...state.userTasks];
+    const pool = src === 'smart'
+      ? [...SMART_TASKS, ...state.userTasks.filter(t => t.priority)]
+      : [...ASMR_TASKS, ...state.userTasks.filter(t => !t.priority)];
     const found = pool.find(t => t.id === refId);
     if (!found) return;
     label = found.name;
     type = src;
   }
+
   if (!state.dayTasks[state.selectedDay]) state.dayTasks[state.selectedDay] = [];
   state.dayTasks[state.selectedDay].push({
     label, type, refId,
@@ -163,6 +176,8 @@ export function assignTask() {
   save();
   closeTaskModal();
   renderDayTasks(state.selectedDay);
+  renderSmart();
+  renderAsmr();
 }
 
 // ─── NEW TASK MODAL ───────────────────────────────────────────────────────────
@@ -180,9 +195,11 @@ export function closeNewTaskModal() {
 export function saveNewTask() {
   const name = document.getElementById('nt-name').value.trim();
   const cat = document.getElementById('nt-cat').value.trim() || 'General';
+  const type = document.getElementById('nt-type').value;
   if (!name) return;
-  state.userTasks.push({ id: 'u' + Date.now(), name, cat });
+  state.userTasks.push({ id: 'u' + Date.now(), name, cat, priority: type === 'priority' });
   save();
   closeNewTaskModal();
+  renderSmart();
   renderAsmr();
 }
