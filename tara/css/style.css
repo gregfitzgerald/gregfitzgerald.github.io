@@ -335,16 +335,12 @@ h1 {
 }
 .tblock-edit-btn {
   cursor: pointer;
-  opacity: .4;
-  font-size: .7rem;
+  opacity: .6;
+  font-size: .6rem;
   transition: opacity .15s;
-  min-width: 28px;
-  min-height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding-left: 4px;
 }
-.tblock-edit-btn:hover { opacity: .8; }
+.tblock-edit-btn:hover { opacity: .9; }
 .tblock-check {
   width: 20px;
   height: 20px;

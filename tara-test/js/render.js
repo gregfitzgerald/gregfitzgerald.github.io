@@ -163,7 +163,7 @@ export function renderDetail(day) {
           ${doneNote ? `<div class="tblock-done-note">${doneNote}</div>` : ''}
         </div>
         <div class="tblock-actions">
-          <span class="tblock-edit-btn" data-edit-idx="${i}" title="Edit">&#9998;</span>
+          <span class="tblock-edit-btn" data-edit-idx="${i}">edit</span>
           <input type="checkbox" class="tblock-check" data-done-key="${doneKey}" ${isDone ? 'checked' : ''}>
         </div>
       </div>
