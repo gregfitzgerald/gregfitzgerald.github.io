@@ -277,10 +277,41 @@ h1 {
   font-weight: 700;
 }
 .detail-meta { font-size: .6rem; color: var(--dim); margin-top: 2px; }
+.day-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.day-nav-btn {
+  background: var(--s3);
+  border: 1px solid var(--border);
+  color: var(--dim);
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: .8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
+  transition: all .15s;
+}
+.day-nav-btn:hover { border-color: var(--work); color: var(--text); }
+.day-nav-btn:disabled { opacity: .2; pointer-events: none; }
 .detail-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
 
 /* ─── TIMELINE ───────────────────────────────────────────────────────────── */
-.trow { display: flex; gap: 8px; margin-bottom: 5px; align-items: stretch; }
+.trow {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 5px;
+  align-items: stretch;
+  -webkit-user-select: none;
+  user-select: none;
+}
 .ttime {
   font-size: .6rem;
   color: var(--dim);
@@ -301,6 +332,9 @@ h1 {
   position: relative;
   min-height: 44px;
   -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: pan-y;
 }
 .tblock:hover { opacity: .85; }
 .tblock-title { font-size: .72rem; font-weight: 500; }
