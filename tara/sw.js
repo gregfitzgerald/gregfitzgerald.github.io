@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tara-schedule-v4';
+const CACHE_NAME = 'tara-schedule-v5';
 const PRECACHE_URLS = [
   './',
   './index.html',
@@ -17,7 +17,7 @@ const PRECACHE_URLS = [
   './manifest.json',
 ];
 
-// Install: precache static assets
+// Install: precache static assets, then immediately take over
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -26,7 +26,7 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Activate: clean up old caches
+// Activate: clean up old caches and claim all clients immediately
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then(keys =>
@@ -35,7 +35,8 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch: cache-first for static assets, network-first for fonts
+// Fetch: network-first for app files (always fresh when online),
+// cache-first for fonts (stable, saves bandwidth)
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
@@ -44,7 +45,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Cache Google Fonts on first fetch
+  // Cache-first for Google Fonts (they never change)
   if (url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com') {
     event.respondWith(
       caches.match(event.request).then(cached => {
@@ -59,16 +60,15 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Cache-first for same-origin
+  // Network-first for same-origin app files:
+  // Try network, update cache, fall back to cache when offline
   if (url.origin === self.location.origin) {
     event.respondWith(
-      caches.match(event.request).then(cached => {
-        return cached || fetch(event.request).then(response => {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
-          return response;
-        });
-      })
+      fetch(event.request).then(response => {
+        const clone = response.clone();
+        caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+        return response;
+      }).catch(() => caches.match(event.request))
     );
     return;
   }
