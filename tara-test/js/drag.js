@@ -33,6 +33,7 @@ export function initDrag(renderDetail, renderGrid, renderStats) {
 
   // ── Touch events ──────────────────────────────────────────────────────────
   timeline.addEventListener('touchstart', (e) => {
+    cleanupOrphans(); // Clear any stuck ghost from a previous drag
     const row = e.target.closest('.trow');
     if (!row) return;
     const block = row.querySelector('[data-block-idx]');
@@ -49,7 +50,6 @@ export function initDrag(renderDetail, renderGrid, renderStats) {
 
     // Drag activation at 400ms
     pressTimer = setTimeout(() => {
-      e.preventDefault();
       if (hintRow) hintRow.classList.remove('touch-holding');
       hintRow = null;
       startDrag(row, idx, touch.clientY, renderDetail, renderGrid, renderStats);
@@ -70,6 +70,18 @@ export function initDrag(renderDetail, renderGrid, renderStats) {
   timeline.addEventListener('touchend', () => {
     clearTimers();
     if (dragState) endDrag(renderDetail, renderGrid, renderStats);
+  });
+
+  // touchcancel fires when the browser takes over (context menu, scroll, etc.)
+  // Without this, the ghost stays stuck on screen
+  timeline.addEventListener('touchcancel', () => {
+    clearTimers();
+    if (dragState) endDrag(renderDetail, renderGrid, renderStats);
+  });
+
+  // Suppress context menu during drag (Android long-press triggers it ~500ms)
+  timeline.addEventListener('contextmenu', (e) => {
+    if (dragState || pressTimer) e.preventDefault();
   });
 
   // ── Mouse events ──────────────────────────────────────────────────────────
@@ -139,8 +151,11 @@ function startDrag(row, idx, startY, renderDetail, renderGrid, renderStats) {
   // Enable gap transitions on all rows
   document.body.classList.add('dragging');
 
-  // Prevent scroll during drag
+  // Prevent scroll, selection, and callout during drag
   timeline.style.touchAction = 'none';
+  timeline.style.userSelect = 'none';
+  timeline.style.webkitUserSelect = 'none';
+  document.body.style.webkitTouchCallout = 'none';
 
   // Snapshot row positions for hit testing
   const rowRects = rows.map(r => {
@@ -257,6 +272,16 @@ function computeNewStartMin(insertionIdx, dragIdx, blocks, dragBlock) {
   return toMin(withoutDrag[withoutDrag.length - 1].e);
 }
 
+// ─── CLEANUP ORPHANS ─────────────────────────────────────────────────────────
+// Safety net: if any ghost or drag-origin elements exist without an active drag,
+// clean them up. Runs on every touchstart to catch stuck ghosts.
+function cleanupOrphans() {
+  if (dragState) return; // drag is active, don't interfere
+  document.querySelectorAll('.drag-ghost').forEach(el => el.remove());
+  document.querySelectorAll('.drag-origin').forEach(el => el.classList.remove('drag-origin'));
+  document.body.classList.remove('dragging');
+}
+
 // ─── END DRAG ────────────────────────────────────────────────────────────────
 function endDrag(renderDetail, renderGrid, renderStats) {
   if (!dragState) return;
@@ -264,9 +289,14 @@ function endDrag(renderDetail, renderGrid, renderStats) {
   const { idx, block, blocks, ghost, rows, insertionIdx } = dragState;
   const day = state.selectedDay;
 
-  // Restore timeline scrolling
+  // Restore timeline scrolling and selection
   const timeline = document.getElementById('timeline');
-  if (timeline) timeline.style.touchAction = '';
+  if (timeline) {
+    timeline.style.touchAction = '';
+    timeline.style.userSelect = '';
+    timeline.style.webkitUserSelect = '';
+  }
+  document.body.style.webkitTouchCallout = '';
 
   // Clear gap transforms
   rows.forEach(row => { row.style.transform = ''; });
