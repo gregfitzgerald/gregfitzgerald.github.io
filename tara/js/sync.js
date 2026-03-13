@@ -1,9 +1,10 @@
 // ─── FIREBASE SYNC ────────────────────────────────────────────────────────────
+// Single-user auto-sync: all changes push to one Firebase path instantly.
 import { ALL_DAYS } from './data.js';
 import { state, save } from './state.js';
 
 const DB_URL = 'https://tara-schedule-default-rtdb.firebaseio.com';
-const SYNC_KEY = 't4_syncHash';
+const DB_PATH = '/schedule';
 const DEBOUNCE_MS = 1500;
 
 let _debounceTimer = null;
@@ -11,50 +12,13 @@ let _renderAll = null;
 
 export function initSync(renderAll) {
   _renderAll = renderAll;
-  // Restore saved passphrase hash
-  const saved = localStorage.getItem(SYNC_KEY);
-  if (saved) {
-    state.syncHash = saved;
-    state.syncStatus = 'connected';
-    // Pull remote data on load
-    pullFromFirebase();
-  }
-}
-
-// ─── PASSPHRASE HASHING ──────────────────────────────────────────────────────
-async function hashPassphrase(passphrase) {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(passphrase.trim().toLowerCase());
-  const hash = await crypto.subtle.digest('SHA-256', data);
-  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
-}
-
-// ─── CONNECT / DISCONNECT ────────────────────────────────────────────────────
-export async function connectSync(passphrase) {
-  if (!passphrase || !passphrase.trim()) return;
-  const hash = await hashPassphrase(passphrase);
-  state.syncHash = hash;
-  state.syncStatus = 'syncing';
-  localStorage.setItem(SYNC_KEY, hash);
-  updateSyncUI();
-
-  // Pull first, then push local if remote is empty
-  await pullFromFirebase();
-  await pushToFirebase();
   state.syncStatus = 'connected';
-  updateSyncUI();
-}
-
-export function disconnectSync() {
-  state.syncHash = null;
-  state.syncStatus = 'disconnected';
-  localStorage.removeItem(SYNC_KEY);
-  updateSyncUI();
+  // Pull remote data on load
+  pullFromFirebase();
 }
 
 // ─── PUSH (local -> Firebase) ────────────────────────────────────────────────
 async function pushToFirebase() {
-  if (!state.syncHash) return;
   const payload = {
     edits: state.edits,
     smartDone: state.smartDone,
@@ -65,21 +29,21 @@ async function pushToFirebase() {
     lastModified: Date.now(),
   };
   try {
-    await fetch(`${DB_URL}/users/${state.syncHash}.json`, {
+    await fetch(`${DB_URL}${DB_PATH}.json`, {
       method: 'PUT',
       body: JSON.stringify(payload),
     });
+    state.syncStatus = 'connected';
   } catch (e) {
     state.syncStatus = 'error';
-    updateSyncUI();
   }
+  updateSyncUI();
 }
 
 // ─── PULL (Firebase -> local) ────────────────────────────────────────────────
 async function pullFromFirebase() {
-  if (!state.syncHash) return;
   try {
-    const res = await fetch(`${DB_URL}/users/${state.syncHash}.json`);
+    const res = await fetch(`${DB_URL}${DB_PATH}.json`);
     const data = await res.json();
     if (!data) return; // no remote data yet
 
@@ -100,36 +64,30 @@ async function pullFromFirebase() {
       save();
       if (_renderAll) _renderAll();
     }
+    state.syncStatus = 'connected';
   } catch (e) {
     state.syncStatus = 'error';
-    updateSyncUI();
   }
+  updateSyncUI();
 }
 
 // ─── DEBOUNCED SYNC (called after every save) ────────────────────────────────
 export function debouncedSync() {
-  if (!state.syncHash) return;
   localStorage.setItem('t4_lastModified', String(Date.now()));
   clearTimeout(_debounceTimer);
   _debounceTimer = setTimeout(() => {
     state.syncStatus = 'syncing';
     updateSyncUI();
-    pushToFirebase().then(() => {
-      state.syncStatus = 'connected';
-      updateSyncUI();
-    });
+    pushToFirebase();
   }, DEBOUNCE_MS);
 }
 
 // ─── MANUAL SYNC ─────────────────────────────────────────────────────────────
 export async function syncNow() {
-  if (!state.syncHash) return;
   state.syncStatus = 'syncing';
   updateSyncUI();
   await pullFromFirebase();
   await pushToFirebase();
-  state.syncStatus = 'connected';
-  updateSyncUI();
 }
 
 // ─── UI UPDATE ───────────────────────────────────────────────────────────────
@@ -139,7 +97,6 @@ function updateSyncUI() {
     const status = state.syncStatus || 'disconnected';
     el.className = `sync-status sync-${status}`;
     const labels = {
-      disconnected: 'Not connected',
       connected: 'Synced',
       syncing: 'Syncing...',
       error: 'Sync error',

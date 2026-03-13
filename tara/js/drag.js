@@ -2,7 +2,6 @@
 import { state, save } from './state.js';
 import { getBlocks, sameBlock } from './blocks.js';
 import { toMin, toTime, dur } from './time.js';
-import { openCascade } from './cascade.js';
 
 let dragState = null;
 const LONG_PRESS_MS = 400;
@@ -208,28 +207,26 @@ function endDrag(renderDetail, renderGrid, renderStats) {
     _id: block._id,
   };
 
-  // Apply as edit
+  // Apply as edit -- find existing edit by _id to prevent duplicates
   if (block._added) {
     const ae = state.edits[day].find(e => e.action === 'add' && sameBlock(e.block, block));
     if (ae) ae.block = moved;
-  } else if (block._edited) {
-    const re = state.edits[day].find(e => e.action === 'replace' && sameBlock(e.block, block));
-    if (re) re.block = moved;
-    else state.edits[day].push({ action: 'replace', orig: { s: block.s, e: block.e, l: block.l, _id: block._id }, block: moved });
   } else {
-    state.edits[day].push({ action: 'replace', orig: { s: block.s, e: block.e, l: block.l, _id: block._id }, block: moved });
+    // Look for existing replace edit by _id first, then by block match
+    const re = block._id
+      ? state.edits[day].find(e => e.action === 'replace' && e.orig._id === block._id)
+      : state.edits[day].find(e => e.action === 'replace' && sameBlock(e.block, block));
+    if (re) {
+      re.block = moved;
+    } else {
+      state.edits[day].push({ action: 'replace', orig: { s: block.s, e: block.e, l: block.l, _id: block._id }, block: moved });
+    }
   }
 
   save();
   renderDetail(day);
   renderGrid();
   renderStats();
-
-  // Offer cascade for blocks after the new position
-  const deltaMin = newEndMin - newStartMin;
-  if (deltaMin > 0) {
-    setTimeout(() => openCascade(day, newEndMin, 0, renderDetail, renderGrid, renderStats), 50);
-  }
 
   dragState = null;
 }

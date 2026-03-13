@@ -20,7 +20,7 @@ import {
 import {
   toggleCascade, selectAllCascade, applyCascade, closeCascade,
 } from './cascade.js';
-import { initSync, connectSync, disconnectSync, syncNow, debouncedSync } from './sync.js';
+import { initSync, syncNow, debouncedSync } from './sync.js';
 import { initDrag } from './drag.js';
 
 // Wire up task renderers to avoid circular dependency
@@ -129,27 +129,12 @@ function switchTab(tab) {
 
   if (tab === 'tasks') renderTasksTab();
   if (tab === 'reset') renderResetTab();
-  if (tab === 'settings') updateSyncButtons();
   if (tab === 'schedule') {
     renderAll();
     renderDayStrip();
   }
 }
 
-// ─── SYNC UI HELPERS ─────────────────────────────────────────────────────────
-function updateSyncButtons() {
-  const connected = !!state.syncHash;
-  const connectBtn = document.getElementById('sync-connect-btn');
-  const disconnectBtn = document.getElementById('sync-disconnect-btn');
-  const syncNowBtn = document.getElementById('sync-now-btn');
-  const input = document.getElementById('sync-passphrase');
-
-  if (connectBtn) connectBtn.style.display = connected ? 'none' : 'flex';
-  if (disconnectBtn) disconnectBtn.style.display = connected ? 'flex' : 'none';
-  if (syncNowBtn) syncNowBtn.style.display = connected ? 'flex' : 'none';
-  if (input) input.disabled = connected;
-  if (input && connected) input.value = '********';
-}
 
 // ─── DAY NAVIGATION (arrow buttons) ──────────────────────────────────────────
 function goToPrevDay() {
@@ -272,21 +257,7 @@ document.addEventListener('click', (e) => {
   // Clear reset
   if (target.closest('#clear-reset-btn')) { clearReset(); return; }
 
-  // Sync buttons
-  if (target.closest('#sync-connect-btn')) {
-    const input = document.getElementById('sync-passphrase');
-    if (input && input.value.trim()) {
-      connectSync(input.value.trim()).then(() => updateSyncButtons());
-    }
-    return;
-  }
-  if (target.closest('#sync-disconnect-btn')) {
-    disconnectSync();
-    const input = document.getElementById('sync-passphrase');
-    if (input) { input.value = ''; input.disabled = false; }
-    updateSyncButtons();
-    return;
-  }
+  // Manual sync
   if (target.closest('#sync-now-btn')) {
     syncNow();
     return;

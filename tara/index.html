@@ -90,16 +90,9 @@
     </div>
     <div class="settings-section">
       <h3>Cross-Device Sync</h3>
-      <p>Enter a passphrase to sync your schedule across devices. Use the same passphrase on each device.</p>
-      <div class="sync-row">
-        <input type="text" id="sync-passphrase" placeholder="Enter passphrase..." class="sync-input" autocomplete="off">
-      </div>
-      <div class="sync-row" style="margin-top:8px;display:flex;gap:8px;align-items:center;">
-        <button class="btn-s" id="sync-connect-btn" style="flex:1;">Connect</button>
-        <button class="btn-sm" id="sync-disconnect-btn" style="display:none;">Disconnect</button>
-        <button class="btn-sm" id="sync-now-btn" style="display:none;">Sync Now</button>
-      </div>
-      <div class="sync-status sync-disconnected" id="sync-status-settings">Not connected</div>
+      <p>Changes sync automatically across all devices.</p>
+      <button class="btn-sm" style="width:100%;margin-bottom:8px;" id="sync-now-btn">Sync Now</button>
+      <div class="sync-status sync-connected" id="sync-status-settings">Synced</div>
     </div>
     <div class="settings-section">
       <h3>Data</h3>
@@ -109,7 +102,7 @@
     </div>
     <div class="settings-section">
       <h3>About</h3>
-      <p>Tara's Schedule v5 -- mobile-first PWA rebuild. Data is saved locally on this device and optionally synced via passphrase.</p>
+      <p>Tara's Schedule v5 -- mobile-first PWA rebuild. Data is saved locally and synced automatically across devices.</p>
     </div>
   </div>
 </div>

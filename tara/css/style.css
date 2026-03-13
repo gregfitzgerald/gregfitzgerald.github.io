@@ -738,6 +738,12 @@ h1 {
 }
 .detail-slide {
   transition: transform .3s ease, opacity .3s ease;
+}
+.detail-slide.slide-out-left,
+.detail-slide.slide-out-right,
+.detail-slide.slide-in-left,
+.detail-slide.slide-in-right,
+.detail-slide.slide-enter {
   will-change: transform, opacity;
 }
 .detail-slide.slide-out-left {
@@ -763,11 +769,6 @@ h1 {
   opacity: 1;
 }
 
-/* Swipe tracking visual feedback */
-.detail-slide.swiping {
-  transition: none;
-  will-change: transform;
-}
 
 /* ─── DESKTOP (>768px) ───────────────────────────────────────────────────── */
 @media (min-width: 769px) {

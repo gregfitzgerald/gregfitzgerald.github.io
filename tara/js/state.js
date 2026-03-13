@@ -13,8 +13,7 @@ export const state = {
   resetDone: {},
   userTasks: [],
   activeTab: 'schedule',
-  syncHash: null,
-  syncStatus: 'disconnected',
+  syncStatus: 'connected',
 };
 
 // Initialize edits and dayTasks for all days
