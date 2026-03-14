@@ -1,6 +1,32 @@
 {
   "beats": [
     {
+      "id": "code-9381215361",
+      "type": "code",
+      "title": "Pushed to gregfitzgerald.github.io",
+      "description": null,
+      "url": "https://github.com/gregfitzgerald/gregfitzgerald.github.io",
+      "date": "2026-03-13",
+      "source": "GitHub",
+      "meta": {
+        "eventType": "PushEvent",
+        "repo": "gregfitzgerald/gregfitzgerald.github.io"
+      }
+    },
+    {
+      "id": "code-9318995393",
+      "type": "code",
+      "title": "Pushed to gregfitzgerald.github.io",
+      "description": null,
+      "url": "https://github.com/gregfitzgerald/gregfitzgerald.github.io",
+      "date": "2026-03-12",
+      "source": "GitHub",
+      "meta": {
+        "eventType": "PushEvent",
+        "repo": "gregfitzgerald/gregfitzgerald.github.io"
+      }
+    },
+    {
       "id": "paper-aswn4lfy",
       "type": "paper",
       "title": "Meta-analysis of sex differences in intelligence",
@@ -774,18 +800,18 @@
       }
     }
   ],
-  "lastUpdated": "2026-03-12T12:00:22.435Z",
+  "lastUpdated": "2026-03-14T12:00:23.537Z",
   "sources": {
     "zotero": {
       "lastSync": "2026-03-12T12:00:19.948Z",
       "count": 31
     },
     "github": {
-      "lastSync": "2026-03-12T12:00:11.790Z",
-      "count": 15
+      "lastSync": "2026-03-14T12:00:22.000Z",
+      "count": 14
     },
     "twitter": {
-      "lastSync": "2026-03-12T12:00:22.435Z",
+      "lastSync": "2026-03-14T12:00:23.537Z",
       "count": 2
     },
     "til": {
