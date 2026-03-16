@@ -21,9 +21,12 @@ function getDateForDay(dayName, weekDelta, viewOverride) {
   const currentWeek = getCurrentWeek();
   const targetView = viewOverride || state.view;
   let viewDelta = 0;
-  if (currentWeek && currentWeek !== targetView) {
-    // Showing the other week -- offset by +1 week
-    viewDelta = 1;
+  if (currentWeek) {
+    // Cycle configured: offset when viewing the non-current week
+    if (currentWeek !== targetView) viewDelta = 1;
+  } else {
+    // No cycle configured: treat w1 as this week, w2 as next week
+    if (targetView === 'w2') viewDelta = 1;
   }
 
   monday.setDate(monday.getDate() + (viewDelta + (weekDelta || 0)) * 7);
