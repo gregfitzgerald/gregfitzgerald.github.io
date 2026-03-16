@@ -9,7 +9,7 @@ import {
 } from './render.js';
 import {
   renderSmart, renderAsmr, toggleSmart, toggleAsmr,
-  quickAssign, toggleDayTask, deleteDayTask, renderTasksTab,
+  quickAssign, toggleDayTask, deleteDayTask, deleteUserTask, renderTasksTab,
   renderDayNotes,
 } from './tasks.js';
 import {
@@ -357,6 +357,13 @@ document.addEventListener('click', (e) => {
   if (target.closest('#nt-save')) { saveNewTask(); return; }
   if (target.closest('#nt-cancel')) { closeNewTaskModal(); return; }
   if (target.closest('#new-task-btn') || target.closest('#new-task-btn-tab')) { openNewTaskModal(); return; }
+
+  // Delete user task permanently
+  const delTaskBtn = target.closest('[data-delete-task]');
+  if (delTaskBtn) {
+    deleteUserTask(delTaskBtn.dataset.deleteTask);
+    return;
+  }
 
   // Smart task toggle
   const smartItem = target.closest('[data-smart-id]');

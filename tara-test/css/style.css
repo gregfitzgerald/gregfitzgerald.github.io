@@ -595,6 +595,23 @@ h1 {
   -webkit-tap-highlight-color: transparent;
 }
 .assign-btn:hover { border-color: var(--work); color: var(--work); }
+.task-del-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--dim);
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: .6rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  min-height: 36px;
+  min-width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+}
+.task-del-btn:hover { border-color: #7f1d1d; color: #fca5a5; }
 
 /* ─── WEEKLY RESET ───────────────────────────────────────────────────────── */
 .reset-section { margin-bottom: 12px; }

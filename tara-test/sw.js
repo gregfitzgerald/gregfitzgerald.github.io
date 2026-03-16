@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tara-test-v22';
+const CACHE_NAME = 'tara-test-v23';
 const PRECACHE_URLS = [
   './',
   './index.html',

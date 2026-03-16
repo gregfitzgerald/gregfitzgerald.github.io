@@ -33,6 +33,16 @@ function streakBadge(t) {
   return ` <span class="streak-badge">${t.streak || 0}${label} streak</span>`;
 }
 
+// Check if a task is user-created (deletable) vs built-in
+function isUserTask(id) {
+  return state.userTasks.some(t => t.id === id);
+}
+
+function deleteBtn(id) {
+  if (!isUserTask(id)) return '';
+  return `<button class="task-del-btn" data-delete-task="${id}" title="Delete task">x</button>`;
+}
+
 // ─── DAY TASKS ────────────────────────────────────────────────────────────────
 export function renderDayTasks(day) {
   const tasks = state.dayTasks[day] || [];
@@ -68,12 +78,25 @@ export function toggleDayTask(day, i) {
   renderDayTasks(day);
   renderSmart();
   renderAsmr();
+  renderTasksTab();
 }
 
 export function deleteDayTask(day, i) {
   state.dayTasks[day].splice(i, 1);
   save();
   renderDayTasks(day);
+}
+
+// ─── DELETE USER TASK (permanently) ──────────────────────────────────────────
+export function deleteUserTask(id) {
+  if (!confirm('Delete this task permanently?')) return;
+  state.userTasks = state.userTasks.filter(t => t.id !== id);
+  delete state.smartDone[id];
+  delete state.asmrDone[id];
+  save();
+  renderSmart();
+  renderAsmr();
+  renderTasksTab();
 }
 
 // ─── SIDEBAR / TASKS TAB ─────────────────────────────────────────────────────
@@ -91,6 +114,7 @@ export function renderSmart() {
         <div>${t.name}${streakBadge(t)}</div>
         <div class="smart-item-cat">${t.cat}</div>
       </div>
+      ${deleteBtn(t.id)}
       <button class="assign-btn" data-quick-assign="smart" data-quick-id="${t.id}">+ Day</button>
     </div>`).join('');
 }
@@ -109,6 +133,7 @@ export function renderAsmr() {
         <div>${t.name}${streakBadge(t)}</div>
         <div class="smart-item-cat">${t.cat}</div>
       </div>
+      ${deleteBtn(t.id)}
       <button class="assign-btn" data-quick-assign="asmr" data-quick-id="${t.id}">+ Day</button>
     </div>`).join('');
 }
@@ -122,6 +147,7 @@ export function toggleSmart(id) {
   }
   save();
   renderSmart();
+  renderTasksTab();
 }
 
 export function toggleAsmr(id) {
@@ -133,6 +159,7 @@ export function toggleAsmr(id) {
   }
   save();
   renderAsmr();
+  renderTasksTab();
 }
 
 export function quickAssign(type, id) {
@@ -186,6 +213,7 @@ export function renderTasksTab() {
         <div>${t.name}${streakBadge(t)}</div>
         <div class="smart-item-cat">${t.cat}</div>
       </div>
+      ${deleteBtn(t.id)}
       <button class="assign-btn" data-quick-assign="smart" data-quick-id="${t.id}">+ Day</button>
     </div>`).join('');
 
@@ -196,6 +224,7 @@ export function renderTasksTab() {
         <div>${t.name}${streakBadge(t)}</div>
         <div class="smart-item-cat">${t.cat}</div>
       </div>
+      ${deleteBtn(t.id)}
       <button class="assign-btn" data-quick-assign="asmr" data-quick-id="${t.id}">+ Day</button>
     </div>`).join('');
 }
