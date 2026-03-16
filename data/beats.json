@@ -1,6 +1,58 @@
 {
   "beats": [
     {
+      "id": "code-9436189891",
+      "type": "code",
+      "title": "Pushed to gregfitzgerald.github.io",
+      "description": null,
+      "url": "https://github.com/gregfitzgerald/gregfitzgerald.github.io",
+      "date": "2026-03-16",
+      "source": "GitHub",
+      "meta": {
+        "eventType": "PushEvent",
+        "repo": "gregfitzgerald/gregfitzgerald.github.io"
+      }
+    },
+    {
+      "id": "paper-td3c2s38",
+      "type": "paper",
+      "title": "In Defense of Deep Reading",
+      "description": "Stulberg (2026-03-14)",
+      "url": "https://bradstulberg.substack.com/p/in-defense-of-deep-reading",
+      "date": "2026-03-16",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "blogPost",
+        "key": "TD3C2S38"
+      }
+    },
+    {
+      "id": "code-9418402388",
+      "type": "code",
+      "title": "Pushed to gregfitzgerald.github.io",
+      "description": null,
+      "url": "https://github.com/gregfitzgerald/gregfitzgerald.github.io",
+      "date": "2026-03-15",
+      "source": "GitHub",
+      "meta": {
+        "eventType": "PushEvent",
+        "repo": "gregfitzgerald/gregfitzgerald.github.io"
+      }
+    },
+    {
+      "id": "paper-e73j76xm",
+      "type": "paper",
+      "title": "Tech boss uses AI and ChatGPT to create cancer vaccine for his dying dog",
+      "description": "Bita (2026-03-13)",
+      "url": "https://www.theaustralian.com.au/business/technology/tech-boss-uses-ai-and-chatgpt-to-create-cancer-vaccine-for-his-dying-dog/news-story/292a21bcbe93efa17810bfcfcdfadbf7",
+      "date": "2026-03-15",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "newspaperArticle",
+        "key": "E73J76XM"
+      }
+    },
+    {
       "id": "code-9407407032",
       "type": "code",
       "title": "Pushed to GSF-dissertation-meta-analysis",
@@ -37,6 +89,19 @@
       "meta": {
         "eventType": "PushEvent",
         "repo": "gregfitzgerald/gregfitzgerald.github.io"
+      }
+    },
+    {
+      "id": "paper-rccnjn7z",
+      "type": "paper",
+      "title": "Age-Specific Prevalence of Hoarding and Obsessive Compulsive Disorder: A Population-Based Study",
+      "description": "Cath et al. (03/2017)",
+      "url": "https://doi.org/10.1016/j.jagp.2016.11.006",
+      "date": "2026-03-13",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "RCCNJN7Z"
       }
     },
     {
@@ -826,18 +891,18 @@
       }
     }
   ],
-  "lastUpdated": "2026-03-15T12:00:16.026Z",
+  "lastUpdated": "2026-03-16T12:00:24.305Z",
   "sources": {
     "zotero": {
-      "lastSync": "2026-03-12T12:00:19.948Z",
-      "count": 31
+      "lastSync": "2026-03-16T12:00:23.065Z",
+      "count": 34
     },
     "github": {
-      "lastSync": "2026-03-15T12:00:14.503Z",
-      "count": 16
+      "lastSync": "2026-03-16T12:00:19.846Z",
+      "count": 17
     },
     "twitter": {
-      "lastSync": "2026-03-15T12:00:16.026Z",
+      "lastSync": "2026-03-16T12:00:24.304Z",
       "count": 2
     },
     "til": {
