@@ -27,6 +27,19 @@
       }
     },
     {
+      "id": "code-9450087181",
+      "type": "code",
+      "title": "Pushed to gregfitzgerald.github.io",
+      "description": null,
+      "url": "https://github.com/gregfitzgerald/gregfitzgerald.github.io",
+      "date": "2026-03-16",
+      "source": "GitHub",
+      "meta": {
+        "eventType": "PushEvent",
+        "repo": "gregfitzgerald/gregfitzgerald.github.io"
+      }
+    },
+    {
       "id": "code-9418402388",
       "type": "code",
       "title": "Pushed to gregfitzgerald.github.io",
@@ -891,18 +904,18 @@
       }
     }
   ],
-  "lastUpdated": "2026-03-16T12:00:24.305Z",
+  "lastUpdated": "2026-03-17T12:00:21.368Z",
   "sources": {
     "zotero": {
-      "lastSync": "2026-03-16T12:00:23.065Z",
+      "lastSync": "2026-03-17T12:00:19.838Z",
       "count": 34
     },
     "github": {
-      "lastSync": "2026-03-16T12:00:19.846Z",
+      "lastSync": "2026-03-17T12:00:13.915Z",
       "count": 17
     },
     "twitter": {
-      "lastSync": "2026-03-16T12:00:24.304Z",
+      "lastSync": "2026-03-17T12:00:21.367Z",
       "count": 2
     },
     "til": {
