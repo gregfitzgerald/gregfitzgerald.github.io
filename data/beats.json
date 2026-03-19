@@ -1,6 +1,59 @@
 {
   "beats": [
     {
+      "id": "thought-2034445095978639600",
+      "type": "thought",
+      "title": "This is an incredible accomplishment and public service.",
+      "description": null,
+      "url": "https://twitter.com/gregsfitzgerald/status/2034445095978639600",
+      "date": "2026-03-19",
+      "source": "Twitter",
+      "meta": {
+        "tweetId": "2034445095978639600",
+        "likes": 2,
+        "retweets": 0
+      }
+    },
+    {
+      "id": "code-9537830247",
+      "type": "code",
+      "title": "Pushed to gregfitzgerald.github.io",
+      "description": null,
+      "url": "https://github.com/gregfitzgerald/gregfitzgerald.github.io",
+      "date": "2026-03-18",
+      "source": "GitHub",
+      "meta": {
+        "eventType": "PushEvent",
+        "repo": "gregfitzgerald/gregfitzgerald.github.io"
+      }
+    },
+    {
+      "id": "paper-5vilk8jk",
+      "type": "paper",
+      "title": "Revisiting the Income Inequality-Crime Puzzle",
+      "description": "Pazzona (04/2024)",
+      "url": "https://doi.org/10.1016/j.worlddev.2023.106520",
+      "date": "2026-03-18",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "5VILK8JK"
+      }
+    },
+    {
+      "id": "paper-q3frlvva",
+      "type": "paper",
+      "title": "Modeling Life",
+      "description": "Garfinkel et al. (2017)",
+      "url": "https://doi.org/10.1007/978-3-319-59731-7",
+      "date": "2026-03-18",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "book",
+        "key": "Q3FRLVVA"
+      }
+    },
+    {
       "id": "code-9493838873",
       "type": "code",
       "title": "Pushed to gregfitzgerald.github.io",
@@ -917,19 +970,19 @@
       }
     }
   ],
-  "lastUpdated": "2026-03-18T12:00:13.784Z",
+  "lastUpdated": "2026-03-19T12:00:27.245Z",
   "sources": {
     "zotero": {
-      "lastSync": "2026-03-18T12:00:11.634Z",
-      "count": 32
+      "lastSync": "2026-03-19T12:00:25.899Z",
+      "count": 34
     },
     "github": {
-      "lastSync": "2026-03-18T12:00:08.539Z",
-      "count": 17
+      "lastSync": "2026-03-19T12:00:22.648Z",
+      "count": 18
     },
     "twitter": {
-      "lastSync": "2026-03-18T12:00:13.784Z",
-      "count": 2
+      "lastSync": "2026-03-19T12:00:27.245Z",
+      "count": 1
     },
     "til": {
       "lastSync": null,
