@@ -1,6 +1,32 @@
 {
   "beats": [
     {
+      "id": "code-9621048069",
+      "type": "code",
+      "title": "Pushed to gregfitzgerald.github.io",
+      "description": null,
+      "url": "https://github.com/gregfitzgerald/gregfitzgerald.github.io",
+      "date": "2026-03-20",
+      "source": "GitHub",
+      "meta": {
+        "eventType": "PushEvent",
+        "repo": "gregfitzgerald/gregfitzgerald.github.io"
+      }
+    },
+    {
+      "id": "paper-964i9ucw",
+      "type": "paper",
+      "title": "Prevalence and treatment response of neuropsychiatric disorders in mast cell activation syndrome",
+      "description": "Weinstock et al. (10/2025)",
+      "url": "https://doi.org/10.1016/j.bbih.2025.101048",
+      "date": "2026-03-20",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "964I9UCW"
+      }
+    },
+    {
       "id": "thought-2034445095978639600",
       "type": "thought",
       "title": "This is an incredible accomplishment and public service.",
@@ -983,18 +1009,18 @@
       }
     }
   ],
-  "lastUpdated": "2026-03-20T12:00:28.785Z",
+  "lastUpdated": "2026-03-21T12:00:15.755Z",
   "sources": {
     "zotero": {
-      "lastSync": "2026-03-20T12:00:27.517Z",
-      "count": 34
+      "lastSync": "2026-03-21T12:00:14.442Z",
+      "count": 35
     },
     "github": {
-      "lastSync": "2026-03-20T12:00:20.020Z",
-      "count": 19
+      "lastSync": "2026-03-21T12:00:09.447Z",
+      "count": 20
     },
     "twitter": {
-      "lastSync": "2026-03-20T12:00:28.784Z",
+      "lastSync": "2026-03-21T12:00:15.755Z",
       "count": 3
     },
     "til": {
