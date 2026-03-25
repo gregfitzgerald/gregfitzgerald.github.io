@@ -18,25 +18,23 @@ export function initDrag(renderDetail, renderGrid, renderStats) {
 
   let pressTimer = null;
   let hintTimer = null;
-  let hintRow = null;
+  let hintBlock = null;
 
   function clearTimers() {
     clearTimeout(pressTimer);
     clearTimeout(hintTimer);
     pressTimer = null;
     hintTimer = null;
-    if (hintRow) {
-      hintRow.classList.remove('touch-holding');
-      hintRow = null;
+    if (hintBlock) {
+      hintBlock.classList.remove('touch-holding');
+      hintBlock = null;
     }
   }
 
   // ── Touch events ──────────────────────────────────────────────────────────
   timeline.addEventListener('touchstart', (e) => {
     cleanupOrphans(); // Clear any stuck ghost from a previous drag
-    const row = e.target.closest('.trow');
-    if (!row) return;
-    const block = row.querySelector('[data-block-idx]');
+    const block = e.target.closest('.tblock[data-block-idx]');
     if (!block) return;
 
     const idx = parseInt(block.dataset.blockIdx);
@@ -44,21 +42,21 @@ export function initDrag(renderDetail, renderGrid, renderStats) {
 
     // Visual hint at 150ms
     hintTimer = setTimeout(() => {
-      row.classList.add('touch-holding');
-      hintRow = row;
+      block.classList.add('touch-holding');
+      hintBlock = block;
     }, HINT_MS);
 
     // Drag activation at 400ms
     pressTimer = setTimeout(() => {
-      if (hintRow) hintRow.classList.remove('touch-holding');
-      hintRow = null;
-      startDrag(row, idx, touch.clientY, renderDetail, renderGrid, renderStats);
+      if (hintBlock) hintBlock.classList.remove('touch-holding');
+      hintBlock = null;
+      startDrag(block, idx, touch.clientY, renderDetail, renderGrid, renderStats);
     }, LONG_PRESS_MS);
   }, { passive: false });
 
   timeline.addEventListener('touchmove', (e) => {
     if (!dragState && pressTimer) {
-      const dy = Math.abs(e.touches[0].clientY - (hintRow ? hintRow.getBoundingClientRect().top : e.touches[0].clientY));
+      const dy = Math.abs(e.touches[0].clientY - (hintBlock ? hintBlock.getBoundingClientRect().top : e.touches[0].clientY));
       if (dy > 10) clearTimers();
     }
     if (dragState) {
@@ -86,22 +84,20 @@ export function initDrag(renderDetail, renderGrid, renderStats) {
 
   // ── Mouse events ──────────────────────────────────────────────────────────
   timeline.addEventListener('mousedown', (e) => {
-    const row = e.target.closest('.trow');
-    if (!row) return;
-    const block = row.querySelector('[data-block-idx]');
+    const block = e.target.closest('.tblock[data-block-idx]');
     if (!block) return;
 
     const idx = parseInt(block.dataset.blockIdx);
 
     hintTimer = setTimeout(() => {
-      row.classList.add('touch-holding');
-      hintRow = row;
+      block.classList.add('touch-holding');
+      hintBlock = block;
     }, HINT_MS);
 
     pressTimer = setTimeout(() => {
-      if (hintRow) hintRow.classList.remove('touch-holding');
-      hintRow = null;
-      startDrag(row, idx, e.clientY, renderDetail, renderGrid, renderStats);
+      if (hintBlock) hintBlock.classList.remove('touch-holding');
+      hintBlock = null;
+      startDrag(block, idx, e.clientY, renderDetail, renderGrid, renderStats);
     }, LONG_PRESS_MS);
   });
 
@@ -119,23 +115,25 @@ export function initDrag(renderDetail, renderGrid, renderStats) {
 }
 
 // ─── START DRAG ──────────────────────────────────────────────────────────────
-function startDrag(row, idx, startY, renderDetail, renderGrid, renderStats) {
+function startDrag(blockEl, idx, startY, renderDetail, renderGrid, renderStats) {
   const blocks = getBlocks(state.selectedDay);
   const block = blocks[idx];
   if (!block || block.c === 'sleep') return;
 
   const timeline = document.getElementById('timeline');
-  const rows = Array.from(timeline.querySelectorAll('.trow'));
+  const tblockEls = Array.from(timeline.querySelectorAll('.timeline-blocks .tblock[data-block-idx]'));
 
   // Compute offset so ghost doesn't jump on pickup
-  const rowRect = row.getBoundingClientRect();
-  const offsetY = startY - rowRect.top;
+  const blockRect = blockEl.getBoundingClientRect();
+  const offsetY = startY - blockRect.top;
 
   // Create ghost element
-  const ghost = row.cloneNode(true);
+  const ghost = blockEl.cloneNode(true);
   ghost.classList.add('drag-ghost');
-  ghost.style.width = row.offsetWidth + 'px';
+  ghost.style.width = blockEl.offsetWidth + 'px';
   ghost.style.top = (startY - offsetY) + 'px';
+  ghost.style.position = 'fixed';
+  ghost.style.height = blockRect.height + 'px';
 
   // Add time preview label
   const timeLabel = document.createElement('div');
@@ -146,9 +144,9 @@ function startDrag(row, idx, startY, renderDetail, renderGrid, renderStats) {
   document.body.appendChild(ghost);
 
   // Mark original with faded placeholder
-  row.classList.add('drag-origin');
+  blockEl.classList.add('drag-origin');
 
-  // Enable gap transitions on all rows
+  // Enable gap transitions on all blocks
   document.body.classList.add('dragging');
 
   // Prevent scroll, selection, and callout during drag
@@ -157,8 +155,8 @@ function startDrag(row, idx, startY, renderDetail, renderGrid, renderStats) {
   timeline.style.webkitUserSelect = 'none';
   document.body.style.webkitTouchCallout = 'none';
 
-  // Snapshot row positions for hit testing
-  const rowRects = rows.map(r => {
+  // Snapshot block positions for hit testing
+  const rowRects = tblockEls.map(r => {
     const rect = r.getBoundingClientRect();
     return { top: rect.top, bottom: rect.bottom, mid: (rect.top + rect.bottom) / 2 };
   });
@@ -172,7 +170,7 @@ function startDrag(row, idx, startY, renderDetail, renderGrid, renderStats) {
     startY,
     offsetY,
     currentY: startY,
-    rows,
+    rows: tblockEls,
     rowRects,
     renderDetail,
     renderGrid,

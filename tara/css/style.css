@@ -277,43 +277,54 @@ h1 {
 .detail-panel.collapsed .detail-body { display: none; }
 .detail-panel.collapsed .detail-top { margin-bottom: 0; }
 
-/* ─── TIMELINE ───────────────────────────────────────────────────────────── */
-.trow {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 5px;
-  align-items: stretch;
-  -webkit-user-select: none;
-  user-select: none;
+/* ─── TIMELINE (Google Calendar-style) ───────────────────────────────────── */
+.timeline-grid { position: relative; margin-left: 48px; }
+.hour-line {
+  position: absolute;
+  left: -48px;
+  right: 0;
+  border-top: 1px solid var(--border);
+  z-index: 1;
+  pointer-events: none;
 }
-.ttime {
-  font-size: .6rem;
+.hour-label {
+  position: absolute;
+  left: 0;
+  top: -8px;
+  font-size: .55rem;
   color: var(--dim);
-  width: 36px;
-  flex-shrink: 0;
-  padding-top: 4px;
-  line-height: 1.4;
+  width: 44px;
+  text-align: right;
+  padding-right: 6px;
 }
-.tblock {
-  flex: 1;
+.timeline-blocks { position: relative; z-index: 2; height: 100%; }
+.sleep-summary {
+  font-size: .65rem;
+  color: var(--dim);
+  padding: 8px 0;
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+.timeline-grid .tblock {
+  position: absolute;
+  left: 0;
+  right: 0;
   border-radius: 6px;
-  padding: 10px 12px;
+  padding: 6px 12px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   cursor: pointer;
   transition: opacity .1s;
-  position: relative;
-  min-height: 44px;
+  overflow: hidden;
   -webkit-tap-highlight-color: transparent;
   -webkit-user-select: none;
   user-select: none;
   touch-action: pan-y;
 }
-.tblock:hover { opacity: .85; }
+.timeline-grid .tblock:hover { opacity: .85; }
 .tblock-title { font-size: .72rem; font-weight: 500; }
 .tblock-note { font-size: .6rem; opacity: .7; margin-top: 2px; }
-.tblock-edit { font-size: .6rem; opacity: .3; flex-shrink: 0; padding-left: 8px; }
 
 /* ─── BLOCK COMPLETION ───────────────────────────────────────────────────── */
 .tblock-content { flex: 1; min-width: 0; }
@@ -347,10 +358,10 @@ h1 {
 
 /* ─── TIME INDICATOR ("You Are Here") ────────────────────────────────────── */
 #timeline { position: relative; }
-.trow.past-block .tblock { opacity: 0.4; }
+.tblock.past-block-dim { opacity: 0.4; }
 .now-line {
   position: absolute;
-  left: 44px;
+  left: 0;
   right: 0;
   height: 2px;
   background: #3b82f6;
@@ -793,7 +804,7 @@ h1 {
 /* ─── DRAG TO REORDER ────────────────────────────────────────────────────── */
 
 /* Pre-drag hint: subtle glow while long-pressing */
-.touch-holding .tblock {
+.tblock.touch-holding {
   transform: scale(1.02);
   box-shadow: 0 0 12px rgba(59,130,246,0.35);
   transition: transform 150ms ease-out, box-shadow 150ms ease-out;
@@ -819,8 +830,8 @@ h1 {
   opacity: 0.3;
 }
 
-/* Gap animation: rows slide apart during drag */
-body.dragging .trow {
+/* Gap animation: blocks slide apart during drag */
+body.dragging .timeline-blocks .tblock {
   transition: transform 150ms ease-in-out;
 }
 
