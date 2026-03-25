@@ -16,7 +16,7 @@ export const state = {
   dayNotes: {},
   activeTab: 'schedule',
   syncStatus: 'connected',
-  cycleStart: null, // ISO date string of a known Week 1 Monday (e.g. "2026-03-09")
+  cycleStart: "2026-03-09", // ISO date string of a known Week 1 Monday
 };
 
 // Initialize edits and dayTasks for all days
@@ -71,11 +71,12 @@ export function load() {
       if (!state.edits[d]) state.edits[d] = [];
       if (!state.dayTasks[d]) state.dayTasks[d] = [];
     });
-    // Migrate old admin -> administrative
+    // Migrate old categories
     ALL_DAYS.forEach(d => {
       (state.edits[d] || []).forEach(e => {
-        if (e.block && e.block.c === 'admin') e.block.c = 'administrative';
-        if (e.orig && e.orig.c === 'admin') e.orig.c = 'administrative';
+        const remap = {admin:'errands', administrative:'errands', gaming:'social', free:'other', intimacy:'social'};
+        if (e.block && remap[e.block.c]) e.block.c = remap[e.block.c];
+        if (e.orig && remap[e.orig.c]) e.orig.c = remap[e.orig.c];
       });
     });
     // Clean up duplicate edits: for replace edits targeting the same _id, keep only the last one

@@ -99,7 +99,7 @@ export function renderDayStrip() {
 
 // ─── STATS ────────────────────────────────────────────────────────────────────
 export function renderStats() {
-  const cats = { exercise: 0, creative: 0, administrative: 0, free: 0, gaming: 0 };
+  const cats = { exercise: 0, creative: 0, errands: 0, social: 0, mealprep: 0 };
   ALL_DAYS.forEach(d => getBlocks(d).forEach(b => {
     if (cats[b.c] !== undefined) cats[b.c] += dur(b);
   }));

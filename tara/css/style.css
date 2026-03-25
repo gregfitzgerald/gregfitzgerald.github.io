@@ -13,18 +13,15 @@
   --commute: #374151;
   --exercise: #10b981;
   --creative: #f97316;
-  --administrative: #8b5cf6;
-  --papiapt: #7c3aed;
-  --taraapt: #a78bfa;
-  --catapt: #c084fc;
-  --errands: #d97706;
+  --errands: #8b5cf6;
   --social: #ec4899;
   --mealprep: #eab308;
   --selfcare: #06b6d4;
-  --free: #4b5563;
-  --gaming: #a855f7;
-  --intimacy: #f472b6;
   --sleep: #1e1b4b;
+  --papiapt: #7c3aed;
+  --taraapt: #a78bfa;
+  --cats: #c084fc;
+  --other: #4b5563;
 }
 
 /* ─── RESET ──────────────────────────────────────────────────────────────── */
@@ -117,13 +114,6 @@ h1 {
   font-weight: 700;
   font-size: 1.3rem;
   letter-spacing: -.02em;
-}
-.header-sub {
-  font-size: .65rem;
-  color: var(--dim);
-  margin-top: 2px;
-  letter-spacing: .06em;
-  text-transform: uppercase;
 }
 
 /* ─── LEGEND ─────────────────────────────────────────────────────────────── */
@@ -383,18 +373,15 @@ h1 {
 .commute { background: var(--commute); }
 .exercise { background: var(--exercise); }
 .creative { background: var(--creative); }
-.administrative { background: var(--administrative); }
-.papiapt { background: var(--papiapt); }
-.taraapt { background: var(--taraapt); }
-.catapt { background: var(--catapt); }
-.errands { background: var(--errands); color: #111; }
+.errands { background: var(--errands); }
 .social { background: var(--social); }
 .mealprep { background: var(--mealprep); color: #111; }
 .selfcare { background: var(--selfcare); }
-.free { background: var(--free); }
-.gaming { background: var(--gaming); }
-.intimacy { background: var(--intimacy); }
 .sleep { background: var(--sleep); }
+.papiapt { background: var(--papiapt); }
+.taraapt { background: var(--taraapt); }
+.cats { background: var(--cats); }
+.other { background: var(--other); }
 
 /* ─── RECOVERY BANNER ────────────────────────────────────────────────────── */
 .recovery-banner {
@@ -466,7 +453,7 @@ h1 {
   gap: 6px;
 }
 .badge {
-  background: var(--administrative);
+  background: var(--errands);
   color: #fff;
   border-radius: 4px;
   padding: 2px 6px;
