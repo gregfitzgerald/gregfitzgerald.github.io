@@ -1,6 +1,19 @@
 {
   "beats": [
     {
+      "id": "code-9844853406",
+      "type": "code",
+      "title": "Pushed to gregfitzgerald.github.io",
+      "description": null,
+      "url": "https://github.com/gregfitzgerald/gregfitzgerald.github.io",
+      "date": "2026-03-26",
+      "source": "GitHub",
+      "meta": {
+        "eventType": "PushEvent",
+        "repo": "gregfitzgerald/gregfitzgerald.github.io"
+      }
+    },
+    {
       "id": "paper-cl28z7uv",
       "type": "paper",
       "title": "Sex differences in physical fitness among 10,000 adolescents aged 13–15 years",
@@ -1100,18 +1113,18 @@
       }
     }
   ],
-  "lastUpdated": "2026-03-26T12:00:23.688Z",
+  "lastUpdated": "2026-03-27T12:00:22.158Z",
   "sources": {
     "zotero": {
-      "lastSync": "2026-03-26T12:00:22.289Z",
-      "count": 35
+      "lastSync": "2026-03-27T12:00:21.123Z",
+      "count": 33
     },
     "github": {
-      "lastSync": "2026-03-26T12:00:15.643Z",
-      "count": 23
+      "lastSync": "2026-03-27T12:00:12.447Z",
+      "count": 22
     },
     "twitter": {
-      "lastSync": "2026-03-26T12:00:23.688Z",
+      "lastSync": "2026-03-27T12:00:22.158Z",
       "count": 1
     },
     "til": {
