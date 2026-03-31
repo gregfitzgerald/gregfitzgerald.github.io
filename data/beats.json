@@ -1,6 +1,32 @@
 {
   "beats": [
     {
+      "id": "code-9982462232",
+      "type": "code",
+      "title": "Pushed to gregfitzgerald.github.io",
+      "description": null,
+      "url": "https://github.com/gregfitzgerald/gregfitzgerald.github.io",
+      "date": "2026-03-30",
+      "source": "GitHub",
+      "meta": {
+        "eventType": "PushEvent",
+        "repo": "gregfitzgerald/gregfitzgerald.github.io"
+      }
+    },
+    {
+      "id": "paper-sx28e7j6",
+      "type": "paper",
+      "title": "Meta-Analysis of American Race Differences in Intelligence",
+      "description": "Jensen et al. (2025)",
+      "url": null,
+      "date": "2026-03-30",
+      "source": "Zotero",
+      "meta": {
+        "itemType": "journalArticle",
+        "key": "SX28E7J6"
+      }
+    },
+    {
       "id": "code-9947765134",
       "type": "code",
       "title": "Pushed to gregfitzgerald.github.io",
@@ -1152,18 +1178,18 @@
       }
     }
   ],
-  "lastUpdated": "2026-03-30T12:00:20.442Z",
+  "lastUpdated": "2026-03-31T12:00:27.487Z",
   "sources": {
     "zotero": {
-      "lastSync": "2026-03-30T12:00:19.294Z",
-      "count": 13
+      "lastSync": "2026-03-31T12:00:26.423Z",
+      "count": 14
     },
     "github": {
-      "lastSync": "2026-03-30T12:00:15.612Z",
+      "lastSync": "2026-03-31T12:00:17.112Z",
       "count": 25
     },
     "twitter": {
-      "lastSync": "2026-03-30T12:00:20.442Z",
+      "lastSync": "2026-03-31T12:00:27.487Z",
       "count": 1
     },
     "til": {
