@@ -1154,12 +1154,22 @@ textarea:focus-visible {
 /* Clarity.fm Widget Styling */
 .clarity-widget-container {
   min-height: 200px;
+  overflow: hidden;
+  width: 100%;
 }
 
 .clarity-widget-container iframe.clarity-widget {
   width: 100%;
+  max-width: 100%;
   border: none;
   border-radius: var(--radius-sm);
+  display: block;
+}
+
+/* Force Clarity's injected wrapper to fit the container */
+.clarity-widget-container > div {
+  width: 100% !important;
+  max-width: 100% !important;
 }
 
 /* Responsive: Tablet */
