@@ -244,6 +244,7 @@ export function renderDetail(day) {
     const isDone = doneEntry && doneEntry.done;
     const doneNote = doneEntry && doneEntry.note;
     return `<div class="tblock ${b.c} ${isDone ? 'block-done' : ''}" style="top:${top}px;height:${height}px" data-block-idx="${i}">
+        <div class="drag-handle" aria-label="Drag to reorder">&#x2630;</div>
         <div class="tblock-content">
           <div class="tblock-title">${b.l}${blockDur >= 60 ? ` <span style="opacity:.5;font-size:.58rem">${fmtDur(blockDur)}</span>` : ''}${b._edited ? '<span style="opacity:.4;font-size:.55rem"> edited</span>' : b._added ? '<span style="opacity:.4;font-size:.55rem"> +</span>' : ''}</div>
           ${b.n && !hideNote ? `<div class="tblock-note">${b.n}</div>` : ''}

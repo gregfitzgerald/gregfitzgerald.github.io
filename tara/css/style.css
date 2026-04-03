@@ -803,6 +803,34 @@ h1 {
 
 /* ─── DRAG TO REORDER ────────────────────────────────────────────────────── */
 
+/* ─── DRAG HANDLE ────────────────────────────────────────────────────────── */
+.drag-handle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  color: var(--dim);
+  opacity: 0.4;
+  cursor: grab;
+  touch-action: none; /* critical: prevents browser scroll on this element */
+  -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-user-select: none;
+  z-index: 2;
+}
+.drag-handle:active {
+  opacity: 0.8;
+}
+/* Shift tblock-content to make room for handle */
+.tblock[data-block-idx] .tblock-content {
+  margin-left: 20px;
+}
+
 /* Pre-drag hint: subtle glow while long-pressing */
 .tblock.touch-holding {
   transform: scale(1.02);

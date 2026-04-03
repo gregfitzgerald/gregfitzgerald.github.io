@@ -4,8 +4,9 @@ import { getBlocks, sameBlock } from './blocks.js';
 import { toMin, toTime, dur, fmtTime } from './time.js';
 
 let dragState = null;
-const LONG_PRESS_MS = 400;
-const HINT_MS = 150;
+const LONG_PRESS_MS = 500;   // longer than Android context menu threshold
+const HINT_MS = 200;
+const MOVE_THRESHOLD = 15;   // px of finger movement before cancelling long-press
 const GAP_PX = 48;
 
 function haptic(ms = 10) {
@@ -13,20 +14,20 @@ function haptic(ms = 10) {
 }
 
 export function initDrag(renderDetail, renderGrid, renderStats) {
-  // Drag-to-reorder disabled -- too glitchy on mobile touch devices
-  return;
   const timeline = document.getElementById('timeline');
   if (!timeline) return;
 
   let pressTimer = null;
   let hintTimer = null;
   let hintBlock = null;
+  let startTouch = null;  // track initial touch position for threshold
 
   function clearTimers() {
     clearTimeout(pressTimer);
     clearTimeout(hintTimer);
     pressTimer = null;
     hintTimer = null;
+    startTouch = null;
     if (hintBlock) {
       hintBlock.classList.remove('touch-holding');
       hintBlock = null;
@@ -34,35 +35,48 @@ export function initDrag(renderDetail, renderGrid, renderStats) {
   }
 
   // ── Touch events ──────────────────────────────────────────────────────────
+  // Only use passive: false on touchmove (to preventDefault during active drag)
+  // touchstart is passive to avoid scroll-blocking warnings
   timeline.addEventListener('touchstart', (e) => {
-    cleanupOrphans(); // Clear any stuck ghost from a previous drag
-    const block = e.target.closest('.tblock[data-block-idx]');
+    cleanupOrphans();
+    // Only trigger from drag handle
+    const handle = e.target.closest('.drag-handle');
+    if (!handle) return;
+    const block = handle.closest('.tblock[data-block-idx]');
     if (!block) return;
 
     const idx = parseInt(block.dataset.blockIdx);
     const touch = e.touches[0];
+    startTouch = { x: touch.clientX, y: touch.clientY };
 
-    // Visual hint at 150ms
+    // Visual hint
     hintTimer = setTimeout(() => {
       block.classList.add('touch-holding');
       hintBlock = block;
     }, HINT_MS);
 
-    // Drag activation at 400ms
+    // Drag activation
     pressTimer = setTimeout(() => {
       if (hintBlock) hintBlock.classList.remove('touch-holding');
       hintBlock = null;
       startDrag(block, idx, touch.clientY, renderDetail, renderGrid, renderStats);
+      // Prevent scroll once drag starts
+      e.preventDefault && e.preventDefault();
     }, LONG_PRESS_MS);
-  }, { passive: false });
+  }, { passive: false }); // passive:false needed so we can preventDefault on drag start
 
   timeline.addEventListener('touchmove', (e) => {
-    if (!dragState && pressTimer) {
-      const dy = Math.abs(e.touches[0].clientY - (hintBlock ? hintBlock.getBoundingClientRect().top : e.touches[0].clientY));
-      if (dy > 10) clearTimers();
+    // Cancel long-press if finger moved too far before activation
+    if (!dragState && pressTimer && startTouch) {
+      const touch = e.touches[0];
+      const dx = Math.abs(touch.clientX - startTouch.x);
+      const dy = Math.abs(touch.clientY - startTouch.y);
+      if (dx > MOVE_THRESHOLD || dy > MOVE_THRESHOLD) {
+        clearTimers();
+      }
     }
     if (dragState) {
-      e.preventDefault();
+      e.preventDefault(); // prevent scroll during active drag
       moveDrag(e.touches[0].clientY);
     }
   }, { passive: false });
@@ -72,21 +86,21 @@ export function initDrag(renderDetail, renderGrid, renderStats) {
     if (dragState) endDrag(renderDetail, renderGrid, renderStats);
   });
 
-  // touchcancel fires when the browser takes over (context menu, scroll, etc.)
-  // Without this, the ghost stays stuck on screen
   timeline.addEventListener('touchcancel', () => {
     clearTimers();
     if (dragState) endDrag(renderDetail, renderGrid, renderStats);
   });
 
-  // Suppress context menu during drag (Android long-press triggers it ~500ms)
+  // Suppress context menu during drag/long-press
   timeline.addEventListener('contextmenu', (e) => {
     if (dragState || pressTimer) e.preventDefault();
   });
 
-  // ── Mouse events ──────────────────────────────────────────────────────────
+  // ── Mouse events (desktop) ────────────────────────────────────────────────
   timeline.addEventListener('mousedown', (e) => {
-    const block = e.target.closest('.tblock[data-block-idx]');
+    const handle = e.target.closest('.drag-handle');
+    if (!handle) return;
+    const block = handle.closest('.tblock[data-block-idx]');
     if (!block) return;
 
     const idx = parseInt(block.dataset.blockIdx);
@@ -125,7 +139,6 @@ function startDrag(blockEl, idx, startY, renderDetail, renderGrid, renderStats) 
   const timeline = document.getElementById('timeline');
   const tblockEls = Array.from(timeline.querySelectorAll('.timeline-blocks .tblock[data-block-idx]'));
 
-  // Compute offset so ghost doesn't jump on pickup
   const blockRect = blockEl.getBoundingClientRect();
   const offsetY = startY - blockRect.top;
 
@@ -137,27 +150,23 @@ function startDrag(blockEl, idx, startY, renderDetail, renderGrid, renderStats) 
   ghost.style.position = 'fixed';
   ghost.style.height = blockRect.height + 'px';
 
-  // Add time preview label
   const timeLabel = document.createElement('div');
   timeLabel.className = 'drag-time-label';
-  timeLabel.textContent = fmtTime(block.s) + ' - ' + fmtTime(block.e);
+  timeLabel.textContent = fmtTime(block.s) + ' – ' + fmtTime(block.e);
   ghost.appendChild(timeLabel);
 
   document.body.appendChild(ghost);
 
-  // Mark original with faded placeholder
   blockEl.classList.add('drag-origin');
-
-  // Enable gap transitions on all blocks
   document.body.classList.add('dragging');
 
-  // Prevent scroll, selection, and callout during drag
+  // Lock scroll & selection
   timeline.style.touchAction = 'none';
   timeline.style.userSelect = 'none';
   timeline.style.webkitUserSelect = 'none';
   document.body.style.webkitTouchCallout = 'none';
+  document.body.style.overflow = 'hidden'; // prevent body scroll
 
-  // Snapshot block positions for hit testing
   const rowRects = tblockEls.map(r => {
     const rect = r.getBoundingClientRect();
     return { top: rect.top, bottom: rect.bottom, mid: (rect.top + rect.bottom) / 2 };
@@ -182,7 +191,7 @@ function startDrag(blockEl, idx, startY, renderDetail, renderGrid, renderStats) 
     rafId: null,
   };
 
-  haptic(10);
+  haptic(15);
 }
 
 // ─── MOVE DRAG ───────────────────────────────────────────────────────────────
@@ -190,7 +199,6 @@ function moveDrag(clientY) {
   if (!dragState) return;
   dragState.currentY = clientY;
 
-  // Smooth ghost positioning via rAF
   if (dragState.rafId) cancelAnimationFrame(dragState.rafId);
   dragState.rafId = requestAnimationFrame(() => {
     if (!dragState) return;
@@ -200,7 +208,6 @@ function moveDrag(clientY) {
   const { idx, block, blocks, rows, rowRects } = dragState;
   const ghostCenter = clientY;
 
-  // Find insertion index based on ghost center vs row midpoints
   let insertionIdx = rows.length;
   for (let i = 0; i < rowRects.length; i++) {
     if (ghostCenter < rowRects[i].mid) {
@@ -208,35 +215,30 @@ function moveDrag(clientY) {
       break;
     }
   }
-
-  // Clamp
   if (insertionIdx > blocks.length) insertionIdx = blocks.length;
 
   dragState.insertionIdx = insertionIdx;
 
-  // Animate gap: shift rows apart to show insertion point
+  // Animate gap
   rows.forEach((row, i) => {
-    if (i === idx) return; // placeholder stays put
+    if (i === idx) return;
     let shift = 0;
     if (insertionIdx <= idx) {
-      // Dragging upward: rows between insertionIdx and idx-1 shift down
       if (i >= insertionIdx && i < idx) shift = GAP_PX;
     } else {
-      // Dragging downward: rows between idx+1 and insertionIdx-1 shift up
       if (i > idx && i < insertionIdx) shift = -GAP_PX;
     }
     row.style.transform = shift ? `translateY(${shift}px)` : '';
   });
 
-  // Update time preview label
+  // Update time preview
   const blockDuration = dur(block);
   const newStartMin = computeNewStartMin(insertionIdx, idx, blocks, block);
   const newEndMin = newStartMin + blockDuration;
   dragState.projectedStart = newStartMin;
   dragState.projectedEnd = newEndMin;
-  dragState.timeLabel.textContent = fmtTime(toTime(newStartMin)) + ' - ' + fmtTime(toTime(newEndMin));
+  dragState.timeLabel.textContent = fmtTime(toTime(newStartMin)) + ' – ' + fmtTime(toTime(newEndMin));
 
-  // Haptic on zone change
   if (insertionIdx !== dragState.lastInsertionIdx) {
     dragState.lastInsertionIdx = insertionIdx;
     haptic(10);
@@ -246,23 +248,6 @@ function moveDrag(clientY) {
 // ─── COMPUTE NEW START TIME ──────────────────────────────────────────────────
 function computeNewStartMin(insertionIdx, dragIdx, blocks, dragBlock) {
   if (insertionIdx === 0) return toMin(blocks[0].s);
-
-  // The block "before" the insertion depends on drag direction
-  let prevIdx;
-  if (insertionIdx <= dragIdx) {
-    prevIdx = insertionIdx - 1;
-  } else {
-    // When dragging down, the drag block is removed from above,
-    // so the effective previous block is at insertionIdx - 1
-    // but we skip the drag block itself
-    prevIdx = insertionIdx - 1;
-    if (prevIdx === dragIdx && insertionIdx >= 2) {
-      prevIdx = insertionIdx; // next block after the gap
-      // Actually use the block that would be before insertion after removal
-    }
-  }
-
-  // Simple approach: build the sequence without the dragged block, find prev
   const withoutDrag = blocks.filter((_, i) => i !== dragIdx);
   const effectiveIdx = insertionIdx > dragIdx ? insertionIdx - 1 : insertionIdx;
   if (effectiveIdx === 0) return toMin(withoutDrag[0].s);
@@ -273,10 +258,8 @@ function computeNewStartMin(insertionIdx, dragIdx, blocks, dragBlock) {
 }
 
 // ─── CLEANUP ORPHANS ─────────────────────────────────────────────────────────
-// Safety net: if any ghost or drag-origin elements exist without an active drag,
-// clean them up. Runs on every touchstart to catch stuck ghosts.
 function cleanupOrphans() {
-  if (dragState) return; // drag is active, don't interfere
+  if (dragState) return;
   document.querySelectorAll('.drag-ghost').forEach(el => el.remove());
   document.querySelectorAll('.drag-origin').forEach(el => el.classList.remove('drag-origin'));
   document.body.classList.remove('dragging');
@@ -289,7 +272,7 @@ function endDrag(renderDetail, renderGrid, renderStats) {
   const { idx, block, blocks, ghost, rows, insertionIdx } = dragState;
   const day = state.selectedDay;
 
-  // Restore timeline scrolling and selection
+  // Restore scrolling and selection
   const timeline = document.getElementById('timeline');
   if (timeline) {
     timeline.style.touchAction = '';
@@ -297,8 +280,8 @@ function endDrag(renderDetail, renderGrid, renderStats) {
     timeline.style.webkitUserSelect = '';
   }
   document.body.style.webkitTouchCallout = '';
+  document.body.style.overflow = '';
 
-  // Clear gap transforms
   rows.forEach(row => { row.style.transform = ''; });
   document.body.classList.remove('dragging');
 
@@ -323,8 +306,7 @@ function endDrag(renderDetail, renderGrid, renderStats) {
     ghost.style.opacity = '1';
   }
 
-  // Fade time label during settle
-  if (dragState.timeLabel) dragState.timeLabel.style.opacity = '0';
+  if (dragState && dragState.timeLabel) dragState.timeLabel.style.opacity = '0';
 
   const localDragState = dragState;
   dragState = null;
@@ -333,13 +315,12 @@ function endDrag(renderDetail, renderGrid, renderStats) {
     ghost.remove();
     document.querySelectorAll('.drag-origin').forEach(el => el.classList.remove('drag-origin'));
 
-    // Build the new sequence: remove dragged block, insert at new position
     const withoutDrag = blocks.filter((_, i) => i !== idx);
     const effectiveIdx = insertionIdx > idx ? insertionIdx - 1 : insertionIdx;
     const newSequence = [...withoutDrag];
     newSequence.splice(effectiveIdx, 0, block);
 
-    // Recalculate ALL times sequentially: each block starts where the previous ended
+    // Recalculate all times sequentially
     let cursor = toMin(newSequence[0].s);
     for (let i = 0; i < newSequence.length; i++) {
       const b = newSequence[i];
@@ -347,7 +328,6 @@ function endDrag(renderDetail, renderGrid, renderStats) {
       const newS = toTime(cursor);
       const newE = toTime(cursor + duration);
 
-      // Skip if times haven't changed
       if (b.s === newS && b.e === newE) {
         cursor += duration;
         continue;
