@@ -1,5 +1,5 @@
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
-export const ALL_DAYS = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
+export const ALL_DAYS = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
 
 export const CATEGORIES = [
   {value:'work',      label:'Work'},
@@ -11,8 +11,8 @@ export const CATEGORIES = [
   {value:'mealprep',  label:'Meal Prep / Cooking'},
   {value:'selfcare',  label:'Self-Care'},
   {value:'sleep',     label:'Sleep'},
-  {value:'papiapt',   label:'Papi Appointments'},
-  {value:'taraapt',   label:'Tara Appointments'},
+  {value:'papiapt',   label:'Papi'},
+  {value:'taraapt',   label:'My Appts'},
   {value:'cats',      label:'Cats'},
   {value:'other',     label:'Other'},
 ];

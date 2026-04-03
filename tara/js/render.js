@@ -25,13 +25,13 @@ import { renderDayTasks, renderDayNotes } from './tasks.js';
 // Returns the actual calendar date for a given day name.
 // weekDelta: additional offset on top of the view-based week (for swipe previews)
 // viewOverride: use a specific view instead of state.view (for preview panels)
-const DAY_OFFSETS = { MON: 0, TUE: 1, WED: 2, THU: 3, FRI: 4, SAT: 5, SUN: 6 };
+const DAY_OFFSETS = { SUN: 0, MON: 1, TUE: 2, WED: 3, THU: 4, FRI: 5, SAT: 6 };
 function getDateForDay(dayName, weekDelta, viewOverride) {
   const today = new Date();
   const dow = today.getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
-  const mondayOffset = dow === 0 ? -6 : 1 - dow;
-  const monday = new Date(today);
-  monday.setDate(today.getDate() + mondayOffset);
+  // Get Sunday of current week
+  const sunday = new Date(today);
+  sunday.setDate(today.getDate() - dow);
 
   // Determine week offset based on which view we're showing vs current real week
   const currentWeek = getCurrentWeek();
@@ -45,9 +45,9 @@ function getDateForDay(dayName, weekDelta, viewOverride) {
     if (targetView === 'w2') viewDelta = 1;
   }
 
-  monday.setDate(monday.getDate() + (viewDelta + (weekDelta || 0)) * 7);
-  const target = new Date(monday);
-  target.setDate(monday.getDate() + DAY_OFFSETS[dayName]);
+  sunday.setDate(sunday.getDate() + (viewDelta + (weekDelta || 0)) * 7);
+  const target = new Date(sunday);
+  target.setDate(sunday.getDate() + DAY_OFFSETS[dayName]);
   return `${target.getMonth() + 1}/${target.getDate()}`;
 }
 
@@ -357,8 +357,8 @@ export function clearReset() {
 // ─── TIME INDICATOR ("You Are Here") ────────────────────────────────────────
 function isViewingToday() {
   const now = new Date();
-  const todayIdx = [6, 0, 1, 2, 3, 4, 5][now.getDay()];
-  const todayDay = ALL_DAYS[todayIdx];
+  // ALL_DAYS is [SUN, MON, TUE, WED, THU, FRI, SAT] -- direct mapping from getDay()
+  const todayDay = ALL_DAYS[now.getDay()];
   if (state.selectedDay !== todayDay) return false;
   const currentWeek = getCurrentWeek();
   return !currentWeek || state.view === currentWeek;

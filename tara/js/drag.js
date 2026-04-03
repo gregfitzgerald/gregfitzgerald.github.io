@@ -13,6 +13,8 @@ function haptic(ms = 10) {
 }
 
 export function initDrag(renderDetail, renderGrid, renderStats) {
+  // Drag-to-reorder disabled -- too glitchy on mobile touch devices
+  return;
   const timeline = document.getElementById('timeline');
   if (!timeline) return;
 

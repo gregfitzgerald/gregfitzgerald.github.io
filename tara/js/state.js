@@ -126,17 +126,21 @@ export function exportData() {
 }
 
 // Compute current week (w1 or w2) based on cycle start date
+// Weeks run Sunday-Saturday. cycleStart should be the Monday that begins a Week 1.
+// We derive the Sunday that starts that week (one day earlier).
 export function getCurrentWeek() {
   if (!state.cycleStart) return null; // no cycle configured
   const start = new Date(state.cycleStart + 'T00:00:00');
+  // cycleStart is a Monday; the Sun-Sat week containing it starts one day before
+  const cycleSunday = new Date(start);
+  cycleSunday.setDate(start.getDate() - 1);
   const now = new Date();
-  // Get Monday of current week
+  // Get Sunday of current week (Sun=0 in JS, so Sunday offset is -dow)
   const dow = now.getDay();
-  const mondayOffset = dow === 0 ? -6 : 1 - dow;
-  const thisMonday = new Date(now);
-  thisMonday.setHours(0, 0, 0, 0);
-  thisMonday.setDate(now.getDate() + mondayOffset);
-  const diffMs = thisMonday - start;
+  const thisSunday = new Date(now);
+  thisSunday.setHours(0, 0, 0, 0);
+  thisSunday.setDate(now.getDate() - dow);
+  const diffMs = thisSunday - cycleSunday;
   const diffWeeks = Math.round(diffMs / (7 * 24 * 60 * 60 * 1000));
   return diffWeeks % 2 === 0 ? 'w1' : 'w2';
 }

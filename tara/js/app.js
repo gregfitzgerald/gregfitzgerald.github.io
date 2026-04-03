@@ -269,7 +269,7 @@ function updateCycleStatus() {
 }
 
 function setCycleStart(dateStr) {
-  // Validate it's a Monday
+  // Validate it's a Monday (cycle anchor is always the Monday of Week 1)
   const d = new Date(dateStr + 'T00:00:00');
   if (d.getDay() !== 1) {
     // Find the Monday of that week
@@ -513,9 +513,9 @@ renderAll();
 renderDayStrip();
 
 // Auto-select today's day
-const todayIdx = new Date().getDay();
-const todayMap = [6, 0, 1, 2, 3, 4, 5]; // JS Sunday=0 -> our SUN=6
-const todayDay = ALL_DAYS[todayMap[todayIdx]];
+// ALL_DAYS is now [SUN, MON, TUE, WED, THU, FRI, SAT]
+// JS getDay() returns 0=Sun, 1=Mon, ..., 6=Sat -- direct mapping
+const todayDay = ALL_DAYS[new Date().getDay()];
 selectDay(todayDay);
 
 // Initialize sync (restores saved passphrase, pulls remote data)
