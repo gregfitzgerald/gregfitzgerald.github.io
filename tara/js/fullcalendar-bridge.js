@@ -134,7 +134,7 @@ export function initCalendar(containerEl, handlers) {
     longPressDelay: 500,
     eventLongPressDelay: 500,
     snapDuration: '00:15:00',
-    events: blocksToEvents(day),
+    eventSources: [{ id: 'tara-blocks', events: [] }],
     eventContent: renderEventContent,
     eventClick: handlers.onEventClick,
     eventDrop: handlers.onEventDrop,
@@ -142,6 +142,9 @@ export function initCalendar(containerEl, handlers) {
   });
 
   calendar.render();
+  // Populate after render so the source is registered
+  const src = calendar.getEventSourceById('tara-blocks');
+  if (src) blocksToEvents(day).forEach(e => calendar.addEvent(e, 'tara-blocks'));
   return calendar;
 }
 
@@ -152,9 +155,9 @@ export function updateCalendar(day) {
   calendar.setOption('slotMinTime', computeSlotMin(day));
   calendar.gotoDate(date);
 
-  const src = calendar.getEventSources();
-  src.forEach(s => s.remove());
-  calendar.addEventSource(blocksToEvents(day));
+  // Remove all events and re-add for this day via the named source
+  calendar.getEvents().forEach(e => e.remove());
+  blocksToEvents(day).forEach(e => calendar.addEvent(e, 'tara-blocks'));
 }
 
 export function getCalendar() { return calendar; }
