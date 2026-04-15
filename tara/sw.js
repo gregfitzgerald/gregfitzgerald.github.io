@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tara-schedule-v17';
+const CACHE_NAME = 'tara-schedule-v18';
 const PRECACHE_URLS = [
   './',
   './index.html',
@@ -13,11 +13,12 @@ const PRECACHE_URLS = [
   './js/tasks.js',
   './js/modals.js',
   './js/sync.js',
-  './js/drag.js',
+  './js/fullcalendar-bridge.js',
   './manifest.json',
+  'https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js',
+  'https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css',
 ];
 
-// Install: precache static assets, then immediately take over
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -26,7 +27,6 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Activate: clean up old caches and claim all clients immediately
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then(keys =>
@@ -35,18 +35,13 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch: network-first for app files (always fresh when online),
-// cache-first for fonts (stable, saves bandwidth)
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // Skip caching for Firebase API calls
-  if (url.hostname.includes('firebaseio.com')) {
-    return;
-  }
+  if (url.hostname.includes('firebaseio.com')) return;
 
-  // Cache-first for Google Fonts (they never change)
-  if (url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com') {
+  // Cache-first for CDN assets (FullCalendar, Google Fonts)
+  if (url.hostname === 'cdn.jsdelivr.net' || url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com') {
     event.respondWith(
       caches.match(event.request).then(cached => {
         if (cached) return cached;
@@ -60,8 +55,6 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Network-first for same-origin app files:
-  // Try network, update cache, fall back to cache when offline
   if (url.origin === self.location.origin) {
     event.respondWith(
       fetch(event.request).then(response => {
