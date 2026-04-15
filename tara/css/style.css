@@ -923,7 +923,7 @@ body.dragging .timeline-blocks .tblock {
 .fc-block-actions .tblock-check {
   width: 18px;
   height: 18px;
-  accent-color: #fff;
+  accent-color: var(--exercise);
   cursor: pointer;
   flex-shrink: 0;
 }

@@ -84,23 +84,58 @@ function renderEventContent(arg) {
   const elHeight = arg.event.end - arg.event.start;
   const hideNote = elHeight < 50 * 60 * 1000;
 
-  let html = '<div class="fc-block-inner">';
-  html += '<div class="fc-block-content">';
-  html += `<div class="fc-block-title">${arg.event.title}`;
-  if (blockDur >= 60) html += ` <span class="fc-block-dur">${fmtDur(blockDur)}</span>`;
-  if (p._edited) html += '<span class="fc-block-tag"> edited</span>';
-  if (p._added) html += '<span class="fc-block-tag"> +</span>';
-  html += '</div>';
-  if (p.note && !hideNote) html += `<div class="fc-block-note">${p.note}</div>`;
-  if (p.doneNote && !hideNote) html += `<div class="fc-block-done-note">${p.doneNote}</div>`;
-  html += '</div>';
-  html += '<div class="fc-block-actions">';
-  html += `<span class="tblock-edit-btn" data-edit-idx="${p.blockIdx}">edit</span>`;
-  html += `<input type="checkbox" class="tblock-check" data-done-key="${p.doneKey}" ${p.isDone ? 'checked' : ''}>`;
-  html += '</div>';
-  html += '</div>';
+  // Build DOM nodes so we can set .checked property directly (not just attribute)
+  const outer = document.createElement('div');
+  outer.className = 'fc-block-inner';
 
-  return { html };
+  const content = document.createElement('div');
+  content.className = 'fc-block-content';
+
+  const title = document.createElement('div');
+  title.className = 'fc-block-title';
+  title.textContent = arg.event.title;
+  if (blockDur >= 60) {
+    const dur = document.createElement('span');
+    dur.className = 'fc-block-dur';
+    dur.textContent = ` ${fmtDur(blockDur)}`;
+    title.appendChild(dur);
+  }
+  if (p._edited) { const t = document.createElement('span'); t.className = 'fc-block-tag'; t.textContent = ' edited'; title.appendChild(t); }
+  if (p._added)  { const t = document.createElement('span'); t.className = 'fc-block-tag'; t.textContent = ' +'; title.appendChild(t); }
+  content.appendChild(title);
+
+  if (p.note && !hideNote) {
+    const note = document.createElement('div');
+    note.className = 'fc-block-note';
+    note.textContent = p.note;
+    content.appendChild(note);
+  }
+  if (p.doneNote && !hideNote) {
+    const dn = document.createElement('div');
+    dn.className = 'fc-block-done-note';
+    dn.textContent = p.doneNote;
+    content.appendChild(dn);
+  }
+  outer.appendChild(content);
+
+  const actions = document.createElement('div');
+  actions.className = 'fc-block-actions';
+
+  const editBtn = document.createElement('span');
+  editBtn.className = 'tblock-edit-btn';
+  editBtn.dataset.editIdx = p.blockIdx;
+  editBtn.textContent = 'edit';
+  actions.appendChild(editBtn);
+
+  const checkbox = document.createElement('input');
+  checkbox.type = 'checkbox';
+  checkbox.className = 'tblock-check';
+  checkbox.dataset.doneKey = p.doneKey;
+  checkbox.checked = !!p.isDone; // set property, not attribute -- always reflects visual state
+  actions.appendChild(checkbox);
+
+  outer.appendChild(actions);
+  return { domNodes: [outer] };
 }
 
 function computeSlotMin(day) {
