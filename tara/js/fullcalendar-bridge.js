@@ -108,8 +108,11 @@ function computeSlotMin(day) {
   const wake = blocks.filter(b => b.c !== 'sleep');
   if (!wake.length) return '00:00:00';
   const earliest = Math.min(...wake.map(b => toMin(b.s)));
-  const hour = Math.max(0, Math.floor(earliest / 60) - 1);
-  return `${String(hour).padStart(2, '0')}:00:00`;
+  // Round down to nearest 30 min so the first block starts right at the top
+  const rounded = Math.floor(earliest / 30) * 30;
+  const h = Math.floor(rounded / 60);
+  const m = rounded % 60;
+  return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:00`;
 }
 
 export function initCalendar(containerEl, handlers) {

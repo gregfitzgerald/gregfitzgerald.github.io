@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tara-schedule-v18';
+const CACHE_NAME = 'tara-schedule-v19';
 const PRECACHE_URLS = [
   './',
   './index.html',
